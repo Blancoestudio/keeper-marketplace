@@ -8,5 +8,8 @@ export default defineConfig({
     react(),
     svgr()
   ],
-  base: '/keeper-marketplace/'
+  base: '/keeper-marketplace/',
+  build:{
+    outDir: 'docs'
+  }
 })
