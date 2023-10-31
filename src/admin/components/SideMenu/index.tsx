@@ -21,7 +21,8 @@ const menuList = [
   {
     icon: 'icon-user',
     name: 'User',
-    url: '/admin/profile',
+    // url: '/admin/profile',
+    url: '/',
   },
 ]
 
