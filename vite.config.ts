@@ -4,8 +4,8 @@ import svgr from 'vite-plugin-svgr'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base: '/keeper-marketplace/',
-  base: '/',
+  base: '/keeper-marketplace/',
+  // base: '/',
   build:{
     outDir: 'docs'
   },
