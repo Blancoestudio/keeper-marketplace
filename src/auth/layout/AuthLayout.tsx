@@ -10,7 +10,8 @@ export const AuthLayout = ({ children }: PropTypes) => {
       component={'main'}
       sx={{
         minHeight: 'calc( 100vh - 65px )',
-        py: 5
+        overflow: 'auto',
+        padding: '2em 0'
       }}>
       { children }
     </Box>

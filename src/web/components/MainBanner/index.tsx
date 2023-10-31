@@ -1,5 +1,5 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material"
-import Logo from '../../assets/svg/logo_keeper.svg'
+import Logo from 'src/assets/svg/logo_keeper.svg'
 
 export const MainBanner = () => {
   return (
@@ -13,6 +13,9 @@ export const MainBanner = () => {
           py: 10,
           px: 5,
           backgroundColor: 'primary.main',
+          backgroundImage: "url('src/assets/images/bg-banner.png')",
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
           color: "#ffffff"
         }}>
           <Grid container justifyContent={'center'}>
@@ -32,7 +35,8 @@ export const MainBanner = () => {
                       backgroundColor: "#ffffff",
                       color: 'primary.main',
                       borderRadius: 2,
-                      textTransform: 'capitalize',
+                      fontFamily: 'Raleway',
+                      textTransform: 'none',
                       '&:hover': {
                         backgroundColor: '#ffffff',
                       },

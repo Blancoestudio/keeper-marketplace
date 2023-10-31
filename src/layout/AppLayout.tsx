@@ -1,7 +1,6 @@
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
-import { AppTheme } from "../theme"
-import { Box } from "@mui/material"
+import { Box } from '@mui/material';
 
 interface PropTypes {
   children: JSX.Element
@@ -9,12 +8,10 @@ interface PropTypes {
 
 export const AppLayout = ({ children }: PropTypes) => {
   return (
-    <AppTheme>
-      <Box>
-        <Navbar />
-        { children }
-        <Footer />
-      </Box>
-    </AppTheme>
+    <Box>
+      <Navbar />
+      { children }
+      <Footer />
+    </Box>
   )
 }

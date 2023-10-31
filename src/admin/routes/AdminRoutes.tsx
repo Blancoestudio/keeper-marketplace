@@ -1,12 +1,18 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import { Dashboard } from "../pages/Dashboard"
+import { Dashboard } from "../pages/DashboardPage"
+import { AdminLayout } from "../layout/AdminLayout"
+import { Profile } from "../pages/Profile"
+
 
 export const AdminRoutes = () => {
   return (
-    <Routes>
-      <Route path="dashboard" element={ <Dashboard /> } />
+    <AdminLayout>
+      <Routes>
+        <Route path="dashboard" element={ <Dashboard /> } />
+        <Route path="profile" element={ <Profile /> } />
 
-      <Route path="/*" element={ <Navigate to="/dashboard" /> } />
-    </Routes>
+        <Route path="/*" element={ <Navigate to="/dashboard" /> } />
+      </Routes>
+    </AdminLayout>
   )
 }

@@ -8,8 +8,8 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
     marginTop: theme.spacing(3),
     color: '#ABB4C5',
     paddingRight: 10,
-    backgroundColor: "#F8F8FD",
-    border: '1px solid #EAEAEA'
+    backgroundColor: "#F3F6F9",
+    border: '1px solid #E0E3E7'
   },
   '& .MuiInputBase-input': {
     border: 0,
@@ -24,7 +24,6 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
       'box-shadow',
     ]),
 
-    // Use the system font instead of the default Roboto font.
     fontFamily: [
       'Roboto',
       '-apple-system',
@@ -37,25 +36,27 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(','),
-    '&:focus': {
-      // boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-      // borderColor: theme.palette.primary.main,
-    },
+    '&::placeholder': {
+      color: '#727D91',
+      opacity: 1
+    }
   },
 }));
 
-
 interface PropTypes {
+  id: string,
   label?: string,
   placeholder?: string,
-  type?: string
+  type?: string,
+  [key: string]: unknown,
 }
 
-
 export const TextFieldCmp = ({ 
+  id = 'id',
   label = 'Add label',
   placeholder = 'Add placeholder',
-  type = 'text'
+  type = 'text',
+  ...props
 }: PropTypes) => {
 
   const [showPassword, setShowPassword] = useState(false)
@@ -74,7 +75,7 @@ export const TextFieldCmp = ({
         }}>
       <InputLabel 
         shrink 
-        htmlFor="bootstrap-input" 
+        htmlFor={ `${id}` } 
         style={{ 
           fontSize: "1.25em", 
           color: "#727D91" 
@@ -83,7 +84,7 @@ export const TextFieldCmp = ({
       </InputLabel>
       
         <BootstrapInput 
-          id="bootstrap-input" 
+          id={ `${id}` } 
           type={ 
             (type === 'password')
               ? (showPassword ? 'text' : 'password')
@@ -106,6 +107,7 @@ export const TextFieldCmp = ({
               )
               : null
           }
+          {...props}
         />
     </FormControl>
   )

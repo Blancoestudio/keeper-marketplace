@@ -1,0 +1,19 @@
+
+.phone-field {
+  fieldset {
+    border: 1px solid #E0E3E7 !important;
+  }
+  .MuiInputBase-root {
+    background-color: #F3F6F9;
+    border-radius: 5px;
+  }
+  label {
+    position: relative;
+    transform: none;
+    font-size: .8em;
+    margin-bottom: .5em;
+  }
+  input {
+    padding: .65em;
+  }
+}

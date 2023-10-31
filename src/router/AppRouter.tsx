@@ -5,12 +5,10 @@ import { WebRouter } from "../web/router/WebRouter"
 
 export const AppRouter = () => {
   return (
-    <>
-      <Routes>
-        <Route path="/auth/*" element={ <AuthRoutes /> } />
-        <Route path="/admin/*" element={ <AdminRoutes /> } />
-        <Route path="/*" element={ <WebRouter /> } />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/auth/*" element={ <AuthRoutes /> } />
+      <Route path="/admin/*" element={ <AdminRoutes /> } />
+      <Route path="/*" element={ <WebRouter /> } />
+    </Routes>
   )
 }

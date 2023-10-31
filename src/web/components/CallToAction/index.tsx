@@ -16,7 +16,9 @@ export const CallToAction = () => {
               fontWeight: 500
             }}>Contrata tu plan</Button>
         </Grid>
-        <Grid item lg={4}>Item</Grid>
+        <Grid item lg={4}>
+          <img src="src/assets/images/cta-img.png" alt="cta-image" />
+        </Grid>
       </Grid>
     </Container>
   )

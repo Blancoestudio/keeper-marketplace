@@ -1,5 +1,5 @@
 import { Box, Container, Grid, Typography } from "@mui/material"
-import Logo from '../assets/svg/logo_keeper.svg';
+import Logo from 'src/assets/svg/logo_keeper.svg';
 
 export const Footer = () => {
   return (
@@ -15,7 +15,7 @@ export const Footer = () => {
       <Container>
         <Grid container py={3}>
           <Grid item xs={3}>
-            <img src={Logo} width={250} alt="keeper" />
+            <img src={Logo} width={200} alt="keeper" />
           </Grid>
         </Grid>
 
