@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <AppTheme>
         <AppLayout>
-            <Marketplace/>    
+          <Marketplace/>    
         </AppLayout>
       </AppTheme>
     </BrowserRouter>

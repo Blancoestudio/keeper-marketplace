@@ -1,22 +1,20 @@
 
-import { Button, Grid, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom";
-import Logo from 'src/assets/svg/logo_keeper_b.svg';
 
-// interface PropTypes {
-//   handleNextStep: () => void
-// }
+import { Grid, Typography } from "@mui/material"
+
+import { CustomButton } from "src/components";
+
+import Logo from 'src/assets/svg/logo_keeper_b.svg';
 
 export const RegisterSuccess = ( ) => {
 
   const navigate = useNavigate();
 
   return (
-    <Grid container justifyContent={'center'} alignItems={'center'} height={'100%'}
-    sx={{
-      minHeight: 'calc( 100vh - 65px )',
-    }}>
-      <Grid item xs={12} sm={10} md={8} lg={7} sx={{ textAlign: 'center' }}>
+    <Grid container justifyContent={'center'} gap={1}>
+
+      <Grid item xs={12} md={6} sx={{ textAlign: 'center' }}>
         <Typography variant="h1" fontWeight={'400'}>¡ Bienvenidos !</Typography>
         <Typography variant="h3" sx={{ 
             display: 'flex', 
@@ -29,7 +27,7 @@ export const RegisterSuccess = ( ) => {
           }}>
           a <img src={ Logo } alt={'kepper'} /> Marketplace
         </Typography>
-        <Button variant="contained" 
+        <CustomButton variant="contained" 
           size="large" 
           sx={{ 
             width: '80%',
@@ -39,10 +37,13 @@ export const RegisterSuccess = ( ) => {
             textTransform: 'none',
             fontWeight: 500,
           }}
-          onClick={ () => navigate('/auth/businnes-register') }
-          >Empecemos</Button>
+          onClick={ () => navigate('/admin/business-register') }
+          >Empecemos</CustomButton>
         <Typography>Un sitio donde podrás potenciar tu negocio, llegando  a mas personas </Typography>
       </Grid>
+
+      
     </Grid>
+
   )
 }

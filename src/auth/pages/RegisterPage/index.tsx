@@ -1,10 +1,10 @@
 import { FormEvent } from "react"
-
-import theme from "../../../theme/theme"
-import { Box, Button, Checkbox, Container, FormControlLabel, FormGroup, Grid, Typography } from "@mui/material"
-
-import { TextFieldCmp } from "../../../components/TextFieldCmp"
 import { useNavigate } from "react-router-dom"
+
+// import theme from "../../../theme/theme"
+import { Box, Checkbox, FormControlLabel, FormGroup, Grid, Typography } from "@mui/material"
+
+import { CustomTextField, CustomButton } from "../../../components"
 
 export const RegisterPage = () => {
 
@@ -12,137 +12,149 @@ export const RegisterPage = () => {
 
   const handleRegisterSubmit = (e: FormEvent) => {
     e.preventDefault();
-    
-    setTimeout(() => {
-      navigate('/auth/register-success')
-    }, 500);
+    navigate('/auth/checkout')
   }
 
   return (
-    <Container 
-      maxWidth={'xl'} 
-      sx={{ 
-        height: 'calc( 100vh - 65px )',
-      }}
-      >
-      <Grid container
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100%',
-        }}
-      >
+    <>
+      <Grid item xs={12} sm={10} lg={4}>
+        <Box p={5}
+          sx={{
+            borderRadius: '20px',
+            margin: '2em 0',
+            boxShadow: '0 4px 10px 5px rgba(0, 0, 0, .1)',
+          }}
+        >
+          <Grid container gap={1}>
 
-        <Grid item xs={12} sm={10} lg={8}>
-          <Box
-            p={5}
-            sx={{
-              borderRadius: '20px',
-              boxShadow: '0 4px 10px 5px rgba(0, 0, 0, .1)',
-            }}
-          >
-            
-            <Grid container gap={1}>
-              <Grid item xs sm sx={{ 
-                  borderRight: '2px solid', 
-                  borderColor: 'primary.main',
-                  [theme.breakpoints.down('md')]: {
-                    border: 'none'
-                  },
-                }}>...</Grid>
-              <Grid item xs={12} md={7} px={2}>
+            {/* <Grid item xs sm sx={{ 
+              borderRight: '2px solid', 
+              borderColor: 'primary.main',
+              [theme.breakpoints.down('md')]: {
+                border: 'none'
+              },
+            }}>...</Grid> */}
+            <Grid item xs={12}> 
+              {/*  md={7} px={2} */}
+
+              <Typography variant="h5" fontWeight={'500'} mb={1}>Registro</Typography>
+              <Typography variant="body2" fontWeight={'500'} >Ingresa tus datos para  continuar con la compra y poder ingresar a Keeper Marketplace.</Typography>
+
+              <form style={{ marginTop: '2em' }}>
                 
-                <Typography variant="h5" fontWeight={'500'} mb={1}>Registro</Typography>
-                <Typography fontWeight={'500'} >Ingresa tus datos para  continuar con la compra y poder ingresar a Keeper Marketplace.</Typography>
+                <CustomTextField 
+                  id="full-name"
+                  label="Nombre y Apellido"
+                  placeholder="Ingresa tu nombre y apellido"
+                  />
+                
+                <CustomTextField 
+                  id="email"
+                  label="Email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="Ingresa tu correo electrónico"
+                  />
+                
+                <CustomTextField 
+                  id="password"
+                  label="Contraseña"
+                  type="password"
+                  autoComplete="new-password"
+                  placeholder="Ingresa tu contraseña"
+                  />
+                
+                <CustomTextField 
+                  id="repeat-password"
+                  label="Repite tu Contraseña"
+                  type="password"
+                  autoComplete="new-password"
+                  placeholder="Ingresa nuevamente tu contraseña"
+                  />
 
-                <form style={{ marginTop: '2em' }}>
-                  
-                  <TextFieldCmp 
-                    id="full-name"
-                    label="Nombre y Apellido"
-                    placeholder="Ingresa tu nombre y apellido"
-                    />
-                  
-                  <TextFieldCmp 
-                    id="email"
-                    label="Email"
-                    placeholder="Ingresa tu correo electrónico"
-                    type="email"
-                    />
-                  
-                  <TextFieldCmp 
-                    id="password"
-                    label="Contraseña"
-                    placeholder="Ingresa tu contraseña"
-                    type="password"
-                    />
-                  
-                  <TextFieldCmp 
-                    id="repeat-password"
-                    label="Repite tu Contraseña"
-                    placeholder="Ingresa nuevamente tu contraseña"
-                    type="password"
-                    />
+                  <FormGroup sx={{ paddingLeft: 2, marginBottom: 3 }}>
+                    <FormControlLabel sx={{ 
+                      '.MuiButtonBase-root': {
+                        paddingTop: .25,
+                        paddingBottom: .25,
+                        color: 'rgba(88, 41, 166, 1)',
+                      },
+                      '.MuiFormControlLabel-label.Mui-disabled': {
+                        color: 'rgba(88, 41, 166, 1)',
+                      }
+                    }} control={
+                      <Checkbox size="small" disabled sx={{
+                          color: 'rgba(88, 41, 166, 1)',
+                          '&.Mui-checked': {
+                            color: 'primary.main',
+                          },
+                        }}  
+                      />
+                    } label="Mínimo 8 carácteres" />
+                    <FormControlLabel sx={{ 
+                      '.MuiButtonBase-root': {
+                        paddingTop: .25,
+                        paddingBottom: .25,
+                        color: 'rgba(88, 41, 166, 1)',
+                      },
+                      '.MuiFormControlLabel-label.Mui-disabled': {
+                        color: 'rgba(88, 41, 166, 1)',
+                      }
+                    }} control={
+                      <Checkbox size="small" disabled sx={{
+                          color: 'rgba(88, 41, 166, 1)',
+                          '&.Mui-checked': {
+                            color: 'primary.main',
+                          },
+                        }} 
+                      />
+                    } label="Debe incluir a lo menos 1 número" />
+                  </FormGroup>
 
-                    <FormGroup sx={{ paddingLeft: 2, marginBottom: 3 }}>
-                      <FormControlLabel sx={{ 
-                        '.MuiButtonBase-root': {
-                          paddingTop: .25,
-                          paddingBottom: .25,
-                          color: 'rgba(88, 41, 166, 1)',
-                        },
-                        '.MuiFormControlLabel-label.Mui-disabled': {
-                          color: 'rgba(88, 41, 166, 1)',
-                        }
-                      }} control={
-                        <Checkbox size="small" disabled sx={{
-                            color: 'rgba(88, 41, 166, 1)',
-                            '&.Mui-checked': {
-                              color: 'primary.main',
-                            },
-                          }}  
-                        />
-                      } label="Mínimo 8 carácteres" />
-                      <FormControlLabel sx={{ 
-                        '.MuiButtonBase-root': {
-                          paddingTop: .25,
-                          paddingBottom: .25,
-                          color: 'rgba(88, 41, 166, 1)',
-                        },
-                        '.MuiFormControlLabel-label.Mui-disabled': {
-                          color: 'rgba(88, 41, 166, 1)',
-                        }
-                      }} control={
-                        <Checkbox size="small" disabled sx={{
-                            color: 'rgba(88, 41, 166, 1)',
-                            '&.Mui-checked': {
-                              color: 'primary.main',
-                            },
-                          }} 
-                        />
-                      } label="Debe incluir a lo menos 1 número" />
-                    </FormGroup>
+                  <CustomButton 
+                    type="submit" 
+                    variant="contained" 
+                    fullWidth size="large" 
+                    sx={{ borderRadius: 2 }}
+                    onClick={ handleRegisterSubmit }
+                    >
+                      Registrarse
+                  </CustomButton>
 
-                    <Button 
-                      type="submit" 
-                      variant="contained" 
-                      fullWidth size="large" 
-                      sx={{ borderRadius: 2 }}
-                      onClick={ handleRegisterSubmit }
-                      >
-                        Continuar 
-                    </Button>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      textAlign: 'center',
+                      mt: 2,
+                    }}
+                  >
+                    <hr style={{ position: 'absolute', width: '100%', zIndex: -1, top: 0, bottom: 0, height: 1, margin: 'auto', backgroundColor: '#EAEAEA', border: 'none' }} />
+                    <Typography 
+                      fontSize={14} 
+                      color={'#ABB4C5'}
+                      px={2}
+                      sx={{
+                        display: 'inline-flex',
+                        backgroundColor: '#ffffff'
+                      }}
+                      >¿ Ta tienes cuenta ?</Typography>
+                  </Box>
                   
-                </form>
-
-              </Grid>
+                  <CustomButton type="submit" 
+                    variant="outlined" 
+                    fullWidth size="large" 
+                    color="primary"
+                    sx={{ borderRadius: 2, mt: 2, textTransform: 'none' }}
+                    onClick={ () => navigate('/auth/login') }
+                    >Ingresar</CustomButton>
+                
+              </form>
             </Grid>
+            
+          </Grid>
 
-          </Box>
-        </Grid>
-
+        </Box>
       </Grid>
-    </Container>
+    </>
   )
 }

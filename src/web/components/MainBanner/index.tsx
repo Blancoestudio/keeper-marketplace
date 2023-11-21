@@ -1,5 +1,6 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material"
+import { Box, Container, Grid, Typography } from "@mui/material"
 import Logo from 'src/assets/svg/logo_keeper.svg'
+import { CustomButton } from "src/components"
 
 export const MainBanner = () => {
   return (
@@ -22,27 +23,23 @@ export const MainBanner = () => {
             <Grid item lg={9}>
 
               <Grid container>
-                <Grid item lg={4}>
+                <Grid item xs={12} md={4}>
 
                   <img src={Logo} alt="Keeper" />
                   <Typography variant="h5" sx={{ fontFamily: 'Raleway', fontWeight: 'bold', marginBottom: 1 }}>Acertando tu negocio</Typography>
                   <Typography mb={3}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis no</Typography>
-                  <Button 
-                    variant="contained"
-                    fullWidth
-                    size="large"
-                    sx={{
-                      backgroundColor: "#ffffff",
-                      color: 'primary.main',
-                      borderRadius: 2,
-                      fontFamily: 'Raleway',
-                      textTransform: 'none',
-                      '&:hover': {
-                        backgroundColor: '#ffffff',
-                      },
-                    }}
-                    >Contrata tu plan</Button>
-
+                    <CustomButton
+                      variant="contained"
+                      fullWidth
+                      size="large"
+                      sx={{
+                        backgroundColor: "#ffffff",
+                        color: 'primary.main',
+                        '&:hover': {
+                          backgroundColor: '#eeeeee',
+                        },
+                      }}
+                    >Contrata tu plan</CustomButton>
                 </Grid>
               </Grid>
 

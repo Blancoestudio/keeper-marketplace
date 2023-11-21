@@ -1,5 +1,5 @@
-import { Box, Button, FormLabel, Grid, Typography, styled } from "@mui/material"
-import { TextFieldCmp } from "src/components/TextFieldCmp"
+import { Box, FormLabel, Grid, Typography, styled } from "@mui/material"
+import { CustomTextField, CustomButton } from "src/components"
 import IconImage from 'src/assets/svg/icon-img.svg'
 
 const VisuallyHiddenInput = styled('input')({
@@ -22,19 +22,19 @@ export const Form1 = () => {
         columnSpacing={8} mb={4}>
         <Grid item xs={12} md={7} mb={3}>
 
-          <TextFieldCmp 
+          <CustomTextField 
             id="business-name"
             label="Nombre de tu Negocio"
             placeholder="Ingresa el nombre de tu negocio"
             />
           
-          <TextFieldCmp 
+          <CustomTextField 
             id="business-address"
             label="Dirección"
             placeholder="Ingresa tu dirección"
             />
           
-          <TextFieldCmp 
+          <CustomTextField 
             id="business-address"
             label="Descripción"
             placeholder="Haz una descripción breve de tu negocio, a que se dedica, que productos vendes, etc..."
@@ -68,7 +68,7 @@ export const Form1 = () => {
           </Box>
 
           <Box display={'flex'} justifyContent={'center'}>
-            <Button 
+            <CustomButton 
               component="label"
               variant="contained" 
               size="large" 
@@ -79,7 +79,7 @@ export const Form1 = () => {
             >
               Seleccionar desde tu ordenador  
               <VisuallyHiddenInput type="file" />  
-            </Button>
+            </CustomButton>
           </Box>
         </Grid>
       </Grid>

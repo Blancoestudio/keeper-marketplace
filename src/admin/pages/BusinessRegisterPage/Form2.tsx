@@ -10,7 +10,6 @@ const InputCmp = styled(InputBase)(({ theme }) => ({
     border: '1px solid red',
   },
   'label + &': {
-    fontSize: 10,
     marginTop: theme.spacing(3),
     borderRadius: 6,
     border: '1px solid',
@@ -45,6 +44,10 @@ const CustomCheckbox = styled(Checkbox)(({ theme }) => ({
   '&.MuiCheckbox-colorSecondary.Mui-checked': {
     color: theme.palette.secondary.main, 
   },
+}));
+
+const StyledInputLabel = styled(InputLabel)(() => ({
+  fontSize: '1.25em',
 }));
 
 export const Form2 = () => {
@@ -105,11 +108,10 @@ export const Form2 = () => {
         <Grid item xs={12} md={6}>
           
           <FormControl fullWidth variant="standard">
-            <InputLabel shrink htmlFor="bootstrap-input">Facebook</InputLabel>
+            <StyledInputLabel shrink htmlFor="sn-facebook">Facebook</StyledInputLabel>
             <InputCmp 
               placeholder="Ingresa tu Facebook"
-              defaultValue="" 
-              id="bootstrap-input" 
+              id="sn-facebook" 
               startAdornment={
                 <InputAdornment position="start">
                   <FacebookRounded />
@@ -128,11 +130,11 @@ export const Form2 = () => {
         <Grid item xs={12} md={6}>
           
           <FormControl fullWidth variant="standard">
-            <InputLabel shrink htmlFor="bootstrap-input">Instagram</InputLabel>
+            <StyledInputLabel shrink htmlFor="sn-instagram">Instagram</StyledInputLabel>
             <InputCmp 
               placeholder="Ingresa tu Instagram"
               defaultValue="" 
-              id="bootstrap-input" 
+              id="sn-instagram" 
               startAdornment={
                 <InputAdornment position="start">
                   <Instagram />
@@ -149,11 +151,11 @@ export const Form2 = () => {
         <Grid item xs={12} md={6}>
           
           <FormControl fullWidth variant="standard">
-            <InputLabel shrink htmlFor="bootstrap-input">LinkedIn</InputLabel>
+            <StyledInputLabel shrink htmlFor="sn-linkedin">LinkedIn</StyledInputLabel>
             <InputCmp 
-              placeholder="Ingresa tu Facebook"
+              placeholder="Ingresa tu LinkedIn"
               defaultValue="" 
-              id="bootstrap-input" 
+              id="sn-linkedin" 
               startAdornment={
                 <InputAdornment position="start">
                   <LinkedIn />
@@ -163,7 +165,7 @@ export const Form2 = () => {
           
           <FormControlLabel 
             sx={{ paddingLeft: '.75em' }}
-            label={ <Typography color={'#727D91'}>Publicar Facebook</Typography> }
+            label={ <Typography color={'#727D91'}>Publicar LinkedIn</Typography> }
             control={ <CustomCheckbox  color="primary" size="small"  /> } />
           
 
@@ -172,10 +174,10 @@ export const Form2 = () => {
         <Grid item xs={12} md={6}>
           
           <FormControl fullWidth variant="standard">
-            <InputLabel shrink htmlFor="bootstrap-input">LinkedIn</InputLabel>
+            <StyledInputLabel shrink htmlFor="website">Página web</StyledInputLabel>
             <InputCmp 
               placeholder="Ingresa tu Instagram"
-              id="bootstrap-input" 
+              id="website" 
               startAdornment={
                 <InputAdornment position="start">
                   <LanguageIcon />

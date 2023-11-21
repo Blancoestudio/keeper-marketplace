@@ -1,6 +1,10 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Card, Container, Grid, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+
+import { CustomButton } from "src/components";
+
 import s from './style.module.scss';
+import { useNavigate } from "react-router-dom";
 
 const indicators = [
   {
@@ -23,24 +27,32 @@ const indicators = [
     data: 15,
     dataName: 'búsquedas',
   },
-]
+];
 
 export const Dashboard = () => {
+
+  const navigate = useNavigate();
+
+  const handleCreateProduct = () => {
+    navigate('/admin/create-product')
+  }
+
   return (
     <Container maxWidth={'lg'}>
 
         {/* banner */}
         <Box sx={{
-            height: 350,
-            backgroundColor: 'primary.main',
-            color: '#ffffff',
-            borderBottomLeftRadius: '50px',
-            borderBottomRightRadius: '50px',
-            mb: 4,
-            padding: '2em'
-          }}>
-          ...
-        </Box>
+          height: 350,
+          borderBottomLeftRadius: '50px',
+          borderBottomRightRadius: '50px',
+          py: 10,
+          px: 5,
+          backgroundColor: 'primary.main',
+          backgroundImage: "url('src/assets/images/bg-banner.png')",
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          color: "#ffffff",
+        }}></Box>
 
         {/* shop avatar */}
         <Grid container justifyContent={'center'} sx={{ marginTop: '-150px', marginBottom: '3em' }}>
@@ -60,11 +72,11 @@ export const Dashboard = () => {
         <div className={`${ s['indicators-wrapper'] }`}>
           {
             indicators.map( (item, i) => (
-              <div className={`${ s['item'] }`} key={i}>
+              <Card className={`${ s.item }`} key={i}>
                 <Typography variant="h6">{ item.title }</Typography>
                 <Typography variant="h2" fontWeight={'bold'}>{ item.data }</Typography>
                 <Typography variant="h6">{ item.dataName }</Typography>
-              </div>
+              </Card>
             ))
           }
         </div>
@@ -76,20 +88,13 @@ export const Dashboard = () => {
               <Typography variant="h4" component={'h2'} fontWeight={'bold'}>Tus productos:</Typography>
             </Grid>
             <Grid item>
-              <Button variant="contained" color="secondary"
-                sx={{
-                  borderRadius: '2em',
-                  textTransform: 'none',
-                  letterSpacing: 'normal',
-                  marginRight: '1em'
-                }}>Crear promoción</Button>
-
-              <Button variant="contained"
+              <CustomButton variant="contained"
+                onClick={ handleCreateProduct }
                 sx={{
                   borderRadius: '2em',
                   textTransform: 'none',
                   letterSpacing: 'normal'
-                }}>Cargar nuevo producto</Button>
+                }}>Cargar nuevo producto</CustomButton>
             </Grid>
           </Grid>
 
@@ -116,7 +121,7 @@ export const Dashboard = () => {
                           <div className={`${ s['thumb-wrapper'] }`}></div>
                         </div>
                       </div>
-                      <h3 style={{ margin: '10px 0', color: '#142748' }}>Nombre negocio</h3>
+                      <h3 style={{ margin: '10px 0', color: '#142748' }}>Nombre producto</h3>
                       <p style={{ lineHeight: '1.2em', marginTop: 0, color: '#6D778A' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
                       <hr style={{ borderColor: '#5829A6' }} />
                       <Typography color={'primary'} fontWeight={'medium'} variant="h6">

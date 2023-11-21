@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Box, Button, Container, Grid, LinearProgress, Typography, linearProgressClasses, styled } from "@mui/material"
+import { Box, Container, Grid, LinearProgress, Typography, linearProgressClasses, styled } from "@mui/material"
 
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 import { Form2 } from "./Form2";
 import { Form1 } from "./Form1";
+import { CustomButton } from "src/components";
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 15,
@@ -20,7 +21,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-export const BusinessRegister = () => {
+export const BusinessRegisterPage = () => {
 
   const navigate = useNavigate();
 
@@ -45,6 +46,9 @@ export const BusinessRegister = () => {
 
   return (
     <Container>
+
+      
+
       <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', }}>
 
         <Grid item xs={12} sm={10}>
@@ -90,27 +94,28 @@ export const BusinessRegister = () => {
                 {
                   (currentStep === 1)
                     ? (
-                        <Button variant="text" size="large" startIcon={<ChevronLeftIcon />}
+                        <CustomButton variant="text" size="large" startIcon={<ChevronLeftIcon />}
                           sx={{ textTransform: 'none', fontSize: '1.25em' }}
                           onClick={ () => handlePrev() }>
                           Volver
-                        </Button>
+                        </CustomButton>
                       ) : null
                 }
               </Grid>
 
               <Grid item >
-                <Button variant="text" size="large" endIcon={<ChevronRightIcon />}
+                <CustomButton variant="text" size="large" endIcon={<ChevronRightIcon />}
                   sx={{ textTransform: 'none', fontSize: '1.25em' }}
                   onClick={ () => handleNext() }>
                   Continuar
-                </Button>
+                </CustomButton>
               </Grid>
             </Grid>
 
           </Box>
         </Grid>
       </Grid>
+
     </Container>
   )
 }

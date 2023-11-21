@@ -1,7 +1,6 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 
-
 const typography = {
   h1: {
     [createTheme().breakpoints.down('md')]: {
@@ -25,14 +24,38 @@ const themeGeneric = createTheme({
     secondary: {
       main: '#A0A0A0',
       contrastText: '#ffffff'
-      // main: '#211DFF',
     },
     error: {
       main: red.A400,
     },
   },
+  components:{
+    MuiSelect: {
+      // styleOverrides: {
+      //   root: {
+      //       marginTop: '1.75em',
+      //     '&.Mui-focused': {
+      //       backgroundColor: "#F8F8FD",
+      //     },
+      //     '> ul': {
+      //       backgroundColor: "red",
+      //     },
+      //     'label': {
+      //       marginTop: '1.75em',
+      //     },
+      //   },
+      //   select:{
+      //     backgroundColor: "#F8F8FD",
+      //   },
+      // },
+      defaultProps: {
+        disableUnderline: true,
+      }
+    },
+  },
   typography
 });
+
 
 const themeResponsive = responsiveFontSizes(themeGeneric);
 export default themeResponsive;

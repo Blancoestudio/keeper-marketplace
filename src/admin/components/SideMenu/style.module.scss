@@ -1,12 +1,15 @@
 .side-menu {
   width: 70px;
-  position: absolute;
+  overflow: visible;
+  position: sticky;
   left: 0;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
+  top: 0;
+  z-index: 1;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 14px 5px rgba($color: #000000, $alpha: .1);
-  padding-bottom: 6em;
+  padding-bottom: 2em;
   transition: all .25s ease-in-out;
   background-color: #ffffff;
   ul {
@@ -16,27 +19,51 @@
     li {
       display: flex;
       align-items: center;
-      gap: 1em;
-      width: 240px;
+      gap: .25em;
+      width: 200px;
       cursor: pointer;
+      height: 70px;
+      color: #818181;
+      span {
+        padding: .25em .25em;
+      }
       a {
         display: flex;
         align-items: center;
+        width: 100%;
+        text-decoration: none;
+        height: 100%;
+        color: #818181;
+        span {
+          padding: .25em .25em;
+        }
+        svg {
+          fill: #818181
+        }
+        &.active {
+          color: #5829A6;
+          font-weight: bold;
+          span {
+            &.icon {
+              border-radius: 4px;
+              background-color: #5829A6;
+            }
+            svg {
+              fill: #ffffff
+            }
+          }
+        }
       }
       span {
         transition: all .25s ease-in-out;
         &.icon {
+          margin: 0 20px;
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 70px;
-          height: 70px;
+          border: 1px solid transparent;
         }
       }
     }
   }
-}
-
-.active {
-  
 }

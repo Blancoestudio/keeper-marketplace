@@ -1,7 +1,6 @@
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
 import { Box } from '@mui/material';
-
 interface PropTypes {
   children: JSX.Element
 }
