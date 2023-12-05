@@ -1,4 +1,5 @@
 import { Container, Grid } from "@mui/material"
+import { Scrolltop } from "src/components/Scrolltop"
 interface PropTypes {
   children: JSX.Element
 }
@@ -6,6 +7,7 @@ interface PropTypes {
 export const AuthLayout = ({ children }: PropTypes) => {
   return (
     <Container maxWidth={'xl'}>
+      <Scrolltop />
       <Grid container
         sx={{
           display: 'flex',

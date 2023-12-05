@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 import { SideMenu } from "../components/SideMenu"
-// import { useEffect, useState } from "react"
+import { Scrolltop } from "src/components/Scrolltop"
 
 interface PropTypes {
   children: JSX.Element
@@ -8,18 +8,9 @@ interface PropTypes {
 
 export const AdminLayout = ({ children }: PropTypes) => {
 
-  // const [windowScroll, setWindowScroll] = useState(0);
-
-  // useEffect(() => {
-
-  //   console.log(windowScroll);
-    
-    
-  // }, [])
-  
-
   return (
     <Box sx={{ position: 'relative'  }}>
+      <Scrolltop/>
       <Box sx={{ position: 'absolute', height: '100%' }}>
         <SideMenu />
       </Box>
@@ -27,9 +18,10 @@ export const AdminLayout = ({ children }: PropTypes) => {
         <Box 
           component={'main'}
           sx={{
+            minHeight: 'calc( 100vh - 65px )',
             height: 'auto',
-            overflow: 'auto',
-            top: 0
+            overflow: 'hidden',
+            top: 0,
           }}>
             { children }
         </Box>

@@ -12,7 +12,7 @@ export const RegisterPage = () => {
 
   const handleRegisterSubmit = (e: FormEvent) => {
     e.preventDefault();
-    navigate('/auth/checkout')
+    navigate('/admin/business-register')
   }
 
   return (
@@ -146,7 +146,7 @@ export const RegisterPage = () => {
                     color="primary"
                     sx={{ borderRadius: 2, mt: 2, textTransform: 'none' }}
                     onClick={ () => navigate('/auth/login') }
-                    >Ingresar</CustomButton>
+                    >Iniciar sesión</CustomButton>
                 
               </form>
             </Grid>

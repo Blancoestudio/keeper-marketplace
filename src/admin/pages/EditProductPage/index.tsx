@@ -3,6 +3,7 @@ import { useState } from "react";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { Box, Chip, Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Theme, Typography, useTheme, styled, InputBase } from "@mui/material"
 import { CustomButton, CustomTextField } from "src/components"
+import { useNavigate } from "react-router-dom";
 
 
 const CustoInputLabel = styled(InputLabel)( () => ({
@@ -52,10 +53,12 @@ function getStyles(name: string, cstegory: readonly string[], theme: Theme) {
   };
 }
 
-export const CreateProductPage = () => {
+export const EditProductPage = () => {
 
   const theme = useTheme();
   const [category, setCategory] = useState<string[]>([]);
+
+  const navigate = useNavigate();
 
   const handleChange = (event: SelectChangeEvent<typeof category>) => {
     const {
@@ -66,13 +69,17 @@ export const CreateProductPage = () => {
     );
   };
 
+  const handleSaveProduct = () => {
+    navigate('/admin/dashboard');
+  }
+
   return (
     <Container maxWidth="lg" sx={{ py: 3 }}>
       <Grid container flexDirection={'column'} alignItems={'center'} justifyContent={'center'}  sx={{ py: 5 }}>
 
         <Grid item xs={12} mb={5}>
-          <Typography variant="h4" component="h1" textAlign={'center'}>Crear un nuevo producto</Typography>
-          <Typography variant="subtitle1" fontWeight="light" textAlign={'center'} color={'secondary'}>Ingresa los datos básicos de tu producto</Typography>
+          <Typography variant="h4" component="h1" textAlign={'center'}>Editar producto</Typography>
+          <Typography variant="subtitle1" fontWeight="light" textAlign={'center'} color={'secondary'}>Edita los datos básicos de tu producto</Typography>
         </Grid>
         
         <Grid item xs={6}>
@@ -192,9 +199,12 @@ export const CreateProductPage = () => {
         </Grid>
       </Grid>
 
-      <Grid container justifyContent={'center'} mb={10}>
-        <Grid item xs={4}>
-          <CustomButton variant={'contained'} fullWidth>Crear producto</CustomButton>
+      <Grid container justifyContent={'center'} mb={10} spacing={2}>
+        <Grid item xs={2}>
+          <CustomButton variant={'outlined'} fullWidth onClick={ () => navigate(-1) }>Volver</CustomButton>
+        </Grid>
+        <Grid item xs={2}>
+          <CustomButton variant={'contained'} fullWidth onClick={ handleSaveProduct }>Guardar</CustomButton>
         </Grid>
       </Grid>
     </Container>

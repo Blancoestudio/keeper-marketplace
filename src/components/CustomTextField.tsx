@@ -6,9 +6,9 @@ import {  styled } from '@mui/material/styles';
 import { red } from "@mui/material/colors";
 
 const CustoInputLabel = styled(InputLabel)( () => ({
-  fontSize: '1.25em',
+  fontSize: '.9em',
   color: '#727D91',
-  transform: 'translate(0, 0) scale(0.75)',
+  transform: 'translate(0, 0) scale(1)',
   '&.Mui-focused': {
     color: '#727D91',
   }
@@ -21,7 +21,7 @@ const CustomInputBase = styled( InputBase )( () => ({
   backgroundColor: "#F8F8FD",
   borderRadius: 5,
   marginTop: '1.75em',
-  padding: '10px 10px 10px 12px',
+  padding: '6px 10px',
   border: '1px solid #EAEAEA',
   '&.Mui-error': {
     borderColor: red[600]
@@ -87,7 +87,6 @@ export const CustomTextField = ({
             )
             : null
         }
-        
         {...props}
       />
 

@@ -60,7 +60,7 @@ export const Navbar = () => {
   
   useEffect(() => {
 
-    if (location.pathname.includes('auth') || location.pathname.includes('business-register')) {
+    if (location.pathname.includes('auth')) {
       setShowMenu(false)
     } else {
       setShowMenu(true)
@@ -139,6 +139,12 @@ export const Navbar = () => {
                       gap: 2,
                     }}>
                     <NavLink 
+                      to={'/#planes'} style={{ textDecoration: 'none' }}>
+                      <Typography 
+                        sx={{ color: "#ffffff", fontFamily: 'Raleway', fontWeight: 'bold' }}
+                      >Planes</Typography>
+                    </NavLink>
+                    <NavLink 
                       to={'/'} style={{ textDecoration: 'none' }}>
                       <Typography 
                         sx={{ color: "#ffffff", fontFamily: 'Raleway', fontWeight: 'bold' }}
@@ -187,10 +193,11 @@ export const Navbar = () => {
                 <div>
                   <Stack direction={'row'} spacing={1} marginLeft={2}>
                     <Avatar 
-                      alt="Remy Sharp" 
+                      alt="Nombre de usuario" 
                       src="/static/images/avatar/1.jpg" />
 
                     <Button 
+                      disableRipple
                       variant="contained" 
                       id="basic-button"
                       aria-controls={open ? 'basic-menu' : undefined}
@@ -208,7 +215,7 @@ export const Navbar = () => {
                       }}
                       endIcon={<ExpandMoreIcon />}
                       onClick={handleClick}>
-                        Nombre y apellido 
+                        Nombre de usuario
                     </Button>
                     <Menu
                       id="basic-menu"
@@ -227,11 +234,11 @@ export const Navbar = () => {
                         horizontal: 'left',
                       }}
                     >
-                      <MenuItem onClick={ () => {
-                        navigate('/admin/profile');
+                      {/* <MenuItem onClick={ () => {
+                        navigate('/admin/my-acount');
                         handleClose();
-                      }}>Mi Perfíl</MenuItem>
-                      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                      }}>Mi Cuenta</MenuItem> */}
+                      <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
                     </Menu>
                     
                   </Stack>

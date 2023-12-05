@@ -14,7 +14,7 @@ export const HowItWorks = () => {
       <img src={graph1} className={ `${s['graph-1']}` } alt="graph" />
       <img src={graph2} className={ `${s['graph-2']}` } alt="graph" />
       
-      <Container maxWidth={'xl'}>
+      <Container maxWidth={'lg'}>
         <Typography variant="h4" sx={{ 
           fontFamily: 'Raleway', 
           fontWeight: 'bold', 
@@ -23,32 +23,32 @@ export const HowItWorks = () => {
           color: 'primary.main'
         }}>¿Cómo funciona el Markeplace?</Typography>
 
-        <Grid container justifyContent={'center'} gap={10} mb={20}>
-          <Grid item lg={3}>
+        <Grid container justifyContent={'center'} spacing={5} mb={15}>
+          <Grid item xs={12} sm={6} md={5} display={'flex'} justifyContent={'center'} alignItems={'center'}>
             <img src="src/assets/images/hiw-image-1.png" alt="how-it-works-graph-1" />
           </Grid>
-          <Grid item lg={4}>
+          <Grid item xs={12} sm={6} md={5}>
             <Typography variant="h4" sx={{ fontFamily: 'Raleway', fontWeight: 'bold', mb: 2 }}>Elije tu plan.</Typography>
             <Typography>¡Unete a nuestro Marketplace!</Typography>
             <Typography>Elige el plan que más se acomode a tus necesidades y nuestra aplicación te conectará con compradores cercanos a ti. Unete a nuestra comunidad hoy mismo y descubre nuevas oportunidades de negocio.</Typography>
           </Grid>
         </Grid>
         
-        <Grid container justifyContent={'center'} gap={10} mb={20}>
-          <Grid item lg={4}>
+        <Grid container justifyContent={'center'} spacing={5} mb={15} sx={{ flexDirection: { xs: 'column-reverse', sm: 'row' } }}>
+          <Grid item xs={12} sm={6} md={5}>
             <Typography variant="h4" sx={{ fontFamily: 'Raleway', fontWeight: 'bold', mb: 2 }}>Completa tu Registro</Typography>
             <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item xs={12} sm={6} md={5} display={'flex'} justifyContent={'center'} alignItems={'center'}>
             <img src="src/assets/images/hiw-image-2.png" alt="how-it-works-graph-2" />
           </Grid>
         </Grid>
 
-        <Grid container justifyContent={'center'} gap={10}>
-          <Grid item lg={3}>
+        <Grid container justifyContent={'center'} spacing={5}>
+          <Grid item xs={12} sm={6} md={5} display={'flex'} justifyContent={'center'} alignItems={'center'}>
             <img src="src/assets/images/hiw-image-3.png" alt="how-it-works-graph-3" />
           </Grid>
-          <Grid item lg={4}>
+          <Grid item xs={12} sm={6} md={5}>
             <Typography variant="h4" sx={{ fontFamily: 'Raleway', fontWeight: 'bold', mb: 2 }}>Listo</Typography>
             <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
           </Grid>

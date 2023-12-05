@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 
 import { CustomTextField, CustomButton } from "src/components";
 
@@ -50,8 +50,16 @@ export const LoginPage = () => {
               sx={{ borderRadius: 2, mt: 2, textTransform: 'none' }}
               onClick={ handleLogin }
               >
-                Ingresar 
+                Iniciar sesión
             </CustomButton>
+
+            <Stack direction={'row'} mt={2} mb={3}>
+              <Link 
+                to={"/auth/password-recovery"} 
+                style={{ textDecoration: 'none' }}>
+                  ¿Olvidaste tu contraseña?
+              </Link>
+            </Stack>
 
             <Box
               sx={{

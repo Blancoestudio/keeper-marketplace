@@ -1,5 +1,5 @@
 import { Paper, Typography, Box, Stack, Divider, Button } from "@mui/material";
-import { PricingPlan } from "../Pricing";
+import { PricingPlan } from ".";
 import { useNavigate } from "react-router-dom";
 
 interface PricingCardProps {
@@ -13,13 +13,13 @@ export const PricingCard = ({ plan }: PricingCardProps) => {
   return (
     <Paper elevation={3} sx={{ height: '100%', padding: 2, borderTop: 10, borderColor: plan.color, borderRadius: 2 }}>
       <Typography variant="h5" fontWeight={'bold'} textAlign={'center'} mb={2} color={'#717171'}>
-        {plan.name}
+        { plan.name }
       </Typography>
 
       <Box mb={2} sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-        <Box sx={{  }}>
+        <Box>
           <Typography variant="h2" fontWeight={'bolder'} color={plan.color}>
-            { plan.ufValue }
+            { plan.ufValue.toLocaleString('es', { minimumFractionDigits: 1 }) }
           </Typography>
         </Box>
         <Stack direction={'column'} justifyContent={'center'} mb={0}>

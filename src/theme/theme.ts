@@ -48,9 +48,6 @@ const themeGeneric = createTheme({
       //     backgroundColor: "#F8F8FD",
       //   },
       // },
-      defaultProps: {
-        disableUnderline: true,
-      }
     },
   },
   typography

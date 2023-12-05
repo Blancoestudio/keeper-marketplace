@@ -1,5 +1,5 @@
-import { Box, Container, FormControl, FormControlLabel, Grid, MenuItem, Radio, RadioGroup, Select, Typography } from "@mui/material"
-import { PricingCard } from "../PricingCard";
+import { Box, Container, FormControl, FormControlLabel, Grid, MenuItem, Radio, RadioGroup, Select, Stack, Typography } from "@mui/material"
+import { PricingCard } from "./PricingCard";
 import { CustomTextField } from "src/components";
 import { useState } from "react";
 
@@ -69,9 +69,9 @@ export const Pricing = () => {
         <Typography mb={5} textAlign={'center'}>Aprovecha los distintos beneficios que tenemos para ti y tu negocio. Nuestros planes varían según la cantidad de comunas que eliges.</Typography>
 
         <Grid container justifyContent={'space-between'} alignItems={'center'} mb={5}>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6} justifyContent={'center'}>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+            <Stack direction={'row'} alignItems={'center'} gap={2}>
               <Typography>Ajusta el número de comunas del equipo:</Typography>
               <FormControl sx={{ width: 150, marginBottom: 0 }} variant="standard">
                 <Select
@@ -79,17 +79,16 @@ export const Pricing = () => {
                   label="Age"
                   defaultValue={2}
                   className="commune-selector"
-                  // value={age}
-                  // onChange={handleChange}
                 >
                   <MenuItem value={1}>1 Comuna</MenuItem>
                   <MenuItem value={2}>2 Comunas</MenuItem>
                 </Select>
               </FormControl>
-            </Box>
+            </Stack>
 
           </Grid>
-          <Grid item>
+
+          <Grid item xs={12} md={6} display={'flex'} justifyContent={'flex-end'}>
 
             <FormControl>
               <RadioGroup
@@ -108,15 +107,13 @@ export const Pricing = () => {
         </Grid>
 
         <Grid container gap={3} justifyContent={'center'}>
-
           {
             pricingItems.map( (plan, idx) => (
-              <Grid item key={idx} xs={3}>
+              <Grid item key={idx} xs={9} sm={6} md={3}>
                 <PricingCard plan={plan} />
               </Grid>
             ))
           }
-          
         </Grid>
 
       </Container>

@@ -3,8 +3,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { UserInfo } from './UserInfo';
-import { BusinessInfo } from './BusinessInfo';
 import { BillingInfo } from './BillingInfo';
+import { BusinessInfoTab } from './BusinessInfoTab';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -59,7 +59,7 @@ export default function TabsCmp() {
         <UserInfo />   
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <BusinessInfo />
+        <BusinessInfoTab />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <BillingInfo />

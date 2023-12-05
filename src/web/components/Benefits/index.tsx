@@ -47,10 +47,10 @@ export const Benefits = () => {
           mb: 6
         }}>Beneficios Keeper</Typography>
         
-        <Grid container justifyContent={'space-between'} gap={2}>
+        <Grid container justifyContent={'space-between'} spacing={5}>
           {
             benefits.map( (item, i) => (
-              <Grid key={i} item xs={2} sx={{ display: 'flex', justifyContent: 'start', flexDirection: 'column', alignItems: 'center' }}>
+              <Grid key={i} item xs={6} md={3} lg={2} sx={{ display: 'flex', justifyContent: 'start', flexDirection: 'column', alignItems: 'center', marginBottom: 5 }}>
                 <Box
                   sx={{
                     width: 150,
@@ -63,7 +63,7 @@ export const Benefits = () => {
                     color: '#333',
                     mb: 2
                   }}>
-                  <img src={`/src/assets/svg/${item.icon}`} alt={item.title} />
+                  <img src={`/src/assets/svg/${item.icon}`} height={'auto'} alt={item.title} />
                 </Box>
                 <Typography sx={{ textAlign: 'center', mb: 1, fontWeight: 'bold' }} variant="h5">{ item.title }</Typography>
                 <Typography sx={{ textAlign: 'center' }}>{ item.description }</Typography>

@@ -1,7 +1,9 @@
 import { Button, ButtonProps, styled } from "@mui/material"
 
 const StyledButton = styled(Button)(() => ({
-  borderRadius: 4,
+  paddingTop: 8,
+  paddingBottom: 8,
+  borderRadius: 8,
   fontFamily: 'Raleway',
   textTransform: 'none',
   fontWeight: 'bold'

@@ -1,8 +1,8 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { LoginPage, RegisterPage } from "../pages"
 import { AuthLayout } from "../layout/AuthLayout"
-import { RegisterSuccess } from "../pages/RegisterSuccess"
-import { CheckoutPage } from "../pages/CheckoutPage"
+import { PasswordRecovery } from "../pages/PasswordRecovery"
+import { PasswordReset } from "../pages/PasswordReset"
 
 export const AuthRoutes = () => {
   return (
@@ -10,8 +10,8 @@ export const AuthRoutes = () => {
       <Routes>
         <Route path="login" element={ <LoginPage /> } />
         <Route path="register" element={ <RegisterPage /> } />
-        <Route path="register-success" element={ <RegisterSuccess /> } />
-        <Route path="checkout" element={ <CheckoutPage /> } />
+        <Route path="password-recovery" element={ <PasswordRecovery /> } />
+        <Route path="password-reset" element={ <PasswordReset /> } />
         
         <Route path="/*" element={ <Navigate to={"/auth/login"} /> } />
       </Routes>

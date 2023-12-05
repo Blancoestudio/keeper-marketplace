@@ -4,8 +4,8 @@ import { CustomButton } from "src/components"
 export const CallToAction = () => {
   return (
     <Container id="sectionCallToAction" maxWidth={'xl'} sx={{ my: 10 }}>
-      <Grid container justifyContent={'center'} gap={10}>
-        <Grid item lg={4}>
+      <Grid container justifyContent={'center'}>
+        <Grid item xs={10} md={5} lg={4} mb={6}>
           <Typography variant="h4" sx={{ fontFamily: 'Raleway', fontWeight: 'bold', mb: 2 }}>Una mayor visibilidad</Typography>
           <Typography mb={3}>En Keeper  queremos proporcionar a los vendedores una plataforma eficiente y efectiva para aumentar sus ventas y rentabilidad.</Typography>
           <Typography>Al ofrecer a los usuarios registrados una opción para mejorar la visibilidad de sus productos, estamos seguros de que podemos ayudarles a lograr estos objetivos.</Typography>

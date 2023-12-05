@@ -7,12 +7,12 @@ import { CustomButton } from "src/components";
 
 import Logo from 'src/assets/svg/logo_keeper_b.svg';
 
-export const RegisterSuccess = ( ) => {
+export const WelcomePage = ( ) => {
 
   const navigate = useNavigate();
 
   return (
-    <Grid container justifyContent={'center'} gap={1}>
+    <Grid container justifyContent={'center'} gap={1} alignItems={'center'} height={'calc( 100vh - 65px )'} sx={{ border: '1px solid blue' }}>
 
       <Grid item xs={12} md={6} sx={{ textAlign: 'center' }}>
         <Typography variant="h1" fontWeight={'400'}>¡ Bienvenidos !</Typography>
@@ -37,12 +37,10 @@ export const RegisterSuccess = ( ) => {
             textTransform: 'none',
             fontWeight: 500,
           }}
-          onClick={ () => navigate('/admin/business-register') }
+          onClick={ () => navigate('/admin/dashboard') }
           >Empecemos</CustomButton>
         <Typography>Un sitio donde podrás potenciar tu negocio, llegando  a mas personas </Typography>
       </Grid>
-
-      
     </Grid>
 
   )

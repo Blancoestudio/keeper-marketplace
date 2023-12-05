@@ -46,18 +46,19 @@ export const CheckoutPage = () => {
                 label="Número de tarjeta"
               />
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={6}>
               <CustomTextField 
                 label="Vencimiento"
+                placeholder="MM/YYYY"
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6}>
               <CustomTextField 
                 label="Código de seguridad"
               />
             </Grid>
 
-            <Grid item xs={8} mt={5}>
+            <Grid item xs={10} mt={5}>
               <Typography variant={'body2'}>
                 Tu privacidad es muy importante para nosotros. Solo usaremos tu información según lo descrito en nuestros 
                 <Link> términos de uso</Link>
