@@ -1,6 +1,8 @@
 import { Container, Grid, Typography } from "@mui/material"
 import { CustomButton } from "src/components"
 
+import CtaImage from "/src/assets/images/cta-img.png";
+
 export const CallToAction = () => {
   return (
     <Container id="sectionCallToAction" maxWidth={'xl'} sx={{ my: 10 }}>
@@ -18,7 +20,7 @@ export const CallToAction = () => {
             }}>Contrata tu plan</CustomButton>
         </Grid>
         <Grid item lg={4}>
-          <img src="src/assets/images/cta-img.png" alt="cta-image" />
+          <img src={CtaImage} alt="cta-image" />
         </Grid>
       </Grid>
     </Container>

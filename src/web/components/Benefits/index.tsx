@@ -1,34 +1,33 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
 
-// import iconEye from ''
+import iconEye from '/src/assets/svg/icon-eye.svg';
+import iconLocation from '/src/assets/svg/icon-location.svg';
+import iconHomeUser from '/src/assets/svg/icon-home-user.svg';
+import iconSegmentation from '/src/assets/svg/icon-segmentation.svg';
 
 const benefits = [
   {
-    icon: 'icon-eye.svg',
+    icon: iconEye,
     title: 'Visualización',
-    description: ''
+    description: 'Descripción de Visualización'
   },
   {
-    icon: 'icon-location.svg',
+    icon: iconLocation,
     title: 'Presencia',
     description: 'Estamos en más de 70 comunas de todo el país.'
   },
   {
-    icon: 'icon-home-user.svg',
+    icon: iconHomeUser,
     title: 'Clientes',
     description: 'Más de 15.000 propietarios actualmente.'
   },
   {
-    icon: 'icon-segmentation.svg',
+    icon: iconSegmentation,
     title: 'Segmentación',
     description: 'Posibilidad de personalizar tus lugares de ventas.'
   },
-  {
-    icon: 'icon-eye.svg',
-    title: 'title',
-    description: 'description'
-  },
-]
+  // ... más objetos según sea necesario
+];
 
 
 export const Benefits = () => {
@@ -63,10 +62,13 @@ export const Benefits = () => {
                     color: '#333',
                     mb: 2
                   }}>
-                  <img src={`/src/assets/svg/${item.icon}`} height={'auto'} alt={item.title} />
+                  <img src={item.icon} alt={item.title} style={{ maxWidth: '100%', maxHeight: '100%' }} />
                 </Box>
                 <Typography sx={{ textAlign: 'center', mb: 1, fontWeight: 'bold' }} variant="h5">{ item.title }</Typography>
                 <Typography sx={{ textAlign: 'center' }}>{ item.description }</Typography>
+                  <pre>
+                    { JSON.stringify(item.icon) }
+                  </pre>
               </Grid>
             ))
           }

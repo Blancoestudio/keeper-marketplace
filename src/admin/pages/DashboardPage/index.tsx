@@ -7,6 +7,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { CustomButton } from "src/components";
 import CloseIcon from '@mui/icons-material/Close';
 
+import ImgDefault from "/src/assets/images/image-default.png";
+
 const indicators = [
   {
     title: 'Haz obtenido',
@@ -208,7 +210,7 @@ export const Dashboard = () => {
               <Card sx={{ padding: 1 }}>
                 <CardMedia
                   sx={{ height: 280, borderRadius: 2, overflow: 'hidden' }}
-                  image="/src/assets/images/profile.png"
+                  image={ImgDefault}
                   title="imagen-producto"
                 />
                 <CardContent>
@@ -250,7 +252,7 @@ export const Dashboard = () => {
                 <Card sx={{ padding: 1.25, borderRadius: 2, paddingBottom: 0 }}>
                   <CardMedia
                       sx={{ height: 220, borderRadius: 2, overflow: 'hidden' }}
-                      image="/src/assets/images/profile.png"
+                      image={ImgDefault}
                       title="imagen-producto"
                     >
                     <Stack direction={'row'} justifyContent={'space-between'}>

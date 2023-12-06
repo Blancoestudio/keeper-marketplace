@@ -8,6 +8,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { CustomButton } from './CustomButton';
 
+import bgNavbar from '/src/assets/images/bg-navbar.png';
+
 export default function BasicMenu() {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -99,10 +101,11 @@ export const Navbar = () => {
     <Box sx={{ flexGrow: 1,}} 
       component={'header'}>
       <AppBar position="static" sx={{ 
-            background: "url('/src/assets/images/bg-navbar.png')",
+            background: `url(${bgNavbar})`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
-            backgroundPosition: 'center'
+            backgroundPosition: 'center',
+            backgroundColor: 'primary'
            }}>
         <Toolbar>
           <Box sx={{ 

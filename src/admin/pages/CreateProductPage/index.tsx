@@ -4,6 +4,8 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { Box, Chip, Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Theme, Typography, useTheme, styled, InputBase } from "@mui/material"
 import { CustomButton, CustomTextField } from "src/components"
 
+import ImgDefault from "/src/assets/images/image-default.png";
+
 
 const CustoInputLabel = styled(InputLabel)( () => ({
   fontSize: '.9em',
@@ -79,7 +81,7 @@ export const CreateProductPage = () => {
           <div style={{ display: 'flex', gap: 10, marginBottom: 25, flexWrap: 'wrap' }}>
             <div style={{ border: '1px solid blue', height: 150, flexGrow: .25, borderRadius: 5, position: 'relative' }}>
               <img 
-                src={'/src/assets/images/profile.png'} 
+                src={ImgDefault} 
                 alt="imagen-negocio" 
                 style={{
                   width: '100%',
@@ -99,7 +101,7 @@ export const CreateProductPage = () => {
 
             <div style={{ border: '1px solid blue', height: 150, flexGrow: .25, borderRadius: 5, position: 'relative' }}>
               <img 
-                src={'/src/assets/images/profile.png'} 
+                src={ImgDefault} 
                 alt="imagen-negocio" 
                 style={{
                   width: '100%',

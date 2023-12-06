@@ -5,6 +5,8 @@ import { AlertColor, Box, Grid, Paper, Typography } from "@mui/material";
 import { BusinessInfoEditModal } from "./BusinessInfoEditModal";
 import { CustomButton, CustomSnack } from "src/components";
 
+import ImgDefault from "/src/assets/images/image-default.png";
+
 export const BusinessInfo = () => {
 
   const [isEditing, setIsEditing] = useState(false);
@@ -65,7 +67,7 @@ export const BusinessInfo = () => {
               padding: .75,
             }}>
               <img 
-                src={'/src/assets/images/profile.png'} 
+                src={ImgDefault} 
                 alt="imagen-negocio" 
                 style={{
                   width: '100%',

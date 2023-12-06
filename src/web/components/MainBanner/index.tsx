@@ -1,6 +1,8 @@
-import { Box, Container, Grid, Typography } from "@mui/material"
-import Logo from 'src/assets/svg/logo_keeper.svg'
-import { CustomButton } from "src/components"
+import { Box, Container, Grid, Typography } from "@mui/material";
+import Logo from "src/assets/svg/logo_keeper.svg";
+import { CustomButton } from "src/components";
+
+import bgBanner from "/src/assets/images/bg-banner.png"
 
 export const MainBanner = () => {
   return (
@@ -8,13 +10,12 @@ export const MainBanner = () => {
       py: 8
     }}>
       <Container maxWidth={'xl'}>
-        
         <Box sx={{
           borderRadius: 10,
           py: 10,
           px: 5,
           backgroundColor: 'primary.main',
-          backgroundImage: "url('src/assets/images/bg-banner.png')",
+          backgroundImage: `url(${bgBanner})`,
           backgroundPosition: 'center',
           backgroundSize: 'cover',
           color: "#ffffff"
