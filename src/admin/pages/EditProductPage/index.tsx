@@ -75,7 +75,7 @@ export const EditProductPage = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 3 }}>
-      <Grid container flexDirection={'column'} alignItems={'center'} justifyContent={'center'}  sx={{ py: 5 }}>
+      <Grid container direction={'column'} alignItems={'center'} justifyContent={'center'}  sx={{ py: 5 }}>
 
         <Grid item xs={12} mb={5}>
           <Typography variant="h4" component="h1" textAlign={'center'}>Editar producto</Typography>

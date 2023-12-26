@@ -3,10 +3,10 @@ import { Button, ButtonProps, styled } from "@mui/material"
 const StyledButton = styled(Button)(() => ({
   paddingTop: 8,
   paddingBottom: 8,
-  borderRadius: 8,
+  borderRadius: 4,
   fontFamily: 'Raleway',
   textTransform: 'none',
-  fontWeight: 'bold'
+  fontWeight: 'bold',
 }))
 
 interface PropsTypes extends ButtonProps {

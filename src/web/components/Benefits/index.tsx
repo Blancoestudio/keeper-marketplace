@@ -66,9 +66,6 @@ export const Benefits = () => {
                 </Box>
                 <Typography sx={{ textAlign: 'center', mb: 1, fontWeight: 'bold' }} variant="h5">{ item.title }</Typography>
                 <Typography sx={{ textAlign: 'center' }}>{ item.description }</Typography>
-                  <pre>
-                    { JSON.stringify(item.icon) }
-                  </pre>
               </Grid>
             ))
           }
