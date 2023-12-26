@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link as LinkRouter, useLocation, NavLink, useNavigate } from 'react-router-dom';
 
-import { AppBar, Avatar, Box, Button, Hidden, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from "@mui/material"
+import { AppBar, Avatar, Box, Button, Divider, Hidden, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from "@mui/material"
 import Logo from 'src/assets/svg/logo_keeper.svg';
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -105,7 +105,7 @@ export const Navbar = () => {
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundColor: 'primary'
+            backgroundColor: 'primary.main'
            }}>
         <Toolbar>
           <Box sx={{ 
@@ -129,7 +129,6 @@ export const Navbar = () => {
               <MenuIcon />
             </IconButton>
           </Hidden>
-
           
 
           {
@@ -159,12 +158,14 @@ export const Navbar = () => {
               : null
           }   
 
+
+          <Divider orientation="vertical" variant="middle" sx={{ mx: 3, borderColor: '#999' }} flexItem />
           
 
           {
             (showMenu && !isAuth)
               ? (
-                <Stack direction="row" spacing={2} alignItems={'center'} marginLeft={2}>
+                <Stack direction="row" spacing={2} alignItems={'center'}>
                   <NavLink 
                     to={'/auth/login'}>
                     <Typography 
@@ -177,6 +178,7 @@ export const Navbar = () => {
                     <CustomButton 
                       component={'button'} 
                       sx={{
+                        px: 4,
                         backgroundColor: "#ffffff",
                         color: 'primary.main',
                         '&:hover': {
@@ -189,6 +191,8 @@ export const Navbar = () => {
               )
               : null
           }
+
+          
 
           {
             isAuth

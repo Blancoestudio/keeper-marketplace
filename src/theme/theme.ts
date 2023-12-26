@@ -3,6 +3,7 @@ import { red } from '@mui/material/colors';
 
 const typography = {
   h1: {
+    fontFamily: '"Raleway", sans-serif',
     [createTheme().breakpoints.down('md')]: {
       fontSize: '3.5em'
     },
@@ -12,6 +13,18 @@ const typography = {
     [createTheme().breakpoints.down('xs')]: {
       fontSize: '1.5em'
     },
+  },
+  h2: {
+    fontFamily: '"Raleway", sans-serif',
+  },
+  h3: {
+    fontFamily: '"Raleway", sans-serif',
+  },
+  h4: {
+    fontFamily: '"Raleway", sans-serif',
+  },
+  h5: {
+    fontFamily: '"Raleway", sans-serif',
   },
 };
 

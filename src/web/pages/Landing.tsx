@@ -4,6 +4,7 @@ import { CallToAction } from "../components/CallToAction"
 import { HowItWorks } from "../components/HowItWorks"
 import { Pricing } from "../components/Pricing"
 import { Box } from "@mui/material"
+import { Simulator } from "../components/Simulator"
 
 export const Landing = () => {
   return (
@@ -13,6 +14,7 @@ export const Landing = () => {
       <CallToAction />
       <HowItWorks />
       <Pricing />
+      <Simulator />
     </Box>
   )
 }

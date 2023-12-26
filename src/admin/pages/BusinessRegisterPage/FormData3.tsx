@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { FormControl, RadioGroup, FormControlLabel, Radio, Box, Typography, Stack, Grid, MenuItem, Select } from "@mui/material"
-import { PricingPlan } from "src/web/components/Pricing";
 import { CustomTextField } from "src/components";
 
-const pricingItems: PricingPlan[] = [
+const pricingItems = [
   {
     color: '#9C94CD',
     name: 'Básico',
