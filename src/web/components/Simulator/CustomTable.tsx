@@ -174,7 +174,8 @@ export default function CustomTable({ communes, setcommunesSelected, setAudience
   const tableRowRef = React.useRef<HTMLTableRowElement>(null);
   const [tableRowHeight, setTableRowHeight] = React.useState(0);
 
-  const { onInputChange, onResetForm, searchTerm } = useForm({
+  const searchTerm = '';
+  const { onInputChange, onResetForm } = useForm({
     searchTerm: ''
   });
 
@@ -233,6 +234,7 @@ export default function CustomTable({ communes, setcommunesSelected, setAudience
 
   
   const handleRequestSort = ( event: React.MouseEvent<unknown>, property: string ) => {
+    console.log(event);
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -254,7 +256,7 @@ export default function CustomTable({ communes, setcommunesSelected, setAudience
   }
 
   const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
-    
+    console.log(event);
     const selectedIndex = selected.indexOf(id);
     let newSelected: readonly string[] = [];
 

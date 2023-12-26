@@ -2,9 +2,8 @@ import { useState } from "react";
 import { Box, FormControl, FormControlLabel, Grid, IconButton, MenuItem, Modal, Radio, RadioGroup, Select, Stack, Typography,useMediaQuery,useTheme } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { CustomButton, CustomTextField } from "src/components";
-import { PricingPlan } from "src/web/components/Pricing";
 
-const pricingItems: PricingPlan[] = [
+const pricingItems = [
   {
     color: '#9C94CD',
     name: 'Básico',
