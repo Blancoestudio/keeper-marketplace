@@ -1,261 +1,284 @@
-import { useEffect, useState } from 'react';
-import { Link as LinkRouter, useLocation, NavLink, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import {
+	Link as LinkRouter,
+	useLocation,
+	NavLink,
+	useNavigate,
+} from "react-router-dom";
 
-import { AppBar, Avatar, Box, Button, Divider, Hidden, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from "@mui/material"
-import Logo from 'src/assets/svg/logo_keeper.svg';
-import MenuIcon from '@mui/icons-material/Menu';
+import {
+	AppBar,
+	Avatar,
+	Box,
+	Button,
+	Divider,
+	Hidden,
+	IconButton,
+	Menu,
+	MenuItem,
+	Stack,
+	Toolbar,
+	Typography,
+} from "@mui/material";
+import Logo from "src/assets/svg/logo_keeper.svg";
+import MenuIcon from "@mui/icons-material/Menu";
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { CustomButton } from './CustomButton';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { CustomButton } from "./CustomButton";
 
-import bgNavbar from '/src/assets/images/bg-navbar.png';
+import bgNavbar from "/src/assets/images/bg-navbar.png";
 
 export default function BasicMenu() {
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const open = Boolean(anchorEl);
+	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  return (
-    <div>
-      <CustomButton
-        id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        Dashboard
-      </CustomButton>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
-      </Menu>
-    </div>
-  );
+	return (
+		<div>
+			<CustomButton
+				id="basic-button"
+				aria-controls={open ? "basic-menu" : undefined}
+				aria-haspopup="true"
+				aria-expanded={open ? "true" : undefined}
+				onClick={handleClick}
+			>
+				Dashboard
+			</CustomButton>
+			<Menu
+				id="basic-menu"
+				anchorEl={anchorEl}
+				open={open}
+				onClose={handleClose}
+				MenuListProps={{
+					"aria-labelledby": "basic-button",
+				}}
+			>
+				<MenuItem onClick={handleClose}>Profile</MenuItem>
+				<MenuItem onClick={handleClose}>My account</MenuItem>
+				<MenuItem onClick={handleClose}>Logout</MenuItem>
+			</Menu>
+		</div>
+	);
 }
 
 export const Navbar = () => {
+	const navigate = useNavigate();
 
-  const navigate = useNavigate();
+	const [showMenu, setShowMenu] = useState(true);
+	const [isAuth, setIsAuth] = useState(false);
 
-  const [showMenu, setShowMenu] = useState(true);
-  const [isAuth, setIsAuth] = useState(false);
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const location = useLocation();
 
-  const location = useLocation();
-  
-  useEffect(() => {
+	useEffect(() => {
+		if (location.pathname.includes("auth")) {
+			setShowMenu(false);
+		} else {
+			setShowMenu(true);
+		}
+	}, [location]);
 
-    if (location.pathname.includes('auth')) {
-      setShowMenu(false)
-    } else {
-      setShowMenu(true)
-    }
+	useEffect(() => {
+		if (
+			location.pathname.includes("admin") &&
+			!location.pathname.includes("business-register")
+		) {
+			setIsAuth(true);
+		} else {
+			setIsAuth(false);
+		}
+	}, [location]);
 
-  }, [location])
+	const open = Boolean(anchorEl);
 
-  useEffect(() => {
+	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
 
-    if (location.pathname.includes('admin') && (!location.pathname.includes('business-register'))) {
-      setIsAuth(true)
-    } else {
-      setIsAuth(false)
-    }
-    
-  }, [location])
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 
-  
-  const open = Boolean(anchorEl);
+	const handleLogout = () => {
+		navigate("/auth/login");
+		handleClose();
+	};
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+	return (
+		<Box sx={{ flexGrow: 1 }} component={"header"}>
+			<AppBar
+				position="static"
+				sx={{
+					background: `url(${bgNavbar})`,
+					backgroundRepeat: "no-repeat",
+					backgroundSize: "cover",
+					backgroundPosition: "center",
+					backgroundColor: "primary.main",
+				}}
+			>
+				<Toolbar>
+					<Box
+						sx={{
+							flexGrow: 1,
+							display: "flex",
+							alignItems: "center",
+						}}
+					>
+						<LinkRouter to={"/"}>
+							<img src={Logo} alt="keeper" />
+						</LinkRouter>
+					</Box>
 
-  const handleLogout = () => {
-    navigate('/auth/login');
-    handleClose();
-  }
-  
+					<Hidden smUp>
+						<IconButton
+							size="large"
+							edge="start"
+							color="inherit"
+							aria-label="menu"
+							sx={{ mr: 2 }}
+						>
+							<MenuIcon />
+						</IconButton>
+					</Hidden>
 
-  return (
-    <Box sx={{ flexGrow: 1,}} 
-      component={'header'}>
-      <AppBar position="static" sx={{ 
-            background: `url(${bgNavbar})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundColor: 'primary.main'
-           }}>
-        <Toolbar>
-          <Box sx={{ 
-              flexGrow: 1, 
-              display: 'flex', 
-              alignItems: 'center' 
-            }}>
-              <LinkRouter to={'/'}>
-                <img src={Logo} alt="keeper" />
-              </LinkRouter>
-          </Box>
+					{showMenu ? (
+						<Hidden smDown>
+							<Box
+								sx={{
+									display: "flex",
+									alignItems: "center",
+									gap: 2,
+								}}
+							>
+								<NavLink to={"/#planes"} style={{ textDecoration: "none" }}>
+									<Typography
+										sx={{
+											color: "#ffffff",
+											fontFamily: "Raleway",
+											fontWeight: "bold",
+										}}
+									>
+										Planes
+									</Typography>
+								</NavLink>
+								<NavLink to={"/"} style={{ textDecoration: "none" }}>
+									<Typography
+										sx={{
+											color: "#ffffff",
+											fontFamily: "Raleway",
+											fontWeight: "bold",
+										}}
+									>
+										Contáctanos
+									</Typography>
+								</NavLink>
+							</Box>
+						</Hidden>
+					) : null}
 
-          <Hidden smUp>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Hidden>
-          
+					<Divider
+						orientation="vertical"
+						variant="middle"
+						sx={{ mx: 3, borderColor: "#999" }}
+						flexItem
+					/>
 
-          {
-            showMenu
-              ? (
-                <Hidden smDown>
-                  <Box sx={{ 
-                      display: 'flex', 
-                      alignItems: 'center',
-                      gap: 2,
-                    }}>
-                    <NavLink 
-                      to={'/#planes'} style={{ textDecoration: 'none' }}>
-                      <Typography 
-                        sx={{ color: "#ffffff", fontFamily: 'Raleway', fontWeight: 'bold' }}
-                      >Planes</Typography>
-                    </NavLink>
-                    <NavLink 
-                      to={'/'} style={{ textDecoration: 'none' }}>
-                      <Typography 
-                        sx={{ color: "#ffffff", fontFamily: 'Raleway', fontWeight: 'bold' }}
-                      >Contáctanos</Typography>
-                    </NavLink>
-                  </Box>
-                </Hidden>
-              )
-              : null
-          }   
+					{showMenu && !isAuth ? (
+						<Stack direction="row" spacing={2} alignItems={"center"}>
+							<NavLink to={"/auth/login"}>
+								<Typography
+									sx={{
+										color: "#ffffff",
+										fontFamily: "Raleway",
+										fontWeight: "bold",
+									}}
+								>
+									Iniciar sesión
+								</Typography>
+							</NavLink>
 
+							<NavLink to={"/auth/register"}>
+								<CustomButton
+									component={"button"}
+									sx={{
+										px: 4,
+										backgroundColor: "#ffffff",
+										color: "primary.main",
+										"&:hover": {
+											backgroundColor: "#eeeeee",
+										},
+									}}
+								>
+									Registrarse
+								</CustomButton>
+							</NavLink>
+						</Stack>
+					) : null}
 
-          <Divider orientation="vertical" variant="middle" sx={{ mx: 3, borderColor: '#999' }} flexItem />
-          
+					{isAuth ? (
+						<div>
+							<Stack direction={"row"} spacing={1} marginLeft={2}>
+								<Avatar
+									alt="Nombre de usuario"
+									src="/static/images/avatar/1.jpg"
+								/>
 
-          {
-            (showMenu && !isAuth)
-              ? (
-                <Stack direction="row" spacing={2} alignItems={'center'}>
-                  <NavLink 
-                    to={'/auth/login'}>
-                    <Typography 
-                      sx={{ color: "#ffffff", fontFamily: 'Raleway', fontWeight: 'bold' }}
-                    >Iniciar sesión</Typography>
-                  </NavLink>
-                  
-                  <NavLink 
-                    to={'/auth/register'}>
-                    <CustomButton 
-                      component={'button'} 
-                      sx={{
-                        px: 4,
-                        backgroundColor: "#ffffff",
-                        color: 'primary.main',
-                        '&:hover': {
-                          backgroundColor: '#eeeeee',
-                        },
-                      }}>Registrarse
-                    </CustomButton>
-                  </NavLink>
-                </Stack>
-              )
-              : null
-          }
-
-          
-
-          {
-            isAuth
-              ? (
-                <div>
-                  <Stack direction={'row'} spacing={1} marginLeft={2}>
-                    <Avatar 
-                      alt="Nombre de usuario" 
-                      src="/static/images/avatar/1.jpg" />
-
-                    <Button 
-                      disableRipple
-                      variant="contained" 
-                      id="basic-button"
-                      aria-controls={open ? 'basic-menu' : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? 'true' : undefined}
-                      sx={{
-                        backgroundColor: "#ffffff",
-                        color: 'primary.main',
-                        position: 'relative',
-                        textTransform: 'none',
-                        fontFamily: 'Raleway',
-                        '&:hover': {
-                          backgroundColor: '#eeeeee',
-                        },
-                      }}
-                      endIcon={<ExpandMoreIcon />}
-                      onClick={handleClick}>
-                        Nombre de usuario
-                    </Button>
-                    <Menu
-                      id="basic-menu"
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                      MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                      }}
-                      anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                      }}
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                      }}
-                    >
-                      {/* <MenuItem onClick={ () => {
+								<Button
+									disableRipple
+									variant="contained"
+									id="basic-button"
+									aria-controls={open ? "basic-menu" : undefined}
+									aria-haspopup="true"
+									aria-expanded={open ? "true" : undefined}
+									sx={{
+										backgroundColor: "#ffffff",
+										color: "primary.main",
+										position: "relative",
+										textTransform: "none",
+										fontFamily: "Raleway",
+										"&:hover": {
+											backgroundColor: "#eeeeee",
+										},
+									}}
+									endIcon={<ExpandMoreIcon />}
+									onClick={handleClick}
+								>
+									{JSON.parse(localStorage.getItem("user")!).name}
+								</Button>
+								<Menu
+									id="basic-menu"
+									anchorEl={anchorEl}
+									open={open}
+									onClose={handleClose}
+									MenuListProps={{
+										"aria-labelledby": "basic-button",
+									}}
+									anchorOrigin={{
+										vertical: "bottom",
+										horizontal: "right",
+									}}
+									transformOrigin={{
+										vertical: "top",
+										horizontal: "left",
+									}}
+								>
+									{/* <MenuItem onClick={ () => {
                         navigate('/admin/my-acount');
                         handleClose();
                       }}>Mi Cuenta</MenuItem> */}
-                      <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
-                    </Menu>
-                    
-                  </Stack>
-                </div>
-              )
-              : null
-          }          
-
-        </Toolbar>
-      </AppBar>
-    </Box>
-  )
-}
+									<MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
+								</Menu>
+							</Stack>
+						</div>
+					) : null}
+				</Toolbar>
+			</AppBar>
+		</Box>
+	);
+};
