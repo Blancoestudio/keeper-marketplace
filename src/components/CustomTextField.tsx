@@ -74,7 +74,7 @@ export const CustomTextField = ({
         endAdornment={
           (type === 'password')
             ? (
-              <CustomInputAdorment position="start" variant="outlined">
+              <CustomInputAdorment position="start">
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
