@@ -107,6 +107,7 @@ export const Navbar = () => {
 
 	const handleLogout = () => {
 		navigate("/auth/login");
+		localStorage.clear();
 		handleClose();
 	};
 
