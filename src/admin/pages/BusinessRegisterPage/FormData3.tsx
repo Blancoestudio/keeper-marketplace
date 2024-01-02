@@ -1,145 +1,323 @@
-import { useState } from "react";
-import { FormControl, RadioGroup, FormControlLabel, Radio, Box, Typography, Stack, Grid, MenuItem, Select } from "@mui/material"
-import { PricingPlan } from "src/web/components/Pricing";
-import { CustomTextField } from "src/components";
-
-const pricingItems: PricingPlan[] = [
-  {
-    color: '#9C94CD',
-    name: 'Básico',
-    ufValue: 1.0,
-    features: [
-      'Publicación hasta 10 productos',
-      'Comunicación a RRSS',
-      'Comunicación a Whatsapp',
-      'Métricas de visitas',
-    ]
-  },
-  {
-    color: '#3984F7',
-    name: 'Silver',
-    ufValue: 1.5,
-    features: [
-      'Publicación hasta 20 productos',
-      'Comunicación a RRSS',
-      'Comunicación a Whatsapp',
-      'Métricas de visitas',
-      'Aparecer en destacados',
-    ]
-  },
-  {
-    color: '#5BC57A',
-    name: 'Gold',
-    ufValue: 2.0,
-    features: [
-      'Publicación hasta 20 productos',
-      'Comunicación a RRSS',
-      'Comunicación a Whatsapp',
-      'Métricas de visitas',
-      'Aparecer en destacados',
-      '1 notificación push semanal',
-      '1 notificación in-App mensual',
-    ]
-  },
-];
+import { useEffect, useState } from "react";
+import {
+	FormControl,
+	RadioGroup,
+	FormControlLabel,
+	Radio,
+	Box,
+	Typography,
+	Stack,
+	Grid,
+	Chip,
+	Divider,
+	List,
+	ListItem,
+} from "@mui/material";
+import { CustomButton } from "src/components";
+import CustomTable from "src/web/components/Simulator/CustomTable";
+import { CommuneData } from "src/interfaces/Plan";
+import { PlanService } from "src/services/PlanService";
 
 export const FormData3 = () => {
+	const [payFrecuency, setPayFrecuency] = useState("monthly");
+	const [communes, setCommunes] = useState<CommuneData[]>([]);
+	const [communesSelected, setcommunesSelected] = useState(0);
+	const [audience, setAudience] = useState(0);
+	const [monthlyValue, setMonthlyValue] = useState(0);
+	const [annualValue, setAnnualValue] = useState(0);
 
-  const [value, setValue] = useState(0);
-  const [payMode, setPayMode] = useState('yearly');
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setPayFrecuency((event.target as HTMLInputElement).value);
+	};
+	const getPlans = async () => {
+		const result = await PlanService.getPlans();
+		if (!result.status) return;
 
-  return (
-    <>
-      <Grid container justifyContent={'space-between'} alignItems={'center'}>
-        <Grid item xs={12} md={8} justifyContent={'center'}>
+		setCommunes(result.data!);
+		// console.log('data: ', result.data);
 
-          <Stack direction={'row'} alignItems={'center'} gap={2}>
-            <Typography>Ajusta el número de comunas del equipo:</Typography>
-            <FormControl sx={{ width: 150, marginBottom: 0 }} variant="standard">
-              <Select
-                input={<CustomTextField />}
-                label="Age"
-                defaultValue={2}
-                className="commune-selector"
-              >
-                <MenuItem value={1}>1 Comuna</MenuItem>
-                <MenuItem value={2}>2 Comunas</MenuItem>
-              </Select>
-            </FormControl>
-          </Stack>
+		// setPlans(result.data!)
 
-        </Grid>
+		// const { data, error } = await PlanService.getPlans();
+		// if (!error) {
+		//   setPlans(data)
+		// }
+	};
 
-        <Grid item xs={12} md={4} display={'flex'} justifyContent={'flex-end'}>
+	useEffect(() => {
+		getPlans();
+	}, []);
 
-          <FormControl>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              value={payMode}
-              onChange={ e => setPayMode( e.target.value ) }
-            >
-              <FormControlLabel value="monthly" control={<Radio />} label="Mensual" />
-              <FormControlLabel value="yearly" control={<Radio />} label="Anual" />
-            </RadioGroup>
-          </FormControl>
+	return (
+		<>
+			<Grid
+				container
+				justifyContent={"center"}
+				spacing={2}
+				alignItems={"stretch"}
+			>
+				<Grid item xs={8} mb={3}>
+					<CustomTable
+						communes={communes}
+						setcommunesSelected={setcommunesSelected}
+						setAudience={setAudience}
+						setMonthlyValue={setMonthlyValue}
+						setAnnualValue={setAnnualValue}
+					/>
+				</Grid>
+				<Grid item xs={4} mb={3}>
+					<Box
+						sx={{
+							height: "100%",
+							border: "1px solid #E7E7E7",
+							borderRadius: 2,
+							padding: 3,
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "space-between",
+						}}
+					>
+						<Box>
+							<Typography variant={"h5"} fontWeight={"900"} mb={1}>
+								Simulador
+							</Typography>
+							<Typography variant={"body2"} color={"#929292"}>
+								Lorem ipsum dolor amet, consectetur adipiscing elit, sed do
+								eiusmod temp.
+							</Typography>
+						</Box>
 
-        </Grid>
-      </Grid>
-      
-      <FormControl sx={{ width: '100%', paddingY: 1 }}>
-        <RadioGroup row
-          aria-labelledby="demo-row-radio-buttons-group-label"
-          name="row-radio-buttons-group"
-          value={value}
-          onChange={(event) => setValue(parseInt(event.target.value))}
-        >
-          <Box sx={{
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'row',
-            gap: 2,
-          }}>
-            {
-              pricingItems.map( ({ color, name, ufValue, features }, id) => (
-                <Box key={id} sx={{ width: '33.3%', border: '1px solid #C3C3C3', borderRadius: 4, flexGrow: 1, paddingY: 2, paddingX: 3, cursor: 'pointer' }}
-                  onClick={ () => setValue(() => id) }>
-                  <FormControlLabel value={id} control={<Radio />} label="" />
+						<FormControl>
+							<RadioGroup
+								row
+								aria-labelledby="demo-row-radio-buttons-group-label"
+								name="row-radio-buttons-group"
+								value={payFrecuency}
+								onChange={handleChange}
+							>
+								<FormControlLabel
+									value="monthly"
+									control={<Radio />}
+									label="Pago mensual"
+								/>
+								<FormControlLabel
+									value="yearly"
+									control={<Radio />}
+									label="Pago anual"
+								/>
+							</RadioGroup>
+						</FormControl>
 
-                  <Typography fontWeight={'bold'} fontSize={20} color={ value === id ? color : '#717171' }>Plan { name }</Typography>
-                  
-                  <Box mb={2} sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-                    <Typography variant="h2" fontWeight={'bolder'} color={ value === id ? color : '#333333' }>
-                      { ufValue.toLocaleString('es', { minimumFractionDigits: 1 }) }
-                    </Typography>
-                    <Stack direction={'column'} justifyContent={'center'} mb={0}>
-                      <Typography fontWeight={'700'} color={'#333333'}>UF + iva</Typography>
-                      <Typography variant="body2" fontSize={10}>Facturado <br/>mensual</Typography>
-                    </Stack>
-                  </Box>
-                  
-                  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
-                    <Box sx={{ borderRight: '1px solid #000000', pr: 1 }}>
-                      <Typography variant="body1" fontWeight={'700'}>9,6 UF + Iva</Typography>
-                      <Typography sx={{ fontSize: 10 }}>Facturado anual</Typography>
-                    </Box>
-                    <Typography fontWeight={'700'} color={ value === id ? color : '#717171' }>20%dcto.</Typography>
-                  </Box>
+						<List
+							sx={{
+								width: "100%",
+								maxWidth: 360,
+								bgcolor: "background.paper",
+								li: {
+									paddingLeft: 0,
+									paddingY: 2,
+									flexDirection: "column",
+									alignItems: "flex-start",
+								},
+							}}
+						>
+							<ListItem>
+								<Stack
+									direction={"row"}
+									sx={{ width: "100%", justifyContent: "space-between" }}
+								>
+									<Box
+										sx={{
+											display: "flex",
+											flexDirection: "column",
+											justifyContent: "center",
+										}}
+									>
+										<Typography
+											variant={"body2"}
+											fontFamily={"Raleway"}
+											fontWeight={"900"}
+										>
+											COMUNAS
+										</Typography>
+										<Typography
+											variant={"caption"}
+											color={"#707070"}
+											fontWeight={400}
+										>
+											Total seleccionadas
+										</Typography>
+									</Box>
+									<Box sx={{}}>
+										<Typography
+											variant={"h5"}
+											fontFamily={"Roboto"}
+											fontWeight={300}
+										>
+											{communesSelected.toLocaleString()}
+										</Typography>
+									</Box>
+								</Stack>
+							</ListItem>
 
-                  <ul style={{ padding: 0, listStylePosition: 'inside', fontSize: 14 }}>
-                    {
-                      features.map( (item, idx) => (
-                        <li key={idx}>{ item }</li>
-                      ))
-                    }
-                  </ul>
-                </Box>
-              ))
-            }
-          </Box>
-        </RadioGroup>
-      </FormControl>
-    </>
-  )
-}
+							<Divider />
+
+							<ListItem>
+								<Stack
+									direction={"row"}
+									sx={{ width: "100%", justifyContent: "space-between" }}
+								>
+									<Box
+										sx={{
+											display: "flex",
+											flexDirection: "column",
+											justifyContent: "center",
+										}}
+									>
+										<Typography
+											variant={"body2"}
+											fontFamily={"Raleway"}
+											fontWeight={"900"}
+										>
+											AUDIENCIA
+										</Typography>
+										<Typography
+											variant={"caption"}
+											color={"#707070"}
+											fontWeight={400}
+										>
+											Total Casas/Deptos
+										</Typography>
+									</Box>
+									<Box sx={{}}>
+										<Typography
+											variant={"h5"}
+											fontFamily={"Roboto"}
+											fontWeight={300}
+										>
+											{audience.toLocaleString()}
+										</Typography>
+									</Box>
+								</Stack>
+							</ListItem>
+
+							<Divider />
+
+							{payFrecuency === "yearly" ? (
+								<ListItem>
+									<Stack
+										direction={"row"}
+										sx={{ width: "100%", justifyContent: "space-between" }}
+									>
+										<Stack direction={"row"} alignItems={"center"} gap={1}>
+											<Box>
+												<Typography
+													variant={"body2"}
+													fontFamily={"Raleway"}
+													fontWeight={"900"}
+												>
+													UF
+												</Typography>
+												<Typography
+													variant={"body1"}
+													color={"#707070"}
+													fontWeight={400}
+													fontSize={12}
+												>
+													Total
+												</Typography>
+											</Box>
+											<Chip
+												label="Pago anual"
+												color="success"
+												variant="outlined"
+												size={"small"}
+												sx={{
+													fontSize: 9,
+													fontWeight: 900,
+													textTransform: "uppercase",
+												}}
+											/>
+										</Stack>
+										<Stack direction={"row"} alignItems={"center"} gap={1}>
+											<Chip
+												label="20% Descuento"
+												color="info"
+												variant="outlined"
+												size={"small"}
+												sx={{
+													fontSize: 9,
+													fontWeight: 900,
+													textTransform: "uppercase",
+												}}
+											/>
+											<Typography
+												variant={"h5"}
+												fontFamily={"Roboto"}
+												fontWeight={300}
+											>
+												{annualValue.toLocaleString()}
+											</Typography>
+										</Stack>
+									</Stack>
+								</ListItem>
+							) : (
+								<ListItem>
+									<Stack
+										direction={"row"}
+										sx={{ width: "100%", justifyContent: "space-between" }}
+									>
+										<Stack direction={"row"} alignItems={"center"} gap={1}>
+											<Box>
+												<Typography
+													fontFamily={"Roboto"}
+													variant={"body2"}
+													fontWeight={"900"}
+												>
+													UF
+												</Typography>
+												<Typography
+													fontFamily={"Roboto"}
+													variant={"body1"}
+													color={"#707070"}
+													fontWeight={400}
+													fontSize={12}
+												>
+													Total
+												</Typography>
+											</Box>
+											<Chip
+												label="Pago Mensual"
+												color="primary"
+												variant="outlined"
+												size={"small"}
+												sx={{
+													fontSize: 9,
+													fontWeight: 900,
+													textTransform: "uppercase",
+												}}
+											/>
+										</Stack>
+										<Typography
+											variant={"h5"}
+											fontFamily={"Roboto"}
+											fontWeight={300}
+										>
+											{monthlyValue.toLocaleString()}
+										</Typography>
+									</Stack>
+								</ListItem>
+							)}
+						</List>
+
+						<CustomButton
+							variant={"contained"}
+							fullWidth
+							children={"Crear tienda"}
+						/>
+					</Box>
+				</Grid>
+			</Grid>
+		</>
+	);
+};

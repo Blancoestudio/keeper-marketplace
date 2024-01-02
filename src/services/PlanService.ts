@@ -23,7 +23,7 @@ export class PlanService {
   static async getPlans() {
 
     try {
-      const response: AxiosResponse<CommuneData[]> = await api.get('/comunas-price');
+      const response: AxiosResponse<CommuneData[]> = await api.get('/comuna-audience?search=');
       
       return { 
         status: true,

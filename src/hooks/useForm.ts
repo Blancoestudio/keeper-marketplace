@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-export const useForm = ( initialForm = {} ) => {
+export const useForm = ( initialForm = {
+    searchTerm: ''
+} ) => {
   
     const [ formState, setFormState ] = useState( initialForm );
 
@@ -18,7 +20,7 @@ export const useForm = ( initialForm = {} ) => {
 
     return {
         ...formState,
-        formState,
+        formState: formState.searchTerm,
         onInputChange,
         onResetForm,
     }
