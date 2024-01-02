@@ -459,7 +459,7 @@ export const Dashboard = () => {
 										color={"primary"}
 										fontWeight={"medium"}
 									>
-										{`$${calculateDiscount(product.price, product.discount)}`}
+										{`$${calculateDiscount(product.price!, product.discount!)}`}
 									</Typography>
 									<Typography
 										variant="body2"

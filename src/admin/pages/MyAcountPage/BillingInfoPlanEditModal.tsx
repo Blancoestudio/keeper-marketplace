@@ -2,46 +2,47 @@ import { useState } from "react";
 import { Box, FormControl, FormControlLabel, Grid, IconButton, MenuItem, Modal, Radio, RadioGroup, Select, Stack, Typography,useMediaQuery,useTheme } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { CustomButton, CustomTextField } from "src/components";
+// import { PricingPlan } from "src/web/components/Pricing";
 
-const pricingItems = [
-  {
-    color: '#9C94CD',
-    name: 'Básico',
-    ufValue: 1.0,
-    features: [
-      'Publicación hasta 10 productos',
-      'Comunicación a RRSS',
-      'Comunicación a Whatsapp',
-      'Métricas de visitas',
-    ]
-  },
-  {
-    color: '#3984F7',
-    name: 'Silver',
-    ufValue: 1.5,
-    features: [
-      'Publicación hasta 20 productos',
-      'Comunicación a RRSS',
-      'Comunicación a Whatsapp',
-      'Métricas de visitas',
-      'Aparecer en destacados',
-    ]
-  },
-  {
-    color: '#5BC57A',
-    name: 'Gold',
-    ufValue: 2.0,
-    features: [
-      'Publicación hasta 20 productos',
-      'Comunicación a RRSS',
-      'Comunicación a Whatsapp',
-      'Métricas de visitas',
-      'Aparecer en destacados',
-      '1 notificación push semanal',
-      '1 notificación in-App mensual',
-    ]
-  },
-];
+// const pricingItems: PricingPlan[] = [
+//   {
+//     color: '#9C94CD',
+//     name: 'Básico',
+//     ufValue: 1.0,
+//     features: [
+//       'Publicación hasta 10 productos',
+//       'Comunicación a RRSS',
+//       'Comunicación a Whatsapp',
+//       'Métricas de visitas',
+//     ]
+//   },
+//   {
+//     color: '#3984F7',
+//     name: 'Silver',
+//     ufValue: 1.5,
+//     features: [
+//       'Publicación hasta 20 productos',
+//       'Comunicación a RRSS',
+//       'Comunicación a Whatsapp',
+//       'Métricas de visitas',
+//       'Aparecer en destacados',
+//     ]
+//   },
+//   {
+//     color: '#5BC57A',
+//     name: 'Gold',
+//     ufValue: 2.0,
+//     features: [
+//       'Publicación hasta 20 productos',
+//       'Comunicación a RRSS',
+//       'Comunicación a Whatsapp',
+//       'Métricas de visitas',
+//       'Aparecer en destacados',
+//       '1 notificación push semanal',
+//       '1 notificación in-App mensual',
+//     ]
+//   },
+// ];
 
 interface BillingInfoMailEditModalProps {
   isEditing: boolean,
@@ -150,7 +151,7 @@ export const BillingInfoPlanEditModal = ({ isEditing, handleSave, dismissEditing
               flexDirection: 'row',
               gap: 2,
             }}>
-              {
+              {/* {
                 pricingItems.map( ({ color, name, ufValue, features }, id) => (
                   <Box key={id} sx={{ width: '33.3%', border: '1px solid #C3C3C3', borderRadius: 4, flexGrow: 1, paddingY: 2, paddingX: 3, cursor: 'pointer' }}
                     onClick={ () => setValue(() => id) }>
@@ -185,7 +186,7 @@ export const BillingInfoPlanEditModal = ({ isEditing, handleSave, dismissEditing
                     </ul>
                   </Box>
                 ))
-              }
+              } */}
             </Box>
           </RadioGroup>
         </FormControl>
