@@ -12,14 +12,11 @@ export class ProductService {
 
 	static getProductsByStore = async () => {
 		try {
-			const response = await api.get(
-				`${this.baseUrl}?storeId=${this.user.store._id}`,
-				{
-					headers: {
-						Authorization: `Bearer ${this.user.token}`,
-					},
-				}
-			);
+			const response = await api.get(`${this.baseUrl}`, {
+				headers: {
+					Authorization: `Bearer ${this.user.token}`,
+				},
+			});
 			return {
 				data: response.data,
 				...DEFAULT_SUCCESS_RESPONSE,
