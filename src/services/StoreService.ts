@@ -12,11 +12,7 @@ export class StoreService {
 
 	static async getStore() {
 		try {
-			const response = await api.get(this.baseUrl, {
-				headers: {
-					Authorization: `Bearer ${this.user.token}`,
-				},
-			});
+			const response = await api.get(this.baseUrl);
 			return {
 				data: response.data,
 				...DEFAULT_SUCCESS_RESPONSE,
@@ -41,11 +37,7 @@ export class StoreService {
 
 	static async createStore(store: Store) {
 		try {
-			const response = await api.post(this.baseUrl, store, {
-				headers: {
-					Authorization: `Bearer ${this.user.token}`,
-				},
-			});
+			const response = await api.post(this.baseUrl, store);
 			return {
 				data: response.data,
 				...DEFAULT_SUCCESS_RESPONSE,

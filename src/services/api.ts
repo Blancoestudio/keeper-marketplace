@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { StorageService } from './StorageService';
 
 const api = axios.create({
   baseURL: 'https://keeper-api-dev-hx79d.ondigitalocean.app/v1/market',
@@ -7,12 +8,10 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async config => {
-    // Aquí puedes hacer algo antes de que la solicitud sea enviada.
-    // Por ejemplo, puedes agregar un token de autenticación al encabezado de la solicitud.
-    // const token = await StorageService.get('token');
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+    const user = StorageService.get('user');
+    if (user?.token) {
+      config.headers.Authorization = `Bearer ${user?.token}`;
+    }
     return config;
   },
   error => {

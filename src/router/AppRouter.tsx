@@ -3,7 +3,6 @@ import { AuthRoutes } from "../auth/routes/AuthRoutes"
 import { AdminRoutes } from "../admin/routes/AdminRoutes"
 import { WebRouter } from "../web/router/WebRouter"
 
-
 export const AppRouter = () => {
   return (
     <Routes>
