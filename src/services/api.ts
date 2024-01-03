@@ -2,8 +2,8 @@ import axios, { InternalAxiosRequestConfig } from "axios";
 import { StorageService } from "./StorageService";
 
 const api = axios.create({
-	// baseURL: 'https://keeper-api-dev-hx79d.ondigitalocean.app/v1/market',
-	baseURL: "http://localhost:3300/v1/market",
+	baseURL: 'https://keeper-api-dev-hx79d.ondigitalocean.app/v1/market',
+	// baseURL: "http://localhost:3300/v1/market",
 });
 
 const updateHeaders = (request: InternalAxiosRequestConfig) => {
