@@ -1,12 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
-
 import { Box, Grid, Stack, Typography } from "@mui/material";
-
 import { CustomTextField, CustomButton } from "src/components";
 import { AuthService } from "src/services/AuthService";
 import { ChangeEvent, FormEvent, useState } from "react";
 
+import { setUserAction } from "src/redux/UserSlice";
+import { useDispatch } from "react-redux";
+import { setStoreAction } from "src/redux/storeSlice";
+
 export const LoginPage = () => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -31,6 +34,11 @@ export const LoginPage = () => {
 		}
 
 		localStorage.setItem("user", JSON.stringify(login.data));
+
+		const { store, ...user } = login.data;
+		dispatch(setUserAction(user));
+		dispatch(setStoreAction(store));
+
 		navigate("/admin/dashboard");
 	};
 
