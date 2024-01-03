@@ -100,6 +100,7 @@ export const EditProductPage = () => {
 	};
 
 	const handleSaveProduct = () => {
+		console.log(name, shortDescription, description, price, discount);
 		navigate("/admin/dashboard");
 	};
 
