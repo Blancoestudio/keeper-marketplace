@@ -72,6 +72,8 @@ export const CreateProductPage = () => {
 	const [shortDescription, setShortDescription] = useState("");
 	const [description, setDescription] = useState("");
 	const [category, setCategory] = useState<string[]>([]);
+	const [price, setPrice] = useState("");
+	const [discount, setDiscount] = useState("");
 
 	const handleName = (e: ChangeEvent<HTMLInputElement>) => {
 		setName(e.target.value);
@@ -88,11 +90,19 @@ export const CreateProductPage = () => {
 		} = event;
 		setCategory(typeof value === "string" ? value.split(",") : value);
 	};
+	const handlePrice = (e: ChangeEvent<HTMLInputElement>) => {
+		setPrice(e.target.value);
+	};
+	const handleDiscount = (e: ChangeEvent<HTMLInputElement>) => {
+		setDiscount(e.target.value);
+	};
 	const handleCreateProduct = async () => {
 		const product = await ProductService.createProduct({
 			name,
 			shortDescription,
 			description,
+			price,
+			discount: Number(discount),
 		});
 		if (product.error) {
 			console.error("No se pudo crear tu producto", product.data);
@@ -352,6 +362,20 @@ export const CreateProductPage = () => {
 						multiline
 						rows={6}
 						onChange={handleDescription}
+					/>
+
+					<CustomTextField
+						label="Precio total"
+						placeholder="Ingresa el precio del producto"
+						rows={3}
+						onChange={handlePrice}
+					/>
+
+					<CustomTextField
+						label="Descuento"
+						placeholder="Ingresa el valor del descuento"
+						rows={3}
+						onChange={handleDiscount}
 					/>
 				</Grid>
 			</Grid>

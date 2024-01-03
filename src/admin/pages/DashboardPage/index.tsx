@@ -80,6 +80,8 @@ export const Dashboard = () => {
 
 	const [store, setStore] = useState({} as Store);
 	const [products, setProducts] = useState([] as Product[]);
+
+	const [productSelected, setProductSelected] = useState({} as Product);
 	useEffect(() => {
 		const getStore = async () => {
 			const storeResponse = await StoreService.getStore();
@@ -121,14 +123,14 @@ export const Dashboard = () => {
 		borderRadius: 8,
 	};
 
-	const handleViewProduct = (id: number) => {
-		console.log({ id });
+	const handleViewProduct = (index: number) => {
+		setProductSelected(products[index]);
 		setAnchorEl(null);
 		setIsViewProductModalOpen(true);
 	};
 
 	const handleEditProduct = (index: number) => {
-		navigate(`/admin/product/edit/${index}`);
+		navigate(`/admin/product/edit/${products[index]._id}`);
 	};
 
 	return (
@@ -167,7 +169,7 @@ export const Dashboard = () => {
 								Nombre del producto:
 							</Typography>
 							<Typography variant={"h5"} fontWeight={"bold"} mb={2}>
-								Balon Mundial Qatar 2023
+								{productSelected?.name}
 							</Typography>
 							<Stack direction={"row"} spacing={5}>
 								<Box>
@@ -176,7 +178,7 @@ export const Dashboard = () => {
 									</Typography>
 									<Typography variant={"h5"} fontWeight={"bold"} mb={2}>
 										{" "}
-										$55.000
+										${productSelected?.price}
 									</Typography>
 								</Box>
 								<Box>
@@ -185,7 +187,7 @@ export const Dashboard = () => {
 									</Typography>
 									<Typography variant={"h5"} fontWeight={"bold"} mb={2}>
 										{" "}
-										30%
+										{productSelected?.discount}%
 									</Typography>
 								</Box>
 								<Box>
@@ -193,7 +195,10 @@ export const Dashboard = () => {
 										Valor con descuento:
 									</Typography>
 									<Typography variant={"h5"} fontWeight={"bold"} mb={2}>
-										38.500
+										{`$${calculateDiscount(
+											productSelected?.price,
+											productSelected?.discount
+										)}`}
 									</Typography>
 								</Box>
 							</Stack>
@@ -211,15 +216,13 @@ export const Dashboard = () => {
 								Descripción corta:
 							</Typography>
 							<Typography variant={"body2"} mb={2}>
-								Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+								{productSelected?.shortDescription}
 							</Typography>
 							<Typography variant={"caption"} fontWeight={"medium"}>
 								Descripción larga:
 							</Typography>
 							<Typography variant={"body2"} mb={2}>
-								Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-								Aspernatur numquam, et ipsam architecto, saepe exercitationem
-								nulla fugit animi omnis earum sunt. Quidem alias aut illum!
+								{productSelected?.description}
 							</Typography>
 
 							<Stack direction={"row"} spacing={2} justifyContent={"center"}>
@@ -459,7 +462,7 @@ export const Dashboard = () => {
 										color={"primary"}
 										fontWeight={"medium"}
 									>
-										{`$${calculateDiscount(product.price!, product.discount!)}`}
+										{`$${calculateDiscount(product.price, product.discount)}`}
 									</Typography>
 									<Typography
 										variant="body2"

@@ -5,7 +5,6 @@ export class StorageService {
 	static get(key: string) {
 		try {
 			const dataStr = localStorage.getItem(key);
-			console.log('======dataStr:', dataStr);
 			return dataStr ? JSON.parse(dataStr) : null;
 		} catch (error) {
 			console.log('Storage get error: ', error);
