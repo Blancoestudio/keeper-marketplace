@@ -103,7 +103,7 @@ export const RegisterPage = () => {
 								Registro
 							</Typography>
 							<Typography variant="body2" fontWeight={"500"}>
-								Ingresa tus datos para continuar con la compra y poder ingresar
+								Ingresa tus datos para continuar con el registro y poder ingresar
 								a Keeper Marketplace.
 							</Typography>
 
@@ -169,7 +169,7 @@ export const RegisterPage = () => {
 												}}
 											/>
 										}
-										label="Mínimo 8 carácteres"
+										label="Mínimo 8 caracteres"
 									/>
 									<FormControlLabel
 										sx={{
@@ -238,7 +238,7 @@ export const RegisterPage = () => {
 											backgroundColor: "#ffffff",
 										}}
 									>
-										¿ Ta tienes cuenta ?
+										¿ Ya tienes cuenta ?
 									</Typography>
 								</Box>
 
