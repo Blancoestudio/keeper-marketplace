@@ -27,6 +27,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CustomButton } from "./CustomButton";
 
 import bgNavbar from "/src/assets/images/bg-navbar.png";
+import { StorageService } from "src/services/StorageService";
 
 export default function BasicMenu() {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -70,7 +71,6 @@ export const Navbar = () => {
 	const navigate = useNavigate();
 
 	const [showMenu, setShowMenu] = useState(true);
-	const [isAuth, setIsAuth] = useState(false);
 
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -81,17 +81,6 @@ export const Navbar = () => {
 			setShowMenu(false);
 		} else {
 			setShowMenu(true);
-		}
-	}, [location]);
-
-	useEffect(() => {
-		if (
-			location.pathname.includes("admin") &&
-			!location.pathname.includes("business-register")
-		) {
-			setIsAuth(true);
-		} else {
-			setIsAuth(false);
 		}
 	}, [location]);
 
@@ -107,7 +96,7 @@ export const Navbar = () => {
 
 	const handleLogout = () => {
 		navigate("/auth/login");
-		localStorage.clear();
+		StorageService.clear();
 		handleClose();
 	};
 
@@ -190,7 +179,8 @@ export const Navbar = () => {
 						flexItem
 					/>
 
-					{showMenu && !isAuth ? (
+					{showMenu &&
+					!(StorageService.get("user") && StorageService.get("user").name) ? (
 						<Stack direction="row" spacing={2} alignItems={"center"}>
 							<NavLink to={"/auth/login"}>
 								<Typography
@@ -222,7 +212,7 @@ export const Navbar = () => {
 						</Stack>
 					) : null}
 
-					{isAuth ? (
+					{StorageService.get("user") && StorageService.get("user").name ? (
 						<div>
 							<Stack direction={"row"} spacing={1} marginLeft={2}>
 								<Avatar
@@ -250,7 +240,7 @@ export const Navbar = () => {
 									endIcon={<ExpandMoreIcon />}
 									onClick={handleClick}
 								>
-									{JSON.parse(localStorage.getItem("user")!).name}
+									{StorageService.get("user").name ?? ""}
 								</Button>
 								<Menu
 									id="basic-menu"

@@ -23,6 +23,7 @@ import { FormDataCheckout } from "./FormDataCheckout";
 import { CustomLoading } from "src/components/CustomLoading";
 import { StoreService } from "src/services/StoreService";
 import { SocialNetwork } from "src/interfaces/Store";
+import { StorageService } from "src/services/StorageService";
 
 const steps = ["Datos básicos", "Datos de contacto", "Elegir plan"];
 
@@ -31,7 +32,7 @@ export const BusinessRegisterPage = () => {
 
 	const navigate = useNavigate();
 
-	const [currentStep, setCurrentStep] = useState(2);
+	const [currentStep, setCurrentStep] = useState(0);
 
 	const [storeName, setStoreName] = useState("");
 	const [address, setAddress] = useState("");
@@ -72,9 +73,9 @@ export const BusinessRegisterPage = () => {
 				return;
 			}
 
-			const user = JSON.parse(localStorage.getItem("user")!);
+			const user = StorageService.get("user");
 			user.store = store.data;
-			localStorage.setItem("user", JSON.stringify(user));
+			StorageService.set("user", JSON.stringify(user));
 		} else if (currentStep === 1) {
 			const storeUpdated = await StoreService.updateStore({
 				socialNetworks,
@@ -87,9 +88,9 @@ export const BusinessRegisterPage = () => {
 				return;
 			}
 
-			const user = JSON.parse(localStorage.getItem("user")!);
+			const user = StorageService.get("user");
 			user.store = storeUpdated.data;
-			localStorage.setItem("user", JSON.stringify(user));
+			StorageService.set("user", JSON.stringify(user));
 		}
 		setCurrentStep(currentStep + 1);
 	};

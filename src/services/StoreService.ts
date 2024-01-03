@@ -8,7 +8,6 @@ import { Store } from "src/interfaces/Store";
 
 export class StoreService {
 	static readonly baseUrl = "/admin/store";
-	static readonly user = JSON.parse(localStorage.getItem("user")!);
 
 	static async getStore() {
 		try {
@@ -62,11 +61,7 @@ export class StoreService {
 
 	static async updateStore(store: Store) {
 		try {
-			const response = await api.put(this.baseUrl, store, {
-				headers: {
-					Authorization: `Bearer ${this.user.token}`,
-				},
-			});
+			const response = await api.put(this.baseUrl, store);
 			return {
 				data: response.data,
 				...DEFAULT_SUCCESS_RESPONSE,

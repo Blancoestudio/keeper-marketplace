@@ -36,7 +36,6 @@ export class AuthService {
 				...DEFAULT_SUCCESS_RESPONSE,
 			};
 		} catch (error: unknown) {
-			console.log('===ERR:', error);
 			const axiosError = error as AxiosError;
 
 			if (axiosError.response) {

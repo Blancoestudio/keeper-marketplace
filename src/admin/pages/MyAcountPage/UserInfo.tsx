@@ -2,6 +2,7 @@ import { AlertColor, Box, Grid, Typography } from "@mui/material";
 import { CustomButton, CustomSnack } from "src/components";
 import { UserInfoEditModal } from "./UserInfoEditModal";
 import { useState } from "react";
+import { StorageService } from "src/services/StorageService";
 
 export const UserInfo = () => {
 	const [isEditing, setIsEditing] = useState(false);
@@ -13,7 +14,7 @@ export const UserInfo = () => {
 		severity: "info",
 		msg: "",
 	});
-	const user = JSON.parse(localStorage.getItem("user")!);
+	const user = StorageService.get("user");
 
 	const handleDismiss = () => {
 		setIsEditing(false);
