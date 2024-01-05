@@ -29,6 +29,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUserAction: (state, action: PayloadAction<UserState>) => {
+      console.log('state:', state);
       return action.payload;
     },
     clearUserAction: () => {
