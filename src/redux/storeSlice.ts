@@ -28,6 +28,7 @@ const storeSlice = createSlice({
   initialState,
   reducers: {
     setStoreAction: (state, action: PayloadAction<StoreState>) => {
+      console.log('state:', state);
       return action.payload;
     },
     clearStoreAction: () => {
