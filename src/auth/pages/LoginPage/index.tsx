@@ -4,7 +4,7 @@ import { CustomTextField, CustomButton } from "src/components";
 import { AuthService } from "src/services/AuthService";
 import { ChangeEvent, FormEvent, useState } from "react";
 
-import { setUserAction } from "src/redux/UserSlice";
+import { setUserAction } from "src/redux/userSlice";
 import { useDispatch } from "react-redux";
 import { setStoreAction } from "src/redux/storeSlice";
 
