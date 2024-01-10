@@ -216,7 +216,7 @@ export const Navbar = () => {
 						<div>
 							<Stack direction={"row"} spacing={1} marginLeft={2}>
 								<Avatar
-									alt="Nombre de usuario"
+									alt={StorageService.get("user").name}
 									src="/static/images/avatar/1.jpg"
 								/>
 

@@ -7,6 +7,7 @@ import { CustomButton, CustomSnack } from "src/components";
 
 import ImgDefault from "/src/assets/images/image-default.png";
 
+
 export const BusinessInfo = () => {
 
   const [isEditing, setIsEditing] = useState(false);

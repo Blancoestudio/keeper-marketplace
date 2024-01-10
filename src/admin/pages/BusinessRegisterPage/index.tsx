@@ -167,10 +167,10 @@ export const BusinessRegisterPage = () => {
 								</Box>
 								<Box>
 									<CustomButton
-										variant="text"
+										variant="contained"
 										size="large"
 										endIcon={<ChevronRightIcon />}
-										sx={{ textTransform: "none" }}
+                    sx={{ borderRadius: 2, textTransform: "none" }}
 										onClick={() => handleNext()}
 									>
 										Continuar

@@ -59,10 +59,11 @@ export const PasswordRecovery = () => {
           borderRadius: '20px',
           margin: '2em 0',
           boxShadow: '0 4px 10px 5px rgba(0, 0, 0, .1)',
-        }}>
+        }}
+        className="animate__animated animate__fadeIn">
         <Grid container gap={1}>
 
-          <Typography variant={'h5'} fontWeight={'500'}>Recuperar contraseña</Typography>
+          <Typography variant={'h5'} fontWeight={'700'}>Recuperar contraseña</Typography>
           <Typography variant={'subtitle1'}>Ingresa tu correo electrónico para buscar tu cuenta.</Typography>
 
           <CustomTextField 
