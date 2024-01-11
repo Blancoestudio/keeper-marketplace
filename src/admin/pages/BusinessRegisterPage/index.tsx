@@ -123,7 +123,7 @@ export const BusinessRegisterPage = () => {
 								textAlign={"center"}
 								fontWeight={"500"}
 							>
-								Completemos los siguiente datos de tu negocio
+								Completemos los siguientes datos de tu negocio
 							</Typography>
 
 							<Box my={5} sx={{ borderWidth: 1, borderColor: "red" }} px={8}>
