@@ -51,11 +51,10 @@ export const LoginPage = () => {
 					margin: "2em 0",
 					boxShadow: "0 4px 10px 5px rgba(0, 0, 0, .1)",
 				}}
+        className="animate__animated animate__fadeIn"
 			>
 				<Grid container gap={1}>
-					<Typography variant="h5" fontWeight={"500"}>
-						Iniciar sesión
-					</Typography>
+					<Typography variant="h5" fontWeight={"700"}>Iniciar sesión</Typography>
 
 					<form
 						style={{ marginTop: "1em", width: "100%" }}
@@ -92,7 +91,7 @@ export const LoginPage = () => {
 						<Stack direction={"row"} mt={2} mb={3}>
 							<Link
 								to={"/auth/password-recovery"}
-								style={{ textDecoration: "none" }}
+								style={{ textDecoration: "none", color: "#666" }}
 							>
 								¿Olvidaste tu contraseña?
 							</Link>

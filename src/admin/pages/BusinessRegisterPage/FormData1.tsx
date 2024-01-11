@@ -90,7 +90,7 @@ export const FormData1 = ({
 				<Box display={"flex"} justifyContent={"center"}>
 					<CustomButton
 						component="label"
-						variant="contained"
+						variant="outlined"
 						sx={{ borderRadius: 2, textTransform: "none" }}
 					>
 						Seleccionar desde tu ordenador

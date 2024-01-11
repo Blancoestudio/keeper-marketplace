@@ -8,7 +8,7 @@ import { Simulator } from "../components/Simulator"
 
 export const Landing = () => {
   return (
-    <Box sx={{ overflowX: 'hidden' }}>
+    <Box sx={{ overflowX: 'hidden' }} className="animate__animated animate__fadeIn">
       <MainBanner />
       <Benefits />
       <CallToAction />
