@@ -9,7 +9,7 @@ export interface Plan {
 }
 
 export interface CommuneData {
-  id:       string;
+  _id:       string;
   name:     string;
   audience: number;
   price:    Price;

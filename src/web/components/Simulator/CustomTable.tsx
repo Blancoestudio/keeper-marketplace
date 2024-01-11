@@ -242,7 +242,7 @@ export default function CustomTable({ communes, setcommunesSelected, setAudience
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = data.map((n) => n.id);
+      const newSelected = data.map((n) => n._id);
       setSelected(newSelected);
       return;
     }
@@ -385,18 +385,18 @@ export default function CustomTable({ communes, setcommunesSelected, setAudience
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
+                const isItemSelected = isSelected(row._id);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     ref={index === 0 ? tableRowRef : null}
                     hover
-                    onClick={(event) => handleClick(event, row.id)}
+                    onClick={(event) => handleClick(event, row._id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.id}
+                    key={row._id}
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer', borderTopLeftRadius: 0 }}
                   >
