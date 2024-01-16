@@ -1,25 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-	Link as LinkRouter,
-	useLocation,
-	NavLink,
-	useNavigate,
-} from "react-router-dom";
+import { Link as LinkRouter, useLocation, NavLink, useNavigate,} from "react-router-dom";
 
-import {
-	AppBar,
-	Avatar,
-	Box,
-	Button,
-	Divider,
-	Hidden,
-	IconButton,
-	Menu,
-	MenuItem,
-	Stack,
-	Toolbar,
-	Typography,
-} from "@mui/material";
+import { AppBar, Avatar, Box, Button, Divider, Hidden, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from "@mui/material";
 import Logo from "src/assets/svg/logo_keeper.svg";
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -30,6 +12,7 @@ import bgNavbar from "/src/assets/images/bg-navbar.png";
 import { StorageService } from "src/services/StorageService";
 
 export default function BasicMenu() {
+
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -100,6 +83,15 @@ export const Navbar = () => {
 		handleClose();
 	};
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  }
+
 	return (
 		<Box sx={{ flexGrow: 1 }} component={"header"}>
 			<AppBar
@@ -153,11 +145,12 @@ export const Navbar = () => {
 											fontFamily: "Raleway",
 											fontWeight: "bold",
 										}}
+                    onClick={() => scrollToSection('sectionSimulator')}
 									>
-										Planes
+										Simulador
 									</Typography>
 								</NavLink>
-								<NavLink to={"/"} style={{ textDecoration: "none" }}>
+								{/* <NavLink to={"/"} style={{ textDecoration: "none" }}>
 									<Typography
 										sx={{
 											color: "#ffffff",
@@ -167,17 +160,17 @@ export const Navbar = () => {
 									>
 										Contáctanos
 									</Typography>
-								</NavLink>
+								</NavLink> */}
 							</Box>
+              <Divider
+                orientation="vertical"
+                variant="middle"
+                sx={{ mx: 3, borderColor: "#999" }}
+                flexItem
+              />
 						</Hidden>
 					) : null}
 
-					<Divider
-						orientation="vertical"
-						variant="middle"
-						sx={{ mx: 3, borderColor: "#999" }}
-						flexItem
-					/>
 
 					{showMenu &&
 					!(StorageService.get("user") && StorageService.get("user").name) ? (
@@ -214,28 +207,30 @@ export const Navbar = () => {
 
 					{StorageService.get("user") && StorageService.get("user").name ? (
 						<div>
-							<Stack direction={"row"} spacing={1} marginLeft={2}>
+							<Stack direction={"row"} spacing={1}>
 								<Avatar
-									alt={StorageService.get("user").name}
+									alt={`${StorageService.get("user").name}`.toUpperCase()}
+                  sx={{ backgroundColor: '#ffffff', color: '#6d19b0' }}
 									src="/static/images/avatar/1.jpg"
 								/>
 
 								<Button
 									disableRipple
-									variant="contained"
+									variant={'text'}
 									id="basic-button"
 									aria-controls={open ? "basic-menu" : undefined}
 									aria-haspopup="true"
 									aria-expanded={open ? "true" : undefined}
 									sx={{
-										backgroundColor: "#ffffff",
-										color: "primary.main",
+										// backgroundColor: "#ffffff",
+										// color: "primary.main",
+										color: "#ffffff",
 										position: "relative",
 										textTransform: "none",
 										fontFamily: "Raleway",
-										"&:hover": {
-											backgroundColor: "#eeeeee",
-										},
+										// "&:hover": {
+										// 	backgroundColor: "#eeeeee",
+										// },
 									}}
 									endIcon={<ExpandMoreIcon />}
 									onClick={handleClick}
@@ -259,10 +254,10 @@ export const Navbar = () => {
 										horizontal: "left",
 									}}
 								>
-									{/* <MenuItem onClick={ () => {
-                        navigate('/admin/my-acount');
-                        handleClose();
-                      }}>Mi Cuenta</MenuItem> */}
+									<MenuItem onClick={() => {
+                    handleClose()
+                    navigate('/admin/dashboard');
+                  }}>Mi Tienda</MenuItem>
 									<MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
 								</Menu>
 							</Stack>

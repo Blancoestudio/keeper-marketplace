@@ -85,7 +85,7 @@ export const ProductList = ({ isLoading, products }: Props) => {
 			</Stack>
 
       {/* section: product list */}
-      { products.length <= 0 && isLoading
+      { products && products.length <= 0 && isLoading
           ? (
             <Grid 
               container 
