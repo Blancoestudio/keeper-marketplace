@@ -1,13 +1,8 @@
-import { Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Box, Divider, Grid, List, ListItem, Stack, Typography } from "@mui/material";
 import { initMercadoPago, Payment } from '@mercadopago/sdk-react';
 import { useEffect } from "react";
 
-interface Props {
-  handlePrev: () => void
-}
-
-export const FormDataCheckout = ({ handlePrev } : Props) => {
+export const FormDataCheckout = () => {
   // TODO: pasar client id a variable de entorno
   useEffect(() => {
     initMercadoPago('APP_USR-043d0fc0-1daf-4ba3-8e63-dac669eeff33', {
@@ -18,92 +13,100 @@ export const FormDataCheckout = ({ handlePrev } : Props) => {
 
   return (
     <Grid container justifyContent={'center'}>
-      <Grid item xs={6} pr={3}>
+      <Grid item xs={6}>
 
-        <Box py={5}>
-          <Stack direction={'row'} justifyContent={'space-between'} mb={3}>
-            <Typography variant={'h5'} color={'#575757'}  fontWeight={'bold'}>Resumen</Typography>
-          </Stack>
-          <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} mb={2}>
-            <Typography variant={'subtitle1'} color={'#575757'} >Datos básicos</Typography>
-            <Typography variant={'subtitle1'} color={'#575757'}  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <CheckCircleIcon color={'success'} /> Listo
-            </Typography>
-          </Stack>
-          <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} mb={2}>
-            <Typography variant={'subtitle1'} color={'#575757'} >Datos de contacto</Typography>
-            <Typography variant={'subtitle1'} color={'#575757'}  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <CheckCircleIcon color={'success'} /> Listo
-            </Typography>
-          </Stack>
-          <Stack direction={'row'} justifyContent={'space-between'}>
-            <Box>
-              <Typography variant={'h6'}>Plan Básico</Typography>
-              <Typography variant={'subtitle1'} color={'#575757'}  lineHeight={1}>1,0 UF Mensuales</Typography>
-            </Box>
-            <Typography>
-              <Button 
-                variant={'text'} 
-                size={'small'} 
-                sx={{ textDecoration: 'underline' }}
-                onClick={ handlePrev }
-                >Cambiar plan</Button>
-            </Typography>
-          </Stack>
+        <Box sx={{ height: '100%', border: '1px solid #E7E7E7', borderRadius: 2, padding: 3, display: 'flex', flexDirection: 'column' }}>
+          <Box>
+            <Typography variant={'h5'} fontWeight={'900'} mb={1}>Resumen</Typography>
+            <Typography variant={'body2'} color={'#929292'}>Lorem ipsum dolor amet, consectetur adipiscing elit, sed do eiusmod temp.</Typography>
+          </Box>
+
+          <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', li: { paddingLeft: 0, paddingY: 2, flexDirection: 'column', alignItems: 'flex-start' } }}>
+            <ListItem>
+              <Stack direction={'row'} sx={{ width: '100%', justifyContent: 'space-between' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <Typography variant={'body2'} fontFamily={'Raleway'} fontWeight={'900'}>PLAN</Typography>
+                  <Typography variant={'caption'} color={'#707070'} fontWeight={400}>Periodo de pago</Typography>
+                </Box>
+                <Box sx={{  }}>
+                  <Typography variant={'h5'} fontFamily={'Roboto'} fontWeight={300}>...</Typography>
+                </Box>
+              </Stack>
+            </ListItem>
+
+            <Divider />
+
+            <ListItem>
+              <Stack direction={'row'} sx={{ width: '100%', justifyContent: 'space-between' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <Typography variant={'body2'} fontFamily={'Raleway'} fontWeight={'900'}>COMUNAS</Typography>
+                  <Typography variant={'caption'} color={'#707070'} fontWeight={400}>Total seleccionadas</Typography>
+                </Box>
+                <Box sx={{  }}>
+                  <Typography variant={'h5'} fontFamily={'Roboto'} fontWeight={300}>...</Typography>
+                </Box>
+              </Stack>
+            </ListItem>
+
+            <Divider />
+
+            <ListItem>
+              <Stack direction={'row'} sx={{ width: '100%', justifyContent: 'space-between' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <Typography variant={'body2'} fontFamily={'Raleway'} fontWeight={'900'}>TOTAL</Typography>
+                  <Typography variant={'caption'} color={'#707070'} fontWeight={400}>Precio a pagar</Typography>
+                </Box>
+                <Box sx={{  }}>
+                  <Typography variant={'h5'} fontFamily={'Roboto'} fontWeight={300}>...</Typography>
+                </Box>
+              </Stack>
+            </ListItem>
+
+          </List>
+
         </Box>
 
-        <Divider />
-
-        <Box pt={5}>
-          <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} mb={2}>
-            <Typography>Total a pagar:</Typography>
-            <Typography fontSize={22} fontWeight={600} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              CLP 36.544,42
-            </Typography>
-          </Stack>
-        </Box>
       </Grid>
-      <Grid item xs={6} pl={3}>
+      <Grid item xs={6}>
 
         <Payment
-        initialization={{
-          amount: 1000,
-          // TODO: recibir id de preferencia desde backend
-          preferenceId: '12345678-1234-1234-1234-123456789012',
-          items: {
-            totalItemsAmount: 1000,
-            itemsList: [
-              {
-                units: 1,
-                value: 1000,
-                name: 'Plan A',
-              },
-            ],
-          },
-
-        }}
-        customization={{
-          enableReviewStep: true,
-          visual: {
-            style: {
-              theme: "default",
+          initialization={{
+            amount: 1000,
+            // TODO: recibir id de preferencia desde backend
+            preferenceId: '12345678-1234-1234-1234-123456789012',
+            items: {
+              totalItemsAmount: 1000,
+              itemsList: [
+                {
+                  units: 1,
+                  value: 1000,
+                  name: 'Plan A',
+                },
+              ],
             },
-          },
-          paymentMethods: {
-            creditCard: "all",
-            debitCard: "all",
-            mercadoPago: "all",
-            maxInstallments: 1,
-          },
-        }}
-        onSubmit={async (param) => {
-          console.log(param);
-          // TODO: enviar token card al backend
-        }}
-      />
 
+          }}
+          customization={{
+            enableReviewStep: true,
+            visual: {
+              style: {
+                theme: "default",
+              },
+            },
+            paymentMethods: {
+              creditCard: "all",
+              debitCard: "all",
+              mercadoPago: "all",
+              maxInstallments: 1,
+            },
+          }}
+          onSubmit={async (param) => {
+            console.log(param);
+            // TODO: enviar token card al backend
+          }}
+        />
         
-        </Grid>
+      </Grid>
     </Grid>
   )
 }

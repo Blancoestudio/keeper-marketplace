@@ -1,16 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-	Container,
-	Grid,
-	Stack,
-	Box,
-	Step,
-	StepLabel,
-	Stepper,
-	Typography,
-} from "@mui/material";
+import { Container, Grid, Stack, Box, Step, StepLabel, Stepper, Typography} from "@mui/material";
 
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -24,20 +15,35 @@ import { CustomLoading } from "src/components/CustomLoading";
 import { StoreService } from "src/services/StoreService";
 import { SocialNetwork } from "src/interfaces/Store";
 import { StorageService } from "src/services/StorageService";
+import { PlanService } from "src/services/PlanService";
+import { CommuneData } from "src/interfaces/Plan";
 
-const steps = ["Datos básicos", "Datos de contacto", "Elegir plan"];
+const steps = ["Datos básicos", "Datos de contacto", "Listado de comunas"];
 
 export const BusinessRegisterPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const navigate = useNavigate();
 
-	const [currentStep, setCurrentStep] = useState(0);
+	const [currentStep, setCurrentStep] = useState(2);
 
 	const [storeName, setStoreName] = useState("");
 	const [address, setAddress] = useState("");
 	const [description, setDescription] = useState("");
 	const [socialNetworks, setSocialNetworks] = useState(Array<SocialNetwork>);
+
+  const [communes, setCommunes] = useState<CommuneData[]>([]);
+
+	const getPlans = async () => {
+		const result = await PlanService.getPlans();
+		if (!result.status) return;
+
+		setCommunes(result.data!);
+	};
+
+	useEffect(() => {
+		getPlans();
+	}, []);
 
 	const handlePrev = () => {
 		if (currentStep === 0) return;
@@ -136,20 +142,16 @@ export const BusinessRegisterPage = () => {
 								</Stepper>
 							</Box>
 
-							{currentStep === 0 && (
+							{ currentStep === 0 && (
 								<FormData1
 									setStoreName={setStoreName}
 									setAddress={setAddress}
 									setDescription={setDescription}
 								/>
 							)}
-							{currentStep === 1 && (
-								<FormData2 handleSocialNetworks={handleSocialNetworks} />
-							)}
-							{currentStep === 2 && <FormData3 />}
-							{currentStep === 3 && (
-								<FormDataCheckout handlePrev={handlePrev} />
-							)}
+							{ currentStep === 1 && <FormData2 handleSocialNetworks={handleSocialNetworks} /> }
+							{ currentStep === 2 && <FormData3 communes={communes} /> }
+							{ currentStep === 3 && <FormDataCheckout communes={communes} /> }
 
 							<Stack direction={"row"} justifyContent={"space-between"} mt={3}>
 								<Box>
