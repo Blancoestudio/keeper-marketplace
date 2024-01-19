@@ -130,7 +130,7 @@ export const Dashboard = () => {
 	};
 
 	const handleEditProduct = (index: number) => {
-		navigate(`/admin/product/edit/${products[index]._id}`);
+		navigate(`/admin/product/create/${products[index]._id}`);
 	};
 
 	return (
@@ -392,7 +392,7 @@ export const Dashboard = () => {
 						<Card sx={{ padding: 1.25, borderRadius: 2, paddingBottom: 0 }}>
 							<CardMedia
 								sx={{ height: 220, borderRadius: 2, overflow: "hidden" }}
-								image={product.images}
+								image={Array.isArray(product.images) ? product.images[0] : product.images}
 								title="imagen-producto"
 							>
 								<Stack direction={"row"} justifyContent={"space-between"}>

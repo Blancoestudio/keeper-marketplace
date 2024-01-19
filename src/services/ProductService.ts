@@ -7,7 +7,10 @@ import {
 import { Product } from "src/interfaces/Product";
 
 export class ProductService {
-	static readonly baseUrl = "/admin/products";
+	private static readonly baseUrl = "/admin/products";
+	private static readonly baseUrlImages = "/admin/store/image";
+	private static readonly baseUrlCategories = "/admin/categories"
+
 
 	static getProductsByStore = async () => {
 		try {
@@ -82,7 +85,32 @@ export class ProductService {
 				};
 			}
 		}
-	}
+	};
+
+	static getCategories = async () => {
+		try {
+			const response = await api.get(this.baseUrlCategories);
+			return {
+				data: response.data,
+				...DEFAULT_SUCCESS_RESPONSE,
+			};
+		} catch (error: unknown) {
+			const axiosError = error as AxiosError;
+
+			if (axiosError.response) {
+				const err = axiosError.response.data;
+				return {
+					data: err,
+					...DEFAULT_ERROR_RESPONSE,
+				};
+			} else {
+				return {
+					data: "Ocurred an error",
+					...DEFAULT_ERROR_RESPONSE,
+				};
+			}
+		}
+	};
 
 	static updateProduct = async (idProduct: string) => {
 		try {
@@ -107,5 +135,31 @@ export class ProductService {
 				};
 			}
 		}
-	}
+	};
+
+	static uploadImage = async (data: FormData) => {
+		try {
+			console.log('Helloooooo');
+			const response = await api.post(`${this.baseUrlImages}`, data);
+			return {
+				data: response.data,
+				...DEFAULT_SUCCESS_RESPONSE,
+			};
+		} catch (error: unknown) {
+			const axiosError = error as AxiosError;
+
+			if (axiosError.response) {
+				const err = axiosError.response.data;
+				return {
+					data: err,
+					...DEFAULT_ERROR_RESPONSE,
+				};
+			} else {
+				return {
+					data: "Ocurred an error",
+					...DEFAULT_ERROR_RESPONSE,
+				};
+			}
+		}
+	};
 }
