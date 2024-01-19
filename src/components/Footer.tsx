@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from "@mui/material"
+import { Box, Container, Grid, Typography, Divider } from '@mui/material';
 import Logo from 'src/assets/svg/logo_keeper.svg';
 
 export const Footer = () => {
@@ -8,28 +8,29 @@ export const Footer = () => {
       sx={{
         backgroundColor: 'primary.main',
         color: '#ffffff',
-        pt: 4,
-        pb: 1
       }}
     >
       <Container>
-        <Grid container py={3}>
+        <Grid container py={5}>
           <Grid item xs={3}>
             <img src={Logo} width={200} alt="keeper" />
           </Grid>
         </Grid>
-
+        <Divider sx={{ borderColor: '#B3B3B3' }} />
         <Grid
+          container
           sx={{
-            borderTop: '1px solid #fff',
-            pt: 1,
+            borderTop: 'px solid #fff',
+            py: 3,
             display: 'flex',
-            justifyContent: 'center'
           }}
         >
-          <Typography sx={{ m: 0, p: 0 }}>Powered by Blanco Estudio</Typography>
+          <Grid item>
+            <Typography variant={'caption'}>Powered by Blanco Estudio</Typography>
+          </Grid>
         </Grid>
       </Container>
+      
     </Box>
   )
 }

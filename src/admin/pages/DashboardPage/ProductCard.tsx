@@ -22,8 +22,8 @@ export const ProductCard = ({ index, product, openedMenuProductId, anchorEl, han
   const { discount, name, shortDescription, price } = product;
 
   const cutShortDescription = useMemo(() => {
-    return shortDescription.length > 140
-        ? `${shortDescription.substring(0, 140)}...`
+    return shortDescription.length > 65
+        ? `${shortDescription.substring(0, 65)}...`
       : shortDescription;
   }, [shortDescription])
 
@@ -90,7 +90,7 @@ export const ProductCard = ({ index, product, openedMenuProductId, anchorEl, han
           <Typography gutterBottom variant="h5" fontWeight={"medium"}>
             {name}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" sx={{ height: '3em' }}>
             {cutShortDescription}
           </Typography>
           <Divider sx={{ my: 1 }} />
