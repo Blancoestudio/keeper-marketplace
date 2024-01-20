@@ -1,25 +1,8 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
-import FileUploadIcon from "@mui/icons-material/FileUpload";
-import {
-	Box,
-	Chip,
-	Container,
-	FormControl,
-	Grid,
-	InputLabel,
-	MenuItem,
-	Select,
-	SelectChangeEvent,
-	Theme,
-	Typography,
-	useTheme,
-	styled,
-	InputBase,
-} from "@mui/material";
+import { Box, Chip, Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Theme, Typography, useTheme, styled, InputBase, Stack,} from "@mui/material";
 import { CustomButton, CustomTextField } from "src/components";
 
-import ImgDefault from "/src/assets/images/image-default.png";
 import { ProductService } from "src/services/ProductService";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Category, Product } from "src/interfaces/Product";
@@ -457,12 +440,10 @@ export const CreateProductPage = () => {
 						) : (
 							<></>
 						)}
-					</div>
-
+          </div>
 					<CustomTextField
-						error
+						error={false}
 						required
-						helperText="test"
 						label="Nombre del producto o servicio"
 						placeholder="Ingresa el nombre de tu producto o servicio"
 						onChange={handleName}

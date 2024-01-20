@@ -5,6 +5,16 @@ import { CustomButton } from "src/components";
 import bgBanner from "/src/assets/images/bg-banner.png"
 
 export const MainBanner = () => {
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  }
+
   return (
     <Box id="sectionMainBanner" sx={{
       py: 8
@@ -40,6 +50,7 @@ export const MainBanner = () => {
                           backgroundColor: '#eeeeee',
                         },
                       }}
+                      onClick={() => scrollToSection('sectionSimulator')}
                     >Contrata tu plan</CustomButton>
                 </Grid>
               </Grid>

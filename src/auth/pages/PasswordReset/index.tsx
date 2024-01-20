@@ -21,10 +21,11 @@ export const PasswordReset = () => {
           margin: '2em 0',
           boxShadow: '0 4px 10px 5px rgba(0, 0, 0, .1)',
         }}
+        className="animate__animated animate__fadeIn"
       >
         <Grid container gap={1}>
 
-          <Typography variant="h5" fontWeight={'500'}>Restablecer contraseña</Typography>
+          <Typography variant="h5" fontWeight={'700'}>Restablecer contraseña</Typography>
 
             
         <CustomTextField 

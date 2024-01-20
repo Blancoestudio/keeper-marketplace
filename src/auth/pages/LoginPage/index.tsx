@@ -1,12 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
-
 import { Box, Grid, Stack, Typography } from "@mui/material";
-
 import { CustomTextField, CustomButton } from "src/components";
 import { AuthService } from "src/services/AuthService";
 import { ChangeEvent, FormEvent, useState } from "react";
 
+import { setUserAction } from "src/redux/userSlice";
+import { useDispatch } from "react-redux";
+import { setStoreAction } from "src/redux/storeSlice";
+
 export const LoginPage = () => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -31,6 +34,11 @@ export const LoginPage = () => {
 		}
 
 		localStorage.setItem("user", JSON.stringify(login.data));
+
+		const { store, ...user } = login.data;
+		dispatch(setUserAction(user));
+		dispatch(setStoreAction(store));
+
 		navigate("/admin/dashboard");
 	};
 
@@ -43,11 +51,10 @@ export const LoginPage = () => {
 					margin: "2em 0",
 					boxShadow: "0 4px 10px 5px rgba(0, 0, 0, .1)",
 				}}
+        className="animate__animated animate__fadeIn"
 			>
 				<Grid container gap={1}>
-					<Typography variant="h5" fontWeight={"500"}>
-						Iniciar sesión
-					</Typography>
+					<Typography variant="h5" fontWeight={"700"}>Iniciar sesión</Typography>
 
 					<form
 						style={{ marginTop: "1em", width: "100%" }}
@@ -84,7 +91,7 @@ export const LoginPage = () => {
 						<Stack direction={"row"} mt={2} mb={3}>
 							<Link
 								to={"/auth/password-recovery"}
-								style={{ textDecoration: "none" }}
+								style={{ textDecoration: "none", color: "#666" }}
 							>
 								¿Olvidaste tu contraseña?
 							</Link>

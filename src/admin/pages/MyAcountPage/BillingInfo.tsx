@@ -10,7 +10,7 @@ import { BillingInfoPlan } from "./BillingInfoPlan";
 export const BillingInfo = () => {
 
   return (
-    <Box py={5}>
+    <Box py={5} className="animate__animated animate__fadeIn">
       <Grid container justifyContent={'center'}>
         <Grid item xs={8}>
 

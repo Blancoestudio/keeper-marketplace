@@ -49,7 +49,7 @@ export default function TabsCmp() {
 
   return (
     <Box sx={{ width: '100%' }} py={5}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }} className="animate__animated animate__fadeIn">
         <Tabs value={value} onChange={handleChange} aria-label="profile tab">
           <Tab label="Sobre ti:" {...a11yProps(0)} />
           <Tab label="Datos de tu negocio:" {...a11yProps(1)} />
