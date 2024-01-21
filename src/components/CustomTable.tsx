@@ -13,7 +13,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { useForm } from 'src/hooks/useForm';
 
 import { visuallyHidden } from '@mui/utils';
-import { Grid, IconButton, Stack, Toolbar, Typography } from '@mui/material';
+import { Grid, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from '@mui/material';
 import { CommuneData, HeadCell } from 'src/interfaces/Plan';
 import { CustomTextField, CustomButton } from 'src/components';
 
@@ -176,9 +176,6 @@ export interface TableProps {
   selectedCommunes: string[],
   setSelectedCommunes: React.Dispatch<React.SetStateAction<string[]>>,
   
-
-
-  // setcommunesSelected: React.Dispatch<React.SetStateAction<number>>,
   setAudience: React.Dispatch<React.SetStateAction<number>>,
   setMonthlyValue: React.Dispatch<React.SetStateAction<number>>,
   setAnnualValue: React.Dispatch<React.SetStateAction<number>>,
@@ -189,9 +186,6 @@ export const CustomTable = ({
   selectedCommunes,
   setSelectedCommunes,
   
-  
-  
-  // setcommunesSelected, 
   setAudience, 
   setMonthlyValue, 
   setAnnualValue 
@@ -200,7 +194,6 @@ export const CustomTable = ({
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<string>('name');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [isSearch, setIsSearch] = React.useState(false);
 
   const dataCommunes = React.useMemo(() => communes, [communes]);
   const [data, setData] = React.useState<CommuneData[]>([]);
@@ -211,14 +204,13 @@ export const CustomTable = ({
   const tableRowRef = React.useRef<HTMLTableRowElement>(null);
   const [tableRowHeight, setTableRowHeight] = React.useState(0);
 
-  const searchTerm = '';
-  const { onInputChange, onResetForm } = useForm({
+  const { searchTerm, onInputChange, onResetForm } = useForm({
     searchTerm: ''
   });
 
-  React.useEffect(() => {
-    setData(dataCommunes);
-  }, [])
+  // React.useEffect(() => {
+  //   setData(dataCommunes);
+  // }, [])
   
   React.useEffect(() => {
     setData(dataCommunes);
@@ -235,7 +227,7 @@ export const CustomTable = ({
     
     if (dataSelected.length === 0) {
       setIsFilterSelection(false);
-      setData( dataCommunes );
+      // setData( dataCommunes );
     }
     
   }, [data, dataSelected])
@@ -246,14 +238,9 @@ export const CustomTable = ({
   
   React.useEffect(() => {
     
-  }, [isSearch])
-  
-  React.useEffect(() => {
-    
     if (isFilterSelection) {
       setData( dataSelected );
     }
-    // setcommunesSelected(dataSelected.length);
 
     let monthlyVal = 0;
     let annualVal = 0;
@@ -270,24 +257,26 @@ export const CustomTable = ({
 
   }, [dataSelected])
 
-
+  
   
   const handleRequestSort = ( event: React.MouseEvent<unknown>, property: string ) => {
-    console.log(event);
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
+    handleClose();
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = data.map((n) => n._id);
       setSelected(newSelected);
+      setSelectedCommunes(newSelected);
       return;
     }
     setData(data);
     setIsFilterSelection(false);
     setSelected([]);
+    setSelectedCommunes([]);
   };
 
   const filterSelectedItems = () => {
@@ -342,43 +331,101 @@ export const CustomTable = ({
 
   const handleSearchCommune = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const filteredData = communes.filter(item => item.name.includes(searchTerm));
-    console.log({filteredData});
-    setIsSearch(true);
-    setData(filteredData);
+    if ( searchTerm.trim().length === 0 ) setData( dataCommunes );
+    
+    if (isFilterSelection) {
+      const filteredData = visibleRows.filter(item => 
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setData(filteredData);
+    } else {
+      const filteredData = communes.filter(item => 
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setData(filteredData);
+    }
   }
 
-  const handleClearSearch = () => {
+  const handleClearSearchTerm = () => {
     setData(dataCommunes);
     onResetForm();
   }
 
+
+  
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleFilterMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ border: '1px solid #E7E7E7', borderTopLeftRadius: 4, borderTopRightRadius: 4, borderBottom: 0 }}>
-        <Toolbar>
+        <Toolbar sx={{ paddingY: 3 }}>
           <Grid container alignItems={'center'}>
             <Grid item xs={7}>
               <Stack direction={'row'} width={'100%'} alignItems={'center'} gap={2}>
-                <IconButton>
+                <IconButton onClick={handleFilterMenu}>
                   <FilterListIcon />
                 </IconButton>
+                <Menu
+                  id="demo-positioned-menu"
+                  aria-labelledby="demo-positioned-button"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                >
+                   {
+                      headCells.map((headCell) => (
+                          <MenuItem 
+                            key={headCell.id}
+                            selected={orderBy === headCell.id}
+                            onClick={(e) => handleRequestSort(e, headCell.id)}>
+                              { headCell.label }
+                          </MenuItem>
+                          
+                      ))
+                    }
+                </Menu>
 
                 <Box>
-                <form onSubmit={ (e) => handleSearchCommune(e) }>
-                  <CustomTextField
-                    startAdornment={<SearchIcon />}
-                    name='searchTerm'
-                    value={ searchTerm }
-                    onChange={ onInputChange }
-                    placeholder={'Buscar comuna'}
-                    endAdornment={ 
-                      <IconButton aria-label="delete" onClick={ handleClearSearch }>
-                        <CloseIcon  /> 
-                      </IconButton>
-                    }
-                    />
-                </form>
+                  <form onSubmit={ (e) => handleSearchCommune(e) }>
+                    <CustomTextField
+                      startAdornment={<SearchIcon />}
+                      name='searchTerm'
+                      value={ searchTerm }
+                      onChange={ onInputChange }
+                      placeholder={'Buscar comuna'}
+                      style={{
+                        height: 45,
+                        margin: 0
+                      }}
+                      endAdornment={ 
+                        <IconButton 
+                          aria-label="delete" 
+                          style={{
+                            display: searchTerm.length === 0 ? 'none' : 'flex'
+                          }}
+                          onClick={ handleClearSearchTerm }
+                          >
+                          <CloseIcon  /> 
+                        </IconButton>
+                      }
+                      />
+                  </form>
                 </Box>
               </Stack>
               

@@ -61,6 +61,7 @@ export const LoginPage = () => {
 						onSubmit={handleLogin}
 					>
 						<CustomTextField
+              sx={{ mb: 2 }}
 							id="email"
 							label="Email"
 							type="email"
@@ -70,6 +71,7 @@ export const LoginPage = () => {
 						/>
 
 						<CustomTextField
+              sx={{ mb: 2 }}
 							id="password"
 							label="Contraseña"
 							type="password"

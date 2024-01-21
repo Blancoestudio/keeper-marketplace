@@ -5,27 +5,32 @@ import { CustomTable } from "./CustomTable";
 
 interface CommunesSelectorTableProps {
   communes: CommuneData[],
-  // selectedCommunes: string[],
-  // setSelectedCommunes: React.Dispatch<React.SetStateAction<string[]>>,
-  // selectedPeriod: string,
-  // setSelectedPeriod: React.Dispatch<React.SetStateAction<string>>
+  selectedCommunes: string[],
+  setSelectedCommunes: React.Dispatch<React.SetStateAction<string[]>>,
+  selectedPeriod: string,
+  setSelectedPeriod: React.Dispatch<React.SetStateAction<string>>,
+
+  monthlyValue: number,
+  setMonthlyValue: React.Dispatch<React.SetStateAction<number>>,
+  annualValue: number,
+  setAnnualValue: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const CommunesSelectorTable = ({ 
   communes, 
-  // selectedCommunes, 
-  // setSelectedCommunes, 
-  // selectedPeriod, 
-  // setSelectedPeriod 
+  selectedCommunes, 
+  setSelectedCommunes, 
+  selectedPeriod, 
+  setSelectedPeriod,
+  monthlyValue,
+  setMonthlyValue,
+  annualValue,
+  setAnnualValue
 }: CommunesSelectorTableProps) => {
 
-  const [selectedCommunes, setSelectedCommunes] = useState<string[]>([]);
-  const [selectedPeriod, setSelectedPeriod] = useState<string>('monthly');
-  
-
   const [audience, setAudience] = useState(0);
-  const [monthlyValue, setMonthlyValue] = useState(0);
-  const [annualValue, setAnnualValue] = useState(0);
+  // const [monthlyValue, setMonthlyValue] = useState(0);
+  // const [annualValue, setAnnualValue] = useState(0);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedPeriod((event.target as HTMLInputElement).value)

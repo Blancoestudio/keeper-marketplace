@@ -67,6 +67,7 @@ export const PasswordRecovery = () => {
           <Typography variant={'subtitle1'}>Ingresa tu correo electrónico para buscar tu cuenta.</Typography>
 
           <CustomTextField 
+            sx={{ mb: 2 }}
             id="email"
             label="Email"
             type="email"

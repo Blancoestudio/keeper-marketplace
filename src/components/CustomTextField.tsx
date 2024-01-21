@@ -59,7 +59,7 @@ export const CustomTextField = ({
   const handleMouseDownPassword = () => {}
 
   return (
-    <FormControl fullWidth sx={{ mb: 2 }} error={error}>
+    <FormControl fullWidth error={error}>
       
       <CustoInputLabel shrink htmlFor={ id }>{ label }</CustoInputLabel>
       

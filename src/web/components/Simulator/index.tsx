@@ -8,8 +8,11 @@ import { CommunesSelectorTable } from "src/components/CommunesSelectorTable";
 export const Simulator = () => {
 
   const [communes, setCommunes] = useState<CommuneData[]>([]);
-  // const [selectedCommunes, setSelectedCommunes] = useState<string[]>([]);
-  // const [selectedPeriod, setSelectedPeriod] = useState<string>('monthly');
+  const [selectedCommunes, setSelectedCommunes] = useState<string[]>([]);
+  const [selectedPeriod, setSelectedPeriod] = useState<string>('monthly');
+
+  const [monthlyValue, setMonthlyValue] = useState<number>(0);
+  const [annualValue, setAnnualValue] = useState<number>(0);
 
   const getPlans = async () => {
     const result = await PlanService.getPlans();
@@ -31,23 +34,20 @@ export const Simulator = () => {
         </Grid>
       </Grid>
 
-      {/* <Box mb={3}>
-        <Typography><strong>ID Comunas:</strong></Typography>
-        <ul style={{ margin: 0 }}>{ communes.map( (item, i) => <li key={i}>{item._id}</li>) }</ul>
-        
-        <Typography><strong>ID Comunas seleccionadas:</strong> { JSON.stringify(selectedCommunes) }</Typography>
-        <Typography><strong>Periodo seleccionado:</strong> { selectedPeriod }</Typography>
-      </Box> */}
-
       <Grid container justifyContent={'center'} mb={3}>
         <Grid item xs={10} mb={3}>
           
           <CommunesSelectorTable 
             communes={communes} 
-            // selectedCommunes={selectedCommunes}
-            // setSelectedCommunes={setSelectedCommunes}
-            // selectedPeriod={selectedPeriod}
-            // setSelectedPeriod={setSelectedPeriod}
+            selectedCommunes={selectedCommunes}
+            setSelectedCommunes={setSelectedCommunes}
+            selectedPeriod={selectedPeriod}
+            setSelectedPeriod={setSelectedPeriod}
+
+            monthlyValue={monthlyValue}
+            setMonthlyValue={setMonthlyValue}
+            annualValue={annualValue}
+            setAnnualValue={setAnnualValue}
           />
 
         </Grid>

@@ -1,8 +1,20 @@
 import { Box, Divider, Grid, List, ListItem, Stack, Typography } from "@mui/material";
 import { initMercadoPago, Payment } from '@mercadopago/sdk-react';
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "src/services/api";
 
-export const FormDataCheckout = () => {
+interface FormDataCheckoutProps {
+  selectedCommunes: string[],
+  selectedPeriod: string,
+  monthlyValue: number,
+  annualValue: number,
+}
+
+export const FormDataCheckout = ({ selectedCommunes, selectedPeriod, monthlyValue, annualValue }: FormDataCheckoutProps) => {
+
+  const navigate = useNavigate();
+
   // TODO: pasar client id a variable de entorno
   useEffect(() => {
     initMercadoPago('APP_USR-043d0fc0-1daf-4ba3-8e63-dac669eeff33', {
@@ -10,12 +22,11 @@ export const FormDataCheckout = () => {
     });
   }, []);
 
-
   return (
     <Grid container justifyContent={'center'}>
       <Grid item xs={6}>
 
-        <Box sx={{ height: '100%', border: '1px solid #E7E7E7', borderRadius: 2, padding: 3, display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ border: '1px solid #E7E7E7', borderRadius: 2, padding: 3, display: 'flex', flexDirection: 'column' }}>
           <Box>
             <Typography variant={'h5'} fontWeight={'900'} mb={1}>Resumen</Typography>
             <Typography variant={'body2'} color={'#929292'}>Lorem ipsum dolor amet, consectetur adipiscing elit, sed do eiusmod temp.</Typography>
@@ -29,7 +40,14 @@ export const FormDataCheckout = () => {
                   <Typography variant={'caption'} color={'#707070'} fontWeight={400}>Periodo de pago</Typography>
                 </Box>
                 <Box sx={{  }}>
-                  <Typography variant={'h5'} fontFamily={'Roboto'} fontWeight={300}>...</Typography>
+                  <Typography variant={'h5'} fontFamily={'Roboto'} fontWeight={300}>
+                    { 
+                      selectedPeriod === "monthly" 
+                        ? "Mensual" 
+                        : selectedPeriod === "annually"
+                        ? "Anual" : null
+                    }
+                    </Typography>
                 </Box>
               </Stack>
             </ListItem>
@@ -43,7 +61,7 @@ export const FormDataCheckout = () => {
                   <Typography variant={'caption'} color={'#707070'} fontWeight={400}>Total seleccionadas</Typography>
                 </Box>
                 <Box sx={{  }}>
-                  <Typography variant={'h5'} fontFamily={'Roboto'} fontWeight={300}>...</Typography>
+                  <Typography variant={'h5'} fontFamily={'Roboto'} fontWeight={300}>{ selectedCommunes.length }</Typography>
                 </Box>
               </Stack>
             </ListItem>
@@ -57,13 +75,19 @@ export const FormDataCheckout = () => {
                   <Typography variant={'caption'} color={'#707070'} fontWeight={400}>Precio a pagar</Typography>
                 </Box>
                 <Box sx={{  }}>
-                  <Typography variant={'h5'} fontFamily={'Roboto'} fontWeight={300}>...</Typography>
+                  <Typography variant={'h5'} fontFamily={'Roboto'} fontWeight={300}>
+                    { 
+                      selectedPeriod === 'monthly' 
+                        ? monthlyValue
+                        : selectedPeriod === 'annually' 
+                        ? annualValue : null
+                    }
+                  </Typography>
                 </Box>
               </Stack>
             </ListItem>
 
           </List>
-
         </Box>
 
       </Grid>
@@ -101,8 +125,29 @@ export const FormDataCheckout = () => {
             },
           }}
           onSubmit={async (param) => {
-            console.log(param);
+            console.log({param});
+
             // TODO: enviar token card al backend
+            const cardTokenID = param.formData.token;
+            
+            try {
+
+              const response = await api.post('/admin/payment/subscription', {
+                locations: ["1231231232", "123232323232"],
+                period: "annually",
+                cardTokenId: cardTokenID
+              });
+              if (response.data.success) {
+                navigate('/admin/welcome');
+              } else {
+                  console.log('Hubo un problema con tu pago. Por favor, inténtalo de nuevo.');
+              }
+              
+            } catch (error) {
+              alert('Error procesando el pago');
+              console.error('Error procesando el pago:', error);
+            }
+          
           }}
         />
         

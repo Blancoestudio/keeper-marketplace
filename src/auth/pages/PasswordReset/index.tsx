@@ -29,6 +29,7 @@ export const PasswordReset = () => {
 
             
         <CustomTextField 
+          sx={{ mb: 2 }}
           id="password-1"
           label="Ingresa contraseña"
           type="password"
@@ -37,6 +38,7 @@ export const PasswordReset = () => {
           />
         
         <CustomTextField 
+          sx={{ mb: 2 }}
           id="password-2"
           label="Repetir contraseña"
           type="password"
