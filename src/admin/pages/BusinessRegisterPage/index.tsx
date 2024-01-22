@@ -1,31 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-	Container,
-	Grid,
-	Stack,
-	Box,
-	Step,
-	StepLabel,
-	Stepper,
-	Typography,
-} from "@mui/material";
+import { Container, Grid, Stack, Box, Step, StepLabel, Stepper, Typography} from "@mui/material";
 
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+// import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 import { CustomButton } from "src/components";
 import { FormData1 } from "./FormData1";
 import { FormData2 } from "./FormData2";
-import { FormData3 } from "./FormData3";
 import { FormDataCheckout } from "./FormDataCheckout";
 import { CustomLoading } from "src/components/CustomLoading";
 import { StoreService } from "src/services/StoreService";
 import { SocialNetwork } from "src/interfaces/Store";
 import { StorageService } from "src/services/StorageService";
+import { PlanService } from "src/services/PlanService";
+import { CommuneData } from "src/interfaces/Plan";
+import { CommunesSelectorTable } from "src/components/CommunesSelectorTable";
 
-const steps = ["Datos básicos", "Datos de contacto", "Elegir plan"];
+const steps = ["Datos básicos", "Datos de contacto", "Listado de comunas"];
 
 export const BusinessRegisterPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -39,10 +32,28 @@ export const BusinessRegisterPage = () => {
 	const [description, setDescription] = useState("");
 	const [socialNetworks, setSocialNetworks] = useState(Array<SocialNetwork>);
 
-	const handlePrev = () => {
-		if (currentStep === 0) return;
-		setCurrentStep(currentStep - 1);
+  const [communes, setCommunes] = useState<CommuneData[]>([]);
+  const [selectedCommunes, setSelectedCommunes] = useState<string[]>([]);
+  const [selectedPeriod, setSelectedPeriod] = useState<string>('monthly');
+
+  const [monthlyValue, setMonthlyValue] = useState<number>(0);
+  const [annualValue, setAnnualValue] = useState<number>(0);
+
+	const getPlans = async () => {
+		const result = await PlanService.getPlans();
+		if (!result.status) return;
+
+		setCommunes(result.data!);
 	};
+
+	useEffect(() => {
+		getPlans();
+	}, []);
+
+	// const handlePrev = () => {
+	// 	if (currentStep === 0) return;
+	// 	setCurrentStep(currentStep - 1);
+	// };
 
 	const handleSocialNetworks = (socialNetwork: SocialNetwork) => {
 		setSocialNetworks((oldSocialNetworks) => [
@@ -136,47 +147,121 @@ export const BusinessRegisterPage = () => {
 								</Stepper>
 							</Box>
 
-							{currentStep === 0 && (
-								<FormData1
-									setStoreName={setStoreName}
-									setAddress={setAddress}
-									setDescription={setDescription}
-								/>
-							)}
-							{currentStep === 1 && (
-								<FormData2 handleSocialNetworks={handleSocialNetworks} />
-							)}
-							{currentStep === 2 && <FormData3 />}
-							{currentStep === 3 && (
-								<FormDataCheckout handlePrev={handlePrev} />
-							)}
+							{ currentStep === 0 && (
+                <>
+                  <FormData1
+                    setStoreName={setStoreName}
+                    setAddress={setAddress}
+                    setDescription={setDescription}
+                  />
+                  <Stack direction={"row"} justifyContent={"flex-end"} mt={3}>
+                    <Box>
+                      <CustomButton
+                        size="large"
+                        variant="contained"
+                        endIcon={<ChevronRightIcon />}
+                        sx={{ borderRadius: 2, textTransform: "none" }}
+                        onClick={() => handleNext()}
+                      >
+                        Continuar
+                      </CustomButton>
+                    </Box>
+                  </Stack>
+                </> 
+              )}
+							{ currentStep === 1 && ( 
+                <>
+                  <FormData2 
+                    handleSocialNetworks={handleSocialNetworks} 
+                  /> 
+                  <Stack direction={"row"} justifyContent={"flex-end"} mt={3}>
+                    <Box>
+                      <CustomButton
+                        size="large"
+                        variant="contained"
+                        endIcon={<ChevronRightIcon />}
+                        sx={{ borderRadius: 2, textTransform: "none" }}
+                        onClick={() => handleNext()}
+                      >
+                        Continuar
+                      </CustomButton>
+                    </Box>
+                  </Stack>
+                </>
+                )}
+							{ currentStep === 2 && ( 
+                <>
+                  <CommunesSelectorTable 
+                    communes={communes} 
+                    selectedCommunes={selectedCommunes}
+                    setSelectedCommunes={setSelectedCommunes}
+                    selectedPeriod={selectedPeriod}
+                    setSelectedPeriod={setSelectedPeriod}
+                    
+                    monthlyValue={monthlyValue}
+                    setMonthlyValue={setMonthlyValue}
+                    annualValue={annualValue}
+                    setAnnualValue={setAnnualValue}
+                    /> 
 
-							<Stack direction={"row"} justifyContent={"space-between"} mt={3}>
-								<Box>
-									{currentStep > 0 && currentStep < 3 && (
-										<CustomButton
-											variant="text"
-											size="large"
-											startIcon={<ChevronLeftIcon />}
-											sx={{ textTransform: "none" }}
-											onClick={() => handlePrev()}
-										>
-											Volver
-										</CustomButton>
-									)}
-								</Box>
-								<Box>
-									<CustomButton
-										variant="contained"
-										size="large"
-										endIcon={<ChevronRightIcon />}
-                    sx={{ borderRadius: 2, textTransform: "none" }}
-										onClick={() => handleNext()}
-									>
-										Continuar
-									</CustomButton>
-								</Box>
-							</Stack>
+                  <Stack direction={"row"} justifyContent={"flex-end"} mt={3}>
+                    <Box>
+                      <CustomButton
+                        disabled={ selectedCommunes.length === 0 }
+                        size="large"
+                        variant="contained"
+                        endIcon={<ChevronRightIcon />}
+                        sx={{ borderRadius: 2, textTransform: "none" }}
+                        onClick={() => handleNext()}
+                      >
+                        Continuar
+                      </CustomButton>
+                    </Box>
+                  </Stack>
+                </>
+                )}
+							{ currentStep === 3 && ( 
+                <>
+                  <FormDataCheckout 
+                    selectedCommunes={selectedCommunes}
+                    selectedPeriod={selectedPeriod}
+                    monthlyValue={monthlyValue}
+                    annualValue={annualValue}
+                  />
+                </>
+               )}
+
+              {/* {
+                currentStep !== 2 && (
+                  <Stack direction={"row"} justifyContent={"space-between"} mt={3}>
+                    <Box>
+                      {currentStep > 0 && currentStep < 3 && (
+                        <CustomButton
+                          variant="text"
+                          size="large"
+                          startIcon={<ChevronLeftIcon />}
+                          sx={{ textTransform: "none" }}
+                          onClick={() => handlePrev()}
+                        >
+                          Volver
+                        </CustomButton>
+                      )}
+                    </Box>
+                    <Box>
+                      <CustomButton
+                        variant="contained"
+                        size="large"
+                        endIcon={<ChevronRightIcon />}
+                        sx={{ borderRadius: 2, textTransform: "none" }}
+                        onClick={() => handleNext()}
+                      >
+                        Continuar
+                      </CustomButton>
+                    </Box>
+                  </Stack>
+                )
+              } */}
+							
 						</Box>
 					</Grid>
 				</Grid>

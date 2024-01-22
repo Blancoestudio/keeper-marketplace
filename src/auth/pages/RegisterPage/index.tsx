@@ -119,6 +119,7 @@ export const RegisterPage = () => {
 								onSubmit={handleRegisterSubmit}
 							>
 								<CustomTextField
+                  sx={{ mb: 2 }}
 									id="full-name"
 									label="Nombre y Apellido"
 									placeholder="Ingresa tu nombre y apellido"
@@ -126,6 +127,7 @@ export const RegisterPage = () => {
 								/>
 
 								<CustomTextField
+                  sx={{ mb: 2 }}
 									id="email"
 									label="Email"
 									type="email"
@@ -135,6 +137,7 @@ export const RegisterPage = () => {
 								/>
 
 								<CustomTextField
+                  sx={{ mb: 2 }}
 									id="password"
 									label="Contraseña"
 									type="password"
@@ -144,6 +147,7 @@ export const RegisterPage = () => {
 								/>
 
 								<CustomTextField
+                  sx={{ mb: 2 }}
 									id="repeat-password"
 									label="Repite tu Contraseña"
 									type="password"

@@ -145,22 +145,11 @@ export const Navbar = () => {
 											fontFamily: "Raleway",
 											fontWeight: "bold",
 										}}
-                    onClick={() => scrollToSection('sectionSimulator')}
+                    onClick={() => scrollToSection('simulatorSection')}
 									>
 										Simulador
 									</Typography>
 								</NavLink>
-								{/* <NavLink to={"/"} style={{ textDecoration: "none" }}>
-									<Typography
-										sx={{
-											color: "#ffffff",
-											fontFamily: "Raleway",
-											fontWeight: "bold",
-										}}
-									>
-										Contáctanos
-									</Typography>
-								</NavLink> */}
 							</Box>
               <Divider
                 orientation="vertical"
@@ -222,15 +211,10 @@ export const Navbar = () => {
 									aria-haspopup="true"
 									aria-expanded={open ? "true" : undefined}
 									sx={{
-										// backgroundColor: "#ffffff",
-										// color: "primary.main",
 										color: "#ffffff",
 										position: "relative",
 										textTransform: "none",
 										fontFamily: "Raleway",
-										// "&:hover": {
-										// 	backgroundColor: "#eeeeee",
-										// },
 									}}
 									endIcon={<ExpandMoreIcon />}
 									onClick={handleClick}

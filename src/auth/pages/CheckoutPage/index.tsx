@@ -15,45 +15,53 @@ export const CheckoutPage = () => {
           <Grid container columnSpacing={3}>
             <Grid item xs={6}>
               <CustomTextField 
+                sx={{ mb: 2 }}
                 label="Nombre"
               />
             </Grid>
             <Grid item xs={6}>
               <CustomTextField 
+                sx={{ mb: 2 }}
                 label="Apellido"
               />
             </Grid>
 
             <Grid item xs={6}>
               <CustomTextField 
+                sx={{ mb: 2 }}
                 label="Región"
               />
             </Grid>
             <Grid item xs={6}>
               <CustomTextField 
+                sx={{ mb: 2 }}
                 label="Comuna"
               />
             </Grid>
 
             <Grid item xs={12}>
               <CustomTextField 
+                sx={{ mb: 2 }}
                 label="Dirección"
               />
             </Grid>
 
             <Grid item xs={12}>
               <CustomTextField 
+                sx={{ mb: 2 }}
                 label="Número de tarjeta"
               />
             </Grid>
             <Grid item xs={6}>
               <CustomTextField 
+                sx={{ mb: 2 }}
                 label="Vencimiento"
                 placeholder="MM/YYYY"
               />
             </Grid>
             <Grid item xs={6}>
               <CustomTextField 
+                sx={{ mb: 2 }}
                 label="Código de seguridad"
               />
             </Grid>

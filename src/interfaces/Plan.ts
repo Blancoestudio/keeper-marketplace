@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-
 export interface Plan {
   name:        string;
   price:       Price;
@@ -27,13 +25,5 @@ export interface HeadCell {
   id: string;
   label: string;
   numeric: boolean;
-}
-
-export interface TableProps {
-  communes: CommuneData[],
-  setcommunesSelected: Dispatch<SetStateAction<number>>,
-  setAudience: Dispatch<SetStateAction<number>>,
-  setMonthlyValue: Dispatch<SetStateAction<number>>,
-  setAnnualValue: Dispatch<SetStateAction<number>>,
 }
 

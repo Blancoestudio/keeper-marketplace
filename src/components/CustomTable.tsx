@@ -13,8 +13,8 @@ import Checkbox from '@mui/material/Checkbox';
 import { useForm } from 'src/hooks/useForm';
 
 import { visuallyHidden } from '@mui/utils';
-import { Grid, IconButton, Stack, Toolbar, Typography } from '@mui/material';
-import { CommuneData, HeadCell, TableProps } from 'src/interfaces/Plan';
+import { Grid, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from '@mui/material';
+import { CommuneData, HeadCell } from 'src/interfaces/Plan';
 import { CustomTextField, CustomButton } from 'src/components';
 
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -46,6 +46,7 @@ const headCells: readonly HeadCell[] = [
 ];
 
 export type Order = 'asc' | 'desc';
+
 export interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (event: React.MouseEvent<unknown>, property: string) => void;
@@ -106,13 +107,15 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
+type OrderByKeys = keyof CommuneData | 'price.monthly' | 'price.annual' | string;
 
-function descendingComparator<T extends Record<string, any>>(a: T, b: T, orderBy: keyof T) {
+function descendingComparator<T extends CommuneData>(a: T, b: T, orderBy: OrderByKeys) {
   
   // Asegurarse de que orderBy sea un string
   if (typeof orderBy !== 'string') {
     throw new Error('orderBy must be a string');
   }
+  
   // Dividir las claves si orderBy es una propiedad anidada
   const orderByKeys = orderBy.split('.');
   let aValue = a;
@@ -133,13 +136,13 @@ function descendingComparator<T extends Record<string, any>>(a: T, b: T, orderBy
   return 0;
 }
 
-function getComparator<Key extends string | keyof CommuneData>( // Permitir strings para propiedades anidadas
+function getComparator( // Permitir strings para propiedades anidadas
   order: Order, 
-  orderBy: Key,
-): (a: Record<string, any>, b: CommuneData) => number { // Aceptar CommuneData directamente
+  orderBy: OrderByKeys,
+): (a: CommuneData, b: CommuneData) => number { // Aceptar CommuneData directamente
   return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy as string) // Asumir que orderBy es un string para propiedades anidadas
-    : (a, b) => -descendingComparator(a, b, orderBy as string);
+    ? (a, b) => descendingComparator(a, b, orderBy) // Asumir que orderBy es un string para propiedades anidadas
+    : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
@@ -158,12 +161,39 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function CustomTable({ communes, setcommunesSelected, setAudience, setMonthlyValue, setAnnualValue }: TableProps) {
+
+
+
+
+
+
+
+
+
+
+export interface TableProps {
+  communes: CommuneData[],
+  selectedCommunes: string[],
+  setSelectedCommunes: React.Dispatch<React.SetStateAction<string[]>>,
+  
+  setAudience: React.Dispatch<React.SetStateAction<number>>,
+  setMonthlyValue: React.Dispatch<React.SetStateAction<number>>,
+  setAnnualValue: React.Dispatch<React.SetStateAction<number>>,
+} 
+
+export const CustomTable = ({ 
+  communes, 
+  selectedCommunes,
+  setSelectedCommunes,
+  
+  setAudience, 
+  setMonthlyValue, 
+  setAnnualValue 
+}: TableProps) => {
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<string>('name');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [isSearch, setIsSearch] = React.useState(false);
 
   const dataCommunes = React.useMemo(() => communes, [communes]);
   const [data, setData] = React.useState<CommuneData[]>([]);
@@ -174,14 +204,13 @@ export default function CustomTable({ communes, setcommunesSelected, setAudience
   const tableRowRef = React.useRef<HTMLTableRowElement>(null);
   const [tableRowHeight, setTableRowHeight] = React.useState(0);
 
-  const searchTerm = '';
-  const { onInputChange, onResetForm } = useForm({
+  const { searchTerm, onInputChange, onResetForm } = useForm({
     searchTerm: ''
   });
 
-  React.useEffect(() => {
-    setData(dataCommunes);
-  }, [])
+  // React.useEffect(() => {
+  //   setData(dataCommunes);
+  // }, [])
   
   React.useEffect(() => {
     setData(dataCommunes);
@@ -198,7 +227,7 @@ export default function CustomTable({ communes, setcommunesSelected, setAudience
     
     if (dataSelected.length === 0) {
       setIsFilterSelection(false);
-      setData( dataCommunes );
+      // setData( dataCommunes );
     }
     
   }, [data, dataSelected])
@@ -209,14 +238,9 @@ export default function CustomTable({ communes, setcommunesSelected, setAudience
   
   React.useEffect(() => {
     
-  }, [isSearch])
-  
-  React.useEffect(() => {
-    
     if (isFilterSelection) {
       setData( dataSelected );
     }
-    setcommunesSelected(dataSelected.length);
 
     let monthlyVal = 0;
     let annualVal = 0;
@@ -226,37 +250,49 @@ export default function CustomTable({ communes, setcommunesSelected, setAudience
       annualVal += item.price.annual;
       audienceVal += item.audience;
     }
+
     setMonthlyValue( monthlyVal );
     setAnnualValue(annualVal);
     setAudience(audienceVal);
+
   }, [dataSelected])
 
-
+  
   
   const handleRequestSort = ( event: React.MouseEvent<unknown>, property: string ) => {
-    console.log(event);
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
+    handleClose();
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = data.map((n) => n._id);
       setSelected(newSelected);
+      setSelectedCommunes(newSelected);
       return;
     }
     setData(data);
     setIsFilterSelection(false);
     setSelected([]);
+    setSelectedCommunes([]);
   };
 
   const filterSelectedItems = () => {
-    setDataSelected( data.filter( el => selected.includes(el.id) ) );
+    setDataSelected( data.filter( el => selected.includes(el._id) ) );
   }
 
   const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
-    console.log(event);
+
+    if (selectedCommunes.includes(id)) {
+      const newSelectedCommunes = selectedCommunes.filter((communeId: string) => communeId !== id);
+      setSelectedCommunes(newSelectedCommunes);
+    } else {
+      const newSelectedCommunes = [...selectedCommunes, id];
+      setSelectedCommunes(newSelectedCommunes);
+    }
+
     const selectedIndex = selected.indexOf(id);
     let newSelected: readonly string[] = [];
 
@@ -295,53 +331,111 @@ export default function CustomTable({ communes, setcommunesSelected, setAudience
 
   const handleSearchCommune = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const filteredData = communes.filter(item => item.name.includes(searchTerm));
-    console.log({filteredData});
-    setIsSearch(true);
-    setData(filteredData);
+    if ( searchTerm.trim().length === 0 ) setData( dataCommunes );
+    
+    if (isFilterSelection) {
+      const filteredData = visibleRows.filter(item => 
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setData(filteredData);
+    } else {
+      const filteredData = communes.filter(item => 
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setData(filteredData);
+    }
   }
 
-  const handleClearSearch = () => {
+  const handleClearSearchTerm = () => {
     setData(dataCommunes);
     onResetForm();
   }
 
+
+  
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleFilterMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ border: '1px solid #E7E7E7', borderTopLeftRadius: 4, borderTopRightRadius: 4, borderBottom: 0 }}>
-        <Toolbar>
+        <Toolbar sx={{ paddingY: 3 }}>
           <Grid container alignItems={'center'}>
-            <Grid item xs={6}>
+            <Grid item xs={7}>
               <Stack direction={'row'} width={'100%'} alignItems={'center'} gap={2}>
-                <IconButton>
+                <IconButton onClick={handleFilterMenu}>
                   <FilterListIcon />
                 </IconButton>
+                <Menu
+                  id="demo-positioned-menu"
+                  aria-labelledby="demo-positioned-button"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                >
+                   {
+                      headCells.map((headCell) => (
+                          <MenuItem 
+                            key={headCell.id}
+                            selected={orderBy === headCell.id}
+                            onClick={(e) => handleRequestSort(e, headCell.id)}>
+                              { headCell.label }
+                          </MenuItem>
+                          
+                      ))
+                    }
+                </Menu>
 
                 <Box>
-                <form onSubmit={ (e) => handleSearchCommune(e) }>
-                  <CustomTextField
-                    startAdornment={<SearchIcon />}
-                    name='searchTerm'
-                    value={ searchTerm }
-                    onChange={ onInputChange }
-                    placeholder={'Buscar comuna'}
-                    endAdornment={ 
-                      <IconButton aria-label="delete" onClick={ handleClearSearch }>
-                        <CloseIcon  /> 
-                      </IconButton>
-                    }
-                    />
-                </form>
+                  <form onSubmit={ (e) => handleSearchCommune(e) }>
+                    <CustomTextField
+                      startAdornment={<SearchIcon />}
+                      name='searchTerm'
+                      value={ searchTerm }
+                      onChange={ onInputChange }
+                      placeholder={'Buscar comuna'}
+                      style={{
+                        height: 45,
+                        margin: 0
+                      }}
+                      endAdornment={ 
+                        <IconButton 
+                          aria-label="delete" 
+                          style={{
+                            display: searchTerm.length === 0 ? 'none' : 'flex'
+                          }}
+                          onClick={ handleClearSearchTerm }
+                          >
+                          <CloseIcon  /> 
+                        </IconButton>
+                      }
+                      />
+                  </form>
                 </Box>
               </Stack>
               
             </Grid>
-            <Grid item xs ={6} display={'flex'} justifyContent={'flex-end'}>
+            <Grid item xs ={5} display={'flex'} justifyContent={'flex-end'}>
                 {
                   selected.length > 0 
                     && <CustomButton 
                         variant={isFilterSelection ? 'contained' : 'outlined'} 
-                        children={isFilterSelection ? 'Mostrar todo' : 'Ver selección'} 
+                        children={isFilterSelection ? 'Mostrar todo' : 'Mostrar selección'} 
                         color={ isFilterSelection ? 'primary' : 'primary' }
                         startIcon={<FilterAltIcon/>} 
                         onClick={ handleFilterSelection  }
