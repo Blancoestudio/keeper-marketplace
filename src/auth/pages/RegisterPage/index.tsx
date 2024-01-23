@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // import theme from "../../../theme/theme"
@@ -26,12 +26,6 @@ export const RegisterPage = () => {
 	const rgexLenght = /^.{8,}$/;
 	const rgexAtLeastOne = /\d/;
 
-  useEffect(() => {
-    if (password.length > 0 && rpassword.length > 0) {
-      password === rpassword ? setIsEqualPassword(true) : setIsEqualPassword(false);
-    }
-  }, [password, rpassword])
-  
 	const handleName = (e: ChangeEvent<HTMLInputElement>) => {
 		setName(e.target.value);
 	};
@@ -107,7 +101,6 @@ export const RegisterPage = () => {
 						margin: "2em 0",
 						boxShadow: "0 4px 10px 5px rgba(0, 0, 0, .1)",
 					}}
-          className="animate__animated animate__fadeIn"
 				>
 					<Grid container gap={1}>
 						{/* <Grid item xs sm sx={{ 
@@ -120,8 +113,9 @@ export const RegisterPage = () => {
 						<Grid item xs={12}>
 							{/*  md={7} px={2} */}
 
-							<Typography variant="h5" fontWeight={"700"} mb={1}>Registro</Typography>
-
+							<Typography variant="h5" fontWeight={"500"} mb={1}>
+								Registro
+							</Typography>
 							<Typography variant="body2" fontWeight={"500"}>
 								Ingresa tus datos para continuar con el registro y poder
 								ingresar a Keeper Marketplace.
@@ -132,7 +126,6 @@ export const RegisterPage = () => {
 								onSubmit={handleRegisterSubmit}
 							>
 								<CustomTextField
-                  sx={{ mb: 2 }}
 									id="full-name"
 									label="Nombre y Apellido"
 									placeholder="Ingresa tu nombre y apellido"
@@ -140,7 +133,6 @@ export const RegisterPage = () => {
 								/>
 
 								<CustomTextField
-                  sx={{ mb: 2 }}
 									id="email"
 									label="Email"
 									type="email"
@@ -150,7 +142,6 @@ export const RegisterPage = () => {
 								/>
 
 								<CustomTextField
-                  sx={{ mb: 2 }}
 									id="password"
 									label="Contraseña"
 									type="password"
@@ -160,7 +151,6 @@ export const RegisterPage = () => {
 								/>
 
 								<CustomTextField
-                  sx={{ mb: 2 }}
 									id="repeat-password"
 									label="Repite tu Contraseña"
 									type="password"

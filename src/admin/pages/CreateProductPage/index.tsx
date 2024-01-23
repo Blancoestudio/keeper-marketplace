@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import {
 	Box,
 	Chip,
@@ -18,13 +19,11 @@ import {
 } from "@mui/material";
 import { CustomButton, CustomTextField } from "src/components";
 
+import ImgDefault from "/src/assets/images/image-default.png";
 import { ProductService } from "src/services/ProductService";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Category, Product } from "src/interfaces/Product";
 import { ImageService } from "src/services/ImageService";
-
-import FileUploadIcon from "@mui/icons-material/FileUpload";
-import ImgDefault from "/src/assets/images/image-default.png";
 
 const CustoInputLabel = styled(InputLabel)(() => ({
 	fontSize: ".9em",
@@ -773,8 +772,9 @@ export const CreateProductPage = () => {
 						</div>
 					)}
 					<CustomTextField
-						error={false}
+						error
 						required
+						helperText="test"
 						label="Nombre del producto o servicio"
 						placeholder="Ingresa el nombre de tu producto o servicio"
 						onChange={handleName}

@@ -1,23 +1,89 @@
 import { useEffect, useState } from "react";
-import { Container } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import {
+	Box,
+	Card,
+	Container,
+	Grid,
+	Menu,
+	MenuItem,
+	Typography,
+	CardMedia,
+	CardContent,
+	Stack,
+	Divider,
+	IconButton,
+	Paper,
+	Button,
+	CardActions,
+	Modal,
+	useTheme,
+	useMediaQuery,
+	Chip,
+} from "@mui/material";
+import PendingIcon from "@mui/icons-material/Pending";
+
+import AddIcon from "@mui/icons-material/Add";
+import { CustomButton } from "src/components";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { StoreService } from "src/services/StoreService";
 import { Store } from "src/interfaces/Store";
 import { ProductService } from "src/services/ProductService";
 import { Product } from "src/interfaces/Product";
-import { Indicators } from "src/admin/components/SideMenu/Indicators";
-import { ProductList } from "./ProductList";
+import { calculateDiscount } from "src/utils/helpers";
 
-import { MainBanner } from "./MainBanner";
+const indicators = [
+	{
+		title: "Haz obtenido",
+		data: 8,
+		dataName: "visitas a tu perfil",
+	},
+	{
+		title: "Haz aparecido en",
+		data: 15,
+		dataName: "búsquedas",
+	},
+	{
+		title: "Se han contactado",
+		data: 20,
+		dataName: "personas contigo",
+	},
+	{
+		title: "Haz aparecido en",
+		data: 15,
+		dataName: "búsquedas",
+	},
+];
 
 export const Dashboard = () => {
+	const [isViewProductModalOpen, setIsViewProductModalOpen] = useState(false);
+	const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
+	const navigate = useNavigate();
+
+	const handleCreateProduct = () => {
+		navigate("/admin/product/create");
+	};
+
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const open = Boolean(anchorEl);
+	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
+	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+
 	const [store, setStore] = useState({} as Store);
 	const [products, setProducts] = useState([] as Product[]);
-  const [isLoading, setIsLoading] = useState(false);
 
+	const [productSelected, setProductSelected] = useState({} as Product);
 	useEffect(() => {
 		const getStore = async () => {
-      setIsLoading(true);
 			const storeResponse = await StoreService.getStore();
 			const store: Store = storeResponse.data;
 			setStore(store);
@@ -29,7 +95,6 @@ export const Dashboard = () => {
 		};
 		getStore();
 		getProductsByStore();
-    setIsLoading(false);
 	}, []);
 
 	const style = {
@@ -70,10 +135,23 @@ export const Dashboard = () => {
 
 	return (
 		<Container maxWidth={"lg"}>
-			
-			<MainBanner logo={store.logo} name={store.name} />
-			<Indicators />
-			<ProductList isLoading={isLoading} products={ products } />
+			{/* modal product */}
+			<Modal
+				open={isViewProductModalOpen}
+				aria-labelledby="modal-modal-title"
+				aria-describedby="modal-modal-description"
+			>
+				<Box sx={style}>
+					<Stack direction={"row"} justifyContent={"flex-end"} mb={4}>
+						<Box>
+							<IconButton
+								aria-label="close"
+								onClick={() => setIsViewProductModalOpen(false)}
+							>
+								<CloseIcon />
+							</IconButton>
+						</Box>
+					</Stack>
 
 					<Grid
 						container
@@ -314,7 +392,11 @@ export const Dashboard = () => {
 						<Card sx={{ padding: 1.25, borderRadius: 2, paddingBottom: 0 }}>
 							<CardMedia
 								sx={{ height: 220, borderRadius: 2, overflow: "hidden" }}
-								image={Array.isArray(product.images) ? product.images[0] : product.images}
+								image={
+									Array.isArray(product.images)
+										? product.images[0]
+										: product.images
+								}
 								title="imagen-producto"
 							>
 								<Stack direction={"row"} justifyContent={"space-between"}>
