@@ -62,6 +62,31 @@ export class ProductService {
 		}
 	};
 
+	static updateProduct = async (productId: string, product: Product) => {
+		try {
+			const response = await api.put(`${this.baseUrl}/${productId}`, product);
+			return {
+				data: response.data,
+				...DEFAULT_SUCCESS_RESPONSE,
+			};
+		} catch (error: unknown) {
+			const axiosError = error as AxiosError;
+
+			if (axiosError.response) {
+				const err = axiosError.response.data;
+				return {
+					data: err,
+					...DEFAULT_ERROR_RESPONSE,
+				};
+			} else {
+				return {
+					data: "Ocurred an error",
+					...DEFAULT_ERROR_RESPONSE,
+				};
+			}
+		}
+	};
+
 	static getProductById = async (idProduct: string) => {
 		try {
 			const response = await api.get(`${this.baseUrl}/${idProduct}`);
@@ -90,57 +115,6 @@ export class ProductService {
 	static getCategories = async () => {
 		try {
 			const response = await api.get(this.baseUrlCategories);
-			return {
-				data: response.data,
-				...DEFAULT_SUCCESS_RESPONSE,
-			};
-		} catch (error: unknown) {
-			const axiosError = error as AxiosError;
-
-			if (axiosError.response) {
-				const err = axiosError.response.data;
-				return {
-					data: err,
-					...DEFAULT_ERROR_RESPONSE,
-				};
-			} else {
-				return {
-					data: "Ocurred an error",
-					...DEFAULT_ERROR_RESPONSE,
-				};
-			}
-		}
-	};
-
-	static updateProduct = async (idProduct: string) => {
-		try {
-			const response = await api.put(`${this.baseUrl}/${idProduct}`);
-			return {
-				data: response.data,
-				...DEFAULT_SUCCESS_RESPONSE,
-			};
-		} catch (error: unknown) {
-			const axiosError = error as AxiosError;
-
-			if (axiosError.response) {
-				const err = axiosError.response.data;
-				return {
-					data: err,
-					...DEFAULT_ERROR_RESPONSE,
-				};
-			} else {
-				return {
-					data: "Ocurred an error",
-					...DEFAULT_ERROR_RESPONSE,
-				};
-			}
-		}
-	};
-
-	static uploadImage = async (data: FormData) => {
-		try {
-			console.log('Helloooooo');
-			const response = await api.post(`${this.baseUrlImages}`, data);
 			return {
 				data: response.data,
 				...DEFAULT_SUCCESS_RESPONSE,

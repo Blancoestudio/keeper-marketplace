@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -24,10 +24,12 @@ import { CustomLoading } from "src/components/CustomLoading";
 import { StoreService } from "src/services/StoreService";
 import { SocialNetwork } from "src/interfaces/Store";
 import { StorageService } from "src/services/StorageService";
+import { ImageService } from "src/services/ImageService";
 
 const steps = ["Datos básicos", "Datos de contacto", "Elegir plan"];
 
 export const BusinessRegisterPage = () => {
+	const inputFile = useRef<HTMLInputElement | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const navigate = useNavigate();
@@ -38,6 +40,7 @@ export const BusinessRegisterPage = () => {
 	const [address, setAddress] = useState("");
 	const [description, setDescription] = useState("");
 	const [socialNetworks, setSocialNetworks] = useState(Array<SocialNetwork>);
+	const [image, setImage] = useState<File>();
 
 	const handlePrev = () => {
 		if (currentStep === 0) return;
@@ -49,6 +52,13 @@ export const BusinessRegisterPage = () => {
 			...oldSocialNetworks,
 			socialNetwork,
 		]);
+	};
+
+	const handleImage = async (e: ChangeEvent<HTMLInputElement>) => {
+		const { files } = e.target;
+		if (files && files.length) {
+			setImage(files[0]);
+		}
 	};
 
 	const handleNext = async () => {
@@ -63,10 +73,26 @@ export const BusinessRegisterPage = () => {
 			return;
 		}
 		if (currentStep === 0) {
+			let uploadImage;
+			if (image) {
+				const filename = image!.name;
+				const parts = filename.split(".");
+				const fileType = parts[parts.length - 1];
+				console.log("fileType", fileType);
+
+				const imageFormData = new FormData();
+				imageFormData.append("images", image!);
+				uploadImage = await ImageService.uploadImage(imageFormData);
+				if (uploadImage.error) {
+					console.error("No se pudo subir la imagen", uploadImage.data);
+				}
+			}
+
 			const store = await StoreService.createStore({
 				name: storeName,
 				address,
 				description,
+				logo: uploadImage && !uploadImage.error ? uploadImage.data.images : "",
 			});
 			if (store.error) {
 				console.error("No se pudo crear tu negocio", store.data);
@@ -141,6 +167,9 @@ export const BusinessRegisterPage = () => {
 									setStoreName={setStoreName}
 									setAddress={setAddress}
 									setDescription={setDescription}
+									inputFileRef={inputFile}
+									handleImage={handleImage}
+									image={image}
 								/>
 							)}
 							{currentStep === 1 && (

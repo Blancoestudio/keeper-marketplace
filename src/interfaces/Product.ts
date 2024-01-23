@@ -8,6 +8,7 @@ export interface Category {
 export interface Product {
 	_id?: string;
 	images?: string | string[];
+	deleteImages?: string[];
 	discount?: number;
 	name: string;
 	shortDescription: string;

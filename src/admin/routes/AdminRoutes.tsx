@@ -19,7 +19,7 @@ export const AdminRoutes = () => {
         <Route path="welcome" element={ <WelcomePage /> } />
         <Route path="dashboard" element={ <Dashboard /> } />
         <Route path="my-acount" element={ <MyAcountPage /> } />
-        <Route path="product/create" element={ <CreateProductPage /> } />
+        <Route path="product/create/:productId?" element={ <CreateProductPage /> } />
         <Route path="product/edit/:productID" element={ <EditProductPage /> } />
 
         <Route path="/*" element={ <Navigate to="/dashboard" /> } />
