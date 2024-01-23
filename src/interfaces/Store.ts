@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { ChangeEventHandler, Dispatch, MutableRefObject, SetStateAction } from "react";
 
 export interface SocialNetwork {
 	_id?: string;
@@ -20,6 +20,9 @@ export interface FormData1Props {
 	setStoreName: Dispatch<SetStateAction<string>>;
 	setAddress: Dispatch<SetStateAction<string>>;
 	setDescription: Dispatch<SetStateAction<string>>;
+	inputFileRef: MutableRefObject<HTMLInputElement | null>;
+	handleImage: ChangeEventHandler<HTMLInputElement>;
+	image: File | undefined;
 }
 
 export interface FormData2Props {

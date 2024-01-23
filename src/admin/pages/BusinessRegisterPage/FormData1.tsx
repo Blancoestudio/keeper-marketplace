@@ -20,6 +20,9 @@ export const FormData1 = ({
 	setStoreName,
 	setAddress,
 	setDescription,
+	inputFileRef,
+	handleImage,
+	image,
 }: FormData1Props) => {
 	const handleStoreName = (e: ChangeEvent<HTMLInputElement>) => {
 		setStoreName(e.target.value);
@@ -76,7 +79,10 @@ export const FormData1 = ({
 					}}
 				>
 					<Box sx={{ position: "relative" }}>
-						<img src={IconImage} alt="image" />
+						<img
+							src={image ? URL.createObjectURL(image) : IconImage}
+							alt="image"
+						/>
 						<Typography fontSize={14} color={"#727D91"}>
 							Carga una foto con el logo de tu negocio
 						</Typography>
@@ -94,7 +100,21 @@ export const FormData1 = ({
 						sx={{ borderRadius: 2, textTransform: "none" }}
 					>
 						Seleccionar desde tu ordenador
-						<VisuallyHiddenInput type="file" />
+						<input
+							onChange={handleImage}
+							ref={inputFileRef}
+							type="file"
+							style={{
+								position: "absolute",
+								top: 0,
+								right: 0,
+								bottom: 0,
+								left: 0,
+								opacity: 0,
+								zIndex: 2,
+								cursor: "pointer",
+							}}
+						/>
 					</CustomButton>
 				</Box>
 			</Grid>

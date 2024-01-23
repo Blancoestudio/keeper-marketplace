@@ -1,9 +1,9 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
 import { StorageService } from "./StorageService";
+const { VITE_BASE_URL } = import.meta.env;
 
 const api = axios.create({
-	baseURL: 'https://keeper-api-dev-hx79d.ondigitalocean.app/v1/market',
-	// baseURL: "http://localhost:3300/v1/market",
+	baseURL: VITE_BASE_URL,
 });
 
 const updateHeaders = (request: InternalAxiosRequestConfig) => {

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // import theme from "../../../theme/theme"
@@ -22,16 +22,10 @@ export const RegisterPage = () => {
 	const [rpassword, setRpassword] = useState("");
 	const [lengthCharacteres, setLengthCharacteres] = useState(false);
 	const [atLeastOne, setAtLeastOne] = useState(false);
-  const [isEqualPassword, setIsEqualPassword] = useState(false);
+	const [identical, setIdentical] = useState(false);
 	const rgexLenght = /^.{8,}$/;
 	const rgexAtLeastOne = /\d/;
 
-  useEffect(() => {
-    if (password.length > 0 && rpassword.length > 0) {
-      password === rpassword ? setIsEqualPassword(true) : setIsEqualPassword(false);
-    }
-  }, [password, rpassword])
-  
 	const handleName = (e: ChangeEvent<HTMLInputElement>) => {
 		setName(e.target.value);
 	};
@@ -53,6 +47,11 @@ export const RegisterPage = () => {
 	};
 	const handleRpassword = (e: ChangeEvent<HTMLInputElement>) => {
 		setRpassword(e.target.value);
+		if (e.target.value === password) {
+			setIdentical(true);
+		} else {
+			setIdentical(false);
+		}
 	};
 	const handleRegisterSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -60,13 +59,21 @@ export const RegisterPage = () => {
 			name.length <= 0 ||
 			email.length <= 0 ||
 			password.length <= 0 ||
-			rpassword.length <= 0 ||
-			rgexLenght.test(password) === false ||
-			rgexAtLeastOne.test(password) === false ||
-			rgexLenght.test(rpassword) === false ||
-			rgexAtLeastOne.test(rpassword) === false
+			rpassword.length <= 0
 		) {
 			console.error("Todos los campos son obligatorios");
+			return;
+		}
+		if (!rgexLenght.test(password) || !rgexLenght.test(rpassword)) {
+			console.error("La longitud no es correcta");
+			return;
+		}
+		if (!rgexAtLeastOne.test(password) || !rgexAtLeastOne.test(rpassword)) {
+			console.error("La longitud no es correcta");
+			return;
+		}
+		if (!identical) {
+			console.error("Las contraseñas no son identicas");
 			return;
 		}
 
@@ -94,7 +101,6 @@ export const RegisterPage = () => {
 						margin: "2em 0",
 						boxShadow: "0 4px 10px 5px rgba(0, 0, 0, .1)",
 					}}
-          className="animate__animated animate__fadeIn"
 				>
 					<Grid container gap={1}>
 						{/* <Grid item xs sm sx={{ 
@@ -107,11 +113,12 @@ export const RegisterPage = () => {
 						<Grid item xs={12}>
 							{/*  md={7} px={2} */}
 
-							<Typography variant="h5" fontWeight={"700"} mb={1}>Registro</Typography>
-
+							<Typography variant="h5" fontWeight={"500"} mb={1}>
+								Registro
+							</Typography>
 							<Typography variant="body2" fontWeight={"500"}>
-								Ingresa tus datos para continuar con el registro y poder ingresar
-								a Keeper Marketplace.
+								Ingresa tus datos para continuar con el registro y poder
+								ingresar a Keeper Marketplace.
 							</Typography>
 
 							<form
@@ -119,7 +126,6 @@ export const RegisterPage = () => {
 								onSubmit={handleRegisterSubmit}
 							>
 								<CustomTextField
-                  sx={{ mb: 2 }}
 									id="full-name"
 									label="Nombre y Apellido"
 									placeholder="Ingresa tu nombre y apellido"
@@ -127,7 +133,6 @@ export const RegisterPage = () => {
 								/>
 
 								<CustomTextField
-                  sx={{ mb: 2 }}
 									id="email"
 									label="Email"
 									type="email"
@@ -137,7 +142,6 @@ export const RegisterPage = () => {
 								/>
 
 								<CustomTextField
-                  sx={{ mb: 2 }}
 									id="password"
 									label="Contraseña"
 									type="password"
@@ -147,7 +151,6 @@ export const RegisterPage = () => {
 								/>
 
 								<CustomTextField
-                  sx={{ mb: 2 }}
 									id="repeat-password"
 									label="Repite tu Contraseña"
 									type="password"
@@ -221,7 +224,7 @@ export const RegisterPage = () => {
 										control={
 											<Checkbox
 												size="small"
-												checked={ isEqualPassword }
+												checked={identical}
 												sx={{
 													color: "rgba(88, 41, 166, 1)",
 													"&.Mui-checked": {
@@ -230,7 +233,7 @@ export const RegisterPage = () => {
 												}}
 											/>
 										}
-										label="Deben coincidir las contraseñas"
+										label="Las contraseñas deben ser identicas"
 									/>
 								</FormGroup>
 

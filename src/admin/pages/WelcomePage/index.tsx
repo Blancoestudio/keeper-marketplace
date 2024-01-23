@@ -39,7 +39,7 @@ export const WelcomePage = ( ) => {
           }}
           onClick={ () => navigate('/admin/dashboard') }
           >Empecemos</CustomButton>
-        <Typography>Un sitio donde podrás potenciar tu negocio, llegando  a mas personas </Typography>
+        <Typography>Un sitio donde podrás potenciar tu negocio, llegando a más personas </Typography>
       </Grid>
     </Grid>
 
