@@ -7,7 +7,10 @@ import {
 import { Product } from "src/interfaces/Product";
 
 export class ProductService {
-	static readonly baseUrl = "/admin/products";
+	private static readonly baseUrl = "/admin/products";
+	private static readonly baseUrlImages = "/admin/store/image";
+	private static readonly baseUrlCategories = "/admin/categories"
+
 
 	static getProductsByStore = async () => {
 		try {
@@ -59,6 +62,31 @@ export class ProductService {
 		}
 	};
 
+	static updateProduct = async (productId: string, product: Product) => {
+		try {
+			const response = await api.put(`${this.baseUrl}/${productId}`, product);
+			return {
+				data: response.data,
+				...DEFAULT_SUCCESS_RESPONSE,
+			};
+		} catch (error: unknown) {
+			const axiosError = error as AxiosError;
+
+			if (axiosError.response) {
+				const err = axiosError.response.data;
+				return {
+					data: err,
+					...DEFAULT_ERROR_RESPONSE,
+				};
+			} else {
+				return {
+					data: "Ocurred an error",
+					...DEFAULT_ERROR_RESPONSE,
+				};
+			}
+		}
+	};
+
 	static getProductById = async (idProduct: string) => {
 		try {
 			const response = await api.get(`${this.baseUrl}/${idProduct}`);
@@ -82,11 +110,11 @@ export class ProductService {
 				};
 			}
 		}
-	}
+	};
 
-	static updateProduct = async (idProduct: string) => {
+	static getCategories = async () => {
 		try {
-			const response = await api.put(`${this.baseUrl}/${idProduct}`);
+			const response = await api.get(this.baseUrlCategories);
 			return {
 				data: response.data,
 				...DEFAULT_SUCCESS_RESPONSE,
@@ -107,5 +135,5 @@ export class ProductService {
 				};
 			}
 		}
-	}
+	};
 }

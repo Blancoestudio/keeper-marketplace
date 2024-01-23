@@ -22,7 +22,7 @@ export const RegisterPage = () => {
 	const [rpassword, setRpassword] = useState("");
 	const [lengthCharacteres, setLengthCharacteres] = useState(false);
 	const [atLeastOne, setAtLeastOne] = useState(false);
-  const [isEqualPassword, setIsEqualPassword] = useState(false);
+	const [identical, setIdentical] = useState(false);
 	const rgexLenght = /^.{8,}$/;
 	const rgexAtLeastOne = /\d/;
 
@@ -53,6 +53,11 @@ export const RegisterPage = () => {
 	};
 	const handleRpassword = (e: ChangeEvent<HTMLInputElement>) => {
 		setRpassword(e.target.value);
+		if (e.target.value === password) {
+			setIdentical(true);
+		} else {
+			setIdentical(false);
+		}
 	};
 	const handleRegisterSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -60,13 +65,21 @@ export const RegisterPage = () => {
 			name.length <= 0 ||
 			email.length <= 0 ||
 			password.length <= 0 ||
-			rpassword.length <= 0 ||
-			rgexLenght.test(password) === false ||
-			rgexAtLeastOne.test(password) === false ||
-			rgexLenght.test(rpassword) === false ||
-			rgexAtLeastOne.test(rpassword) === false
+			rpassword.length <= 0
 		) {
 			console.error("Todos los campos son obligatorios");
+			return;
+		}
+		if (!rgexLenght.test(password) || !rgexLenght.test(rpassword)) {
+			console.error("La longitud no es correcta");
+			return;
+		}
+		if (!rgexAtLeastOne.test(password) || !rgexAtLeastOne.test(rpassword)) {
+			console.error("La longitud no es correcta");
+			return;
+		}
+		if (!identical) {
+			console.error("Las contraseñas no son identicas");
 			return;
 		}
 
@@ -110,8 +123,8 @@ export const RegisterPage = () => {
 							<Typography variant="h5" fontWeight={"700"} mb={1}>Registro</Typography>
 
 							<Typography variant="body2" fontWeight={"500"}>
-								Ingresa tus datos para continuar con el registro y poder ingresar
-								a Keeper Marketplace.
+								Ingresa tus datos para continuar con el registro y poder
+								ingresar a Keeper Marketplace.
 							</Typography>
 
 							<form
@@ -221,7 +234,7 @@ export const RegisterPage = () => {
 										control={
 											<Checkbox
 												size="small"
-												checked={ isEqualPassword }
+												checked={identical}
 												sx={{
 													color: "rgba(88, 41, 166, 1)",
 													"&.Mui-checked": {
@@ -230,7 +243,7 @@ export const RegisterPage = () => {
 												}}
 											/>
 										}
-										label="Deben coincidir las contraseñas"
+										label="Las contraseñas deben ser identicas"
 									/>
 								</FormGroup>
 
