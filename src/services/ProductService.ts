@@ -8,7 +8,6 @@ import { Product } from "src/interfaces/Product";
 
 export class ProductService {
 	private static readonly baseUrl = "/admin/products";
-	private static readonly baseUrlImages = "/admin/store/image";
 	private static readonly baseUrlCategories = "/admin/categories"
 
 
