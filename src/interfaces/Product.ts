@@ -17,3 +17,8 @@ export interface Product {
 	category?: Category;
 	store?: Store;
 }
+
+export interface ImageToUpload {
+	localUrl: string;
+	image: File;
+}

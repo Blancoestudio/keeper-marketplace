@@ -2,27 +2,25 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import {
-	Box,
-	Chip,
 	Container,
 	FormControl,
 	Grid,
 	InputLabel,
 	MenuItem,
 	Select,
-	SelectChangeEvent,
 	Theme,
 	Typography,
 	useTheme,
 	styled,
 	InputBase,
+	SelectChangeEvent,
 } from "@mui/material";
 import { CustomButton, CustomTextField } from "src/components";
 
 import ImgDefault from "/src/assets/images/image-default.png";
 import { ProductService } from "src/services/ProductService";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Category, Product } from "src/interfaces/Product";
+import { Category, ImageToUpload, Product } from "src/interfaces/Product";
 import { ImageService } from "src/services/ImageService";
 
 const CustoInputLabel = styled(InputLabel)(() => ({
@@ -76,10 +74,11 @@ export const CreateProductPage = () => {
 	const [name, setName] = useState("");
 	const [shortDescription, setShortDescription] = useState("");
 	const [description, setDescription] = useState("");
-	const [category, setCategory] = useState<string[]>([]);
+	const [category, setCategory] = useState<string>("");
 	const [price, setPrice] = useState("");
 	const [discount, setDiscount] = useState("");
-	const [images, setImages] = useState<File[] | string[]>([]);
+	const [images, setImages] = useState<File[]>([]);
+	const [imagesToUpload, setImagesToUpload] = useState<ImageToUpload[]>([]);
 	const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 	const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
 	const [categories, setCategories] = useState<Category[]>([]);
@@ -96,11 +95,8 @@ export const CreateProductPage = () => {
 	const handleDescription = (e: ChangeEvent<HTMLInputElement>) => {
 		setDescription(e.target.value);
 	};
-	const handleChange = (event: SelectChangeEvent<typeof category>) => {
-		const {
-			target: { value },
-		} = event;
-		setCategory(typeof value === "string" ? value.split(",") : value);
+	const handleChange = (e: SelectChangeEvent<string>) => {
+		setCategory(e.target.value);
 	};
 	const handlePrice = (e: ChangeEvent<HTMLInputElement>) => {
 		setPrice(e.target.value);
@@ -110,23 +106,48 @@ export const CreateProductPage = () => {
 	};
 	const handleCreateOrEditProduct = async () => {
 		let _product;
+		const categorySelected = categories.find((c) => c.name === category);
+
+		const imagesFormData = new FormData();
+
 		if (isEdit) {
+			for (const currentFile of imagesToUpload) {
+				imagesFormData.append("images", currentFile.image);
+			}
+			const uploadImages = await ImageService.uploadImage(imagesFormData);
+			if (uploadImages.error) {
+				console.error("No se pudo subir la imagen", uploadImages.data);
+				return;
+			}
+
 			_product = await ProductService.updateProduct(product!._id as string, {
 				name,
+				category: categorySelected,
 				shortDescription,
 				description,
 				price,
 				discount: Number(discount),
-				images: product!.images,
+				images: [...product!.images!, ...uploadImages.data.images],
 				deleteImages: imagesToDelete,
 			});
 		} else {
+			for (const currentFile of images) {
+				imagesFormData.append("images", currentFile);
+			}
+			const uploadImages = await ImageService.uploadImage(imagesFormData);
+			if (uploadImages.error) {
+				console.error("No se pudo subir la imagen", uploadImages.data);
+				return;
+			}
+
 			_product = await ProductService.createProduct({
 				name,
+				category: categorySelected,
 				shortDescription,
 				description,
 				price,
 				discount: Number(discount),
+				images: [...uploadImages.data.images],
 			});
 		}
 
@@ -149,6 +170,13 @@ export const CreateProductPage = () => {
 				_images.splice(index, 1);
 				setUploadedImages(_images);
 			}
+			const deleteImagesToUpload = imagesToUpload.findIndex(
+				(img) => img.localUrl === uploadedImages[index]
+			);
+			if (deleteImagesToUpload !== -1) {
+				const _images = [...imagesToUpload];
+				_images.splice(deleteImagesToUpload, 1);
+			}
 		} else {
 			const _images = [...images];
 			_images.splice(index, 1);
@@ -164,16 +192,11 @@ export const CreateProductPage = () => {
 			const fileType = parts[parts.length - 1];
 			console.log("fileType", fileType);
 
-			const imagesFormData = new FormData();
-			for (const currentFile of files) {
-				imagesFormData.append("images", currentFile);
-			}
-			const uploadImages = await ImageService.uploadImage(imagesFormData);
-			if (uploadImages.error) {
-				console.error("No se pudo subir la imagen", uploadImages.data);
-				return;
-			}
 			if (isEdit) {
+				setImagesToUpload([
+					...imagesToUpload,
+					{ localUrl: URL.createObjectURL(files[0]), image: files[0] },
+				]);
 				setUploadedImages([...uploadedImages, URL.createObjectURL(files[0])]);
 			} else {
 				setImages([...images, files[0]] as File[]);
@@ -190,7 +213,6 @@ export const CreateProductPage = () => {
 					const p = await ProductService.getProductById(path[path.length - 1]);
 					const currentProduct: Product = p.data;
 					currentProduct._id = path[path.length - 1];
-					console.log(currentProduct);
 					setProduct(currentProduct);
 				};
 				_product();
@@ -207,20 +229,32 @@ export const CreateProductPage = () => {
 		}
 	}, [product]);
 	useEffect(() => {
-		if (product) {
-			const getCategories = async () => {
-				const categories = await ProductService.getCategories();
-				if (categories.error) {
-					console.error("No se obtener las categories", categories.data);
-				}
-				setCategories(categories.data);
-			};
-			getCategories();
-
-			const currentCategory = categories.indexOf(product!.category!);
-			if (currentCategory != -1) {
-				setCategory([product!.category!.name!]);
+		const getCategories = async () => {
+			const categories = await ProductService.getCategories();
+			if (categories.error) {
+				console.error("No se obtener las categories", categories.data);
 			}
+			setCategories(categories.data);
+		};
+		getCategories();
+
+		if (product && isEdit) {
+			setName(product.name);
+			/// TODO: Make a change for when the product loads its category as an object and not as a string
+			// const currentCategory = categories.find(
+			// 	(c) => c._id === product.category!._id
+			// );
+			const currentCategory = categories.find(
+				(c) => c._id === product.category!
+			);
+			/// TODO END
+			if (currentCategory) {
+				setCategory(currentCategory.name!);
+			}
+			setShortDescription(product.shortDescription);
+			setDescription(product.description);
+			setPrice(product.price!);
+			setDiscount(product.discount!.toString());
 		}
 	}, [product]);
 
@@ -778,7 +812,7 @@ export const CreateProductPage = () => {
 						label="Nombre del producto o servicio"
 						placeholder="Ingresa el nombre de tu producto o servicio"
 						onChange={handleName}
-						value={isEdit ? product!.name : ""}
+						value={name}
 					/>
 
 					<FormControl sx={{ mb: 3 }} fullWidth>
@@ -789,15 +823,8 @@ export const CreateProductPage = () => {
 							labelId="multi-categories-label"
 							id="multi-categories"
 							value={category}
-							onChange={handleChange}
 							input={<CustomInputBase id="select-categories-chip" />}
-							renderValue={(selected) => (
-								<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-									{selected.map((value) => (
-										<Chip key={value} label={value} />
-									))}
-								</Box>
-							)}
+							onChange={handleChange}
 							MenuProps={MenuProps}
 						>
 							{categories.map((category) => (
@@ -818,7 +845,7 @@ export const CreateProductPage = () => {
 						multiline
 						rows={3}
 						onChange={handleShortDescription}
-						value={isEdit ? product!.shortDescription : ""}
+						value={shortDescription}
 					/>
 
 					<CustomTextField
@@ -827,7 +854,7 @@ export const CreateProductPage = () => {
 						multiline
 						rows={6}
 						onChange={handleDescription}
-						value={isEdit ? product!.description : ""}
+						value={description}
 					/>
 
 					<CustomTextField
@@ -835,7 +862,7 @@ export const CreateProductPage = () => {
 						placeholder="Ingresa el precio del producto"
 						rows={3}
 						onChange={handlePrice}
-						value={isEdit ? product!.price : ""}
+						value={price}
 					/>
 
 					<CustomTextField
@@ -843,7 +870,7 @@ export const CreateProductPage = () => {
 						placeholder="Ingresa el valor del descuento"
 						rows={3}
 						onChange={handleDiscount}
-						value={isEdit ? product!.discount : ""}
+						value={discount}
 					/>
 				</Grid>
 			</Grid>
@@ -1154,7 +1181,7 @@ export const CreateProductPage = () => {
 						label="Nombre del producto o servicio"
 						placeholder="Ingresa el nombre de tu producto o servicio"
 						onChange={handleName}
-						value={isEdit ? product?.name : ""}
+						value={name}
 					/>
 
 					<FormControl sx={{ mb: 3 }} fullWidth>
@@ -1165,15 +1192,8 @@ export const CreateProductPage = () => {
 							labelId="multi-categories-label"
 							id="multi-categories"
 							value={category}
-							onChange={handleChange}
 							input={<CustomInputBase id="select-categories-chip" />}
-							renderValue={(selected) => (
-								<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-									{selected.map((value) => (
-										<Chip key={value} label={value} />
-									))}
-								</Box>
-							)}
+							onChange={handleChange}
 							MenuProps={MenuProps}
 						>
 							{categories.map((category) => (
@@ -1194,7 +1214,7 @@ export const CreateProductPage = () => {
 						multiline
 						rows={3}
 						onChange={handleShortDescription}
-						value={isEdit ? product?.shortDescription : ""}
+						value={shortDescription}
 					/>
 
 					<CustomTextField
@@ -1203,7 +1223,7 @@ export const CreateProductPage = () => {
 						multiline
 						rows={6}
 						onChange={handleDescription}
-						value={isEdit ? product?.description : ""}
+						value={description}
 					/>
 
 					<CustomTextField
@@ -1211,7 +1231,7 @@ export const CreateProductPage = () => {
 						placeholder="Ingresa el precio del producto"
 						rows={3}
 						onChange={handlePrice}
-						value={isEdit ? product?.price : ""}
+						value={price}
 					/>
 
 					<CustomTextField
@@ -1219,7 +1239,7 @@ export const CreateProductPage = () => {
 						placeholder="Ingresa el valor del descuento"
 						rows={3}
 						onChange={handleDiscount}
-						value={isEdit ? product?.discount : ""}
+						value={discount}
 					/>
 				</Grid>
 			</Grid>
