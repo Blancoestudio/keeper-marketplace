@@ -270,7 +270,7 @@ export const CustomTable = ({
 	}, [dataSelected]);
 
 	const handleRequestSort = (
-		event: React.MouseEvent<unknown>,
+		_event: React.MouseEvent<unknown>,
 		property: string
 	) => {
 		const isAsc = orderBy === property && order === "asc";
@@ -296,7 +296,7 @@ export const CustomTable = ({
 		setDataSelected(data.filter((el) => selected.includes(el._id)));
 	};
 
-	const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
+	const handleClick = (_event: React.MouseEvent<unknown>, id: string) => {
 		if (selectedCommunes.includes(id)) {
 			const newSelectedCommunes = selectedCommunes.filter(
 				(communeId: string) => communeId !== id

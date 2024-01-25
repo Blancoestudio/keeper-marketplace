@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Plan {
   name:        string;
   price:       Price;
@@ -11,6 +12,7 @@ export interface CommuneData {
   name:     string;
   audience: number;
   price:    Price;
+  [key: string]: any;
 }
 
 export interface Price {

@@ -112,7 +112,7 @@ export const BusinessRegisterPage = () => {
 				name: storeName,
 				address,
 				description,
-				logo: uploadImage && !uploadImage.error ? uploadImage.data.images : "",
+				logo: uploadImage && !uploadImage.error ? uploadImage.data.images[0] : "",
 			});
 			if (store.error) {
 				console.error("No se pudo crear tu negocio", store.data);
