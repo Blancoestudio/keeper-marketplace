@@ -123,50 +123,55 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 	);
 }
 
-type OrderByKeys =
-	| keyof CommuneData
-	| "price.monthly"
-	| "price.annual"
-	| string;
+type OrderByKeys = keyof CommuneData | 'price.monthly' | 'price.annual';
 
-function descendingComparator<T extends CommuneData>(
-	a: T,
-	b: T,
-	orderBy: OrderByKeys
-) {
-	// Asegurarse de que orderBy sea un string
-	if (typeof orderBy !== "string") {
-		throw new Error("orderBy must be a string");
-	}
-
-	// Dividir las claves si orderBy es una propiedad anidada
-	const orderByKeys = orderBy.split(".");
-	let aValue = a;
-	let bValue = b;
-
-	// Acceder a la propiedad anidada
-	orderByKeys.forEach((key) => {
-		aValue = aValue[key];
-		bValue = bValue[key];
-	});
-
-	if (bValue < aValue) {
-		return -1;
-	}
-	if (bValue > aValue) {
-		return 1;
-	}
-	return 0;
+// Funciones de comparación específicas
+function compareByName(a: CommuneData, b: CommuneData, order: Order): number {
+  if (a.name < b.name) {
+      return order === 'asc' ? -1 : 1;
+  }
+  if (a.name > b.name) {
+      return order === 'asc' ? 1 : -1;
+  }
+  return 0;
 }
 
-function getComparator( // Permitir strings para propiedades anidadas
-	order: Order,
-	orderBy: OrderByKeys
+function compareByAudience(a: CommuneData, b: CommuneData, order: Order): number {
+  if (a.audience < b.audience) {
+      return order === 'asc' ? -1 : 1;
+  }
+  if (a.audience > b.audience) {
+      return order === 'asc' ? 1 : -1;
+  }
+  return 0;
+}
+
+function compareByMonthlyPrice(a: CommuneData, b: CommuneData, order: Order): number {
+  if (a.price.monthly < b.price.monthly) {
+      return order === 'asc' ? -1 : 1;
+  }
+  if (a.price.monthly > b.price.monthly) {
+      return order === 'asc' ? 1 : -1;
+  }
+  return 0;
+}
+
+// Función para obtener el comparador apropiado
+function getComparator(
+  key: OrderByKeys,
+  order: Order
 ): (a: CommuneData, b: CommuneData) => number {
-	// Aceptar CommuneData directamente
-	return order === "desc"
-		? (a, b) => descendingComparator(a, b, orderBy) // Asumir que orderBy es un string para propiedades anidadas
-		: (a, b) => -descendingComparator(a, b, orderBy);
+  switch (key) {
+      case 'name':
+          return (a, b) => compareByName(a, b, order);
+      case 'audience':
+          return (a, b) => compareByAudience(a, b, order);
+      case 'price.monthly':
+          return (a, b) => compareByMonthlyPrice(a, b, order);
+      // Añade más casos según sea necesario
+      default:
+          throw new Error(`Unknown key: ${key}`);
+  }
 }
 
 // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
@@ -208,7 +213,7 @@ export const CustomTable = ({
 	setAnnualValue,
 }: TableProps) => {
 	const [order, setOrder] = React.useState<Order>("asc");
-	const [orderBy, setOrderBy] = React.useState<string>("name");
+	const [orderBy, setOrderBy] = React.useState<OrderByKeys>("name");
 	const [selected, setSelected] = React.useState<readonly string[]>([]);
 
 	const dataCommunes = React.useMemo(() => communes, [communes]);
@@ -270,14 +275,18 @@ export const CustomTable = ({
 	}, [dataSelected]);
 
 	const handleRequestSort = (
-		event: React.MouseEvent<unknown>,
-		property: string
-	) => {
-		const isAsc = orderBy === property && order === "asc";
-		setOrder(isAsc ? "desc" : "asc");
-		setOrderBy(property);
-		handleClose();
-	};
+    event: React.MouseEvent<unknown>,
+    property: string
+) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+
+    if (["name", "audience", "price.monthly"].includes(property)) {
+        setOrderBy(property as OrderByKeys);
+    }
+
+    handleClose();
+};
 
 	const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
@@ -331,7 +340,7 @@ export const CustomTable = ({
 	};
 
 	const visibleRows = React.useMemo(
-		() => stableSort(data, getComparator(order, orderBy)),
+		() => stableSort(data, getComparator(orderBy, order)),
 		[order, orderBy, data]
 	);
 

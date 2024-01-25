@@ -387,7 +387,130 @@ export const Dashboard = () => {
 			</Stack>
 
 			<Grid container spacing={2} mb={10}>
-				{products.map((product, index) => (
+        {
+          products.length === 0
+            ? (
+              <Box sx={{ 
+                width: '100%',
+                backgroundColor: '#FBFAFA',
+                height: 350,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 2,
+                flexDirection: 'column'
+                }}>
+                <Typography variant="h5" fontWeight={'bold'}>Aún no tienes productos</Typography>
+                <Typography sx={{ mb: 3 }}>Comienza creando un producto</Typography>
+                <Button
+                  variant={"outlined"}
+                  onClick={handleCreateProduct}>
+                  Cargar nuevo Producto
+                </Button>
+              </Box>
+            ) : products.map((product, index) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                <Card sx={{ padding: 1.25, borderRadius: 2, paddingBottom: 0 }}>
+                  <CardMedia
+                    sx={{ height: 220, borderRadius: 2, overflow: "hidden" }}
+                    image={
+                      Array.isArray(product.images)
+                        ? product.images[0]
+                        : product.images
+                    }
+                    title="imagen-producto"
+                  >
+                    <Stack direction={"row"} justifyContent={"space-between"}>
+                      <Typography
+                        sx={{
+                          backgroundColor: "#FD8900",
+                          color: "#ffffff",
+                          paddingX: 0.75,
+                          paddingY: 0.25,
+                          borderBottomRightRadius: 8,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {`-${product.discount}%`}
+                      </Typography>
+                      <Box>
+                        <IconButton
+                          size="small"
+                          sx={{ paddingY: 0.35, paddingX: 0.35, color: "#ffffff" }}
+                          id={"actions-product-button"}
+                          // aria-controls={open ? i : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open ? "true" : undefined}
+                          onClick={handleClick}
+                        >
+                          <PendingIcon />
+                        </IconButton>
+                        <Menu
+                          id={"actions-product-button"}
+                          anchorEl={anchorEl}
+                          open={open}
+                          onClose={handleClose}
+                          elevation={1}
+                          MenuListProps={{
+                            "aria-labelledby": "basic-button",
+                          }}
+                        >
+                          <MenuItem onClick={() => handleViewProduct(index)}>
+                            Ver
+                          </MenuItem>
+                          <MenuItem onClick={() => handleEditProduct(index)}>
+                            Editar
+                          </MenuItem>
+                          <MenuItem
+                            onClick={() => {
+                              setAnchorEl(null);
+                              setIsConfirmOpen(true);
+                            }}
+                          >
+                            Eliminar
+                          </MenuItem>
+                        </Menu>
+                      </Box>
+                    </Stack>
+                  </CardMedia>
+                  <CardContent sx={{ paddingX: 0, paddingBottom: 0 }}>
+                    <Typography gutterBottom variant="h5" fontWeight={"medium"}>
+                      {product.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {product.shortDescription}
+                    </Typography>
+                    <Divider sx={{ my: 1 }} />
+                    <Stack direction={"row"} alignItems={"baseline"} spacing={1}>
+                      <Typography
+                        variant="h6"
+                        color={"primary"}
+                        fontWeight={"medium"}
+                      >
+                        {`$${calculateDiscount(product.price, product.discount)}`}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color={"#717171"}
+                        fontWeight={"medium"}
+                        sx={{ textDecoration: "line-through" }}
+                      >
+                        {product.price}
+                      </Typography>
+                    </Stack>
+                    <Divider sx={{ mt: 1 }} />
+                  </CardContent>
+                  <CardActions
+                    sx={{ display: "flex" }}
+                    onClick={() => handleViewProduct(index)}
+                  >
+                    <Button size="small">Ver producto</Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))
+        }
+				{/* {products.map((product, index) => (
 					<Grid item xs={12} sm={6} md={4} lg={3} key={index}>
 						<Card sx={{ padding: 1.25, borderRadius: 2, paddingBottom: 0 }}>
 							<CardMedia
@@ -487,7 +610,7 @@ export const Dashboard = () => {
 							</CardActions>
 						</Card>
 					</Grid>
-				))}
+				))} */}
 			</Grid>
 		</Container>
 	);
